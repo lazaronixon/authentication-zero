@@ -1,0 +1,21 @@
+<p style="color: red"><%= alert %></p>
+
+<h1>Forgot your password?</h1>
+
+<%= form_with(url: password_reset_path) do |form| %>
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.email_field :email, autofocus: true, required: true, autocomplete: "email" %>
+  </div>
+
+  <div>
+    <%= form.submit "Send password reset email" %>
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Sign in", sign_in_path %> |
+  <%= link_to "Sign up", sign_up_path %>
+</div>
