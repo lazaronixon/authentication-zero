@@ -19,7 +19,7 @@
   </div>
 
   <div>
-    <%%= form.label :password, "Password (6 characters minimum)", style: "display: block" %>
+    <%%= form.label :password, "Password (8 characters minimum)", style: "display: block" %>
     <%%= form.password_field :password, autocomplete: "new-password" %>
   </div>
 
