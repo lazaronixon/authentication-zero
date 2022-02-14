@@ -5,10 +5,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   source_root File.expand_path("templates", __dir__)
 
-  def uncomment_bcrypt
-    uncomment_lines 'Gemfile', /bcrypt/
-  end
-
   def create_controllers
     directory "controllers/html", "app/controllers"
   end
@@ -47,17 +43,17 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_application_controller_methods
-    inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<~CODE
-      before_action :authenticate
+    inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<-CODE
+  before_action :authenticate
 
-      private
-        def authenticate
-          if #{singular_table_name} = cookies[:session_token] && #{class_name}.find_by_session_token(cookies[:session_token])
-            Current.user = #{singular_table_name}
-          else
-            redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
-          end
-        end
+  private
+    def authenticate
+      if #{singular_table_name} = cookies[:session_token] && #{class_name}.find_by_session_token(cookies[:session_token])
+        Current.user = #{singular_table_name}
+      else
+        redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
+      end
+    end
     CODE
     end
   end
