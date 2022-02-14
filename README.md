@@ -10,17 +10,11 @@ Add this line to your application's Gemfile:
 gem 'authentication-zero'
 ```
 
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install authentication_zero
-
 ## Usage
 
-rails generate authentication user
+```
+$ rails generate authentication user
+```
 
 ## Development
 
