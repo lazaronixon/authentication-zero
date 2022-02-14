@@ -8,7 +8,7 @@
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
 
       <ul>
-        <%% @<%%= singular_table_name %>.errors.each do |error| %>
+        <%% @<%= singular_table_name %>.errors.each do |error| %>
           <li><%%= error.full_message %></li>
         <%% end %>
       </ul>
