@@ -1,4 +1,4 @@
-class User < ApplicationRecord
+class <%= class_name %> < ApplicationRecord
   has_secure_password :password
   has_secure_token :session_token
 

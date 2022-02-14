@@ -3,7 +3,7 @@ class CancellationsController < ApplicationController
   end
 
   def destroy
-    Current.user.destroy
+    Current.<%= singular_table_name %>.destroy
     cookies.delete :session_token
     redirect_to sign_in_path, notice: "Bye! Your account has been successfully cancelled"
   end

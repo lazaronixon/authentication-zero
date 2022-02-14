@@ -1,0 +1,42 @@
+<p style="color: red"><%%= alert %></p>
+
+<h1>Change your password</h1>
+
+<%%= form_with(model: @<%= model_resource_name %>, url: password_path) do |form| %>
+  <%% if @<%= singular_table_name %>.errors.any? %>
+    <div style="color: red">
+      <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+      <ul>
+        <%% @<%= singular_table_name %>.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+  <div>
+    <%%= label_tag :current_password, nil, style: "display: block" %>
+    <%%= password_field_tag :current_password, autofocus: true, autocomplete: "current-password" %>
+  </div>
+
+  <div>
+    <%%= form.label :password, "New password (6 characters minimum)", style: "display: block" %>
+    <%%= form.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div>
+    <%%= form.label :password_confirmation, style: "display: block" %>
+    <%%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div>
+    <%%= form.submit "Save changes" %>
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  <%%= link_to "Back", :back %>
+</div>

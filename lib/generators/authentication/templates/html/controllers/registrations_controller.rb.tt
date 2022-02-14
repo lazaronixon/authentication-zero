@@ -1,0 +1,23 @@
+class RegistrationsController < ApplicationController
+  skip_before_action :authenticate
+
+  def new
+    @<%= singular_table_name %> = <%= class_name %>.new
+  end
+
+  def create
+    @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
+
+    if @<%= singular_table_name %>.save
+      cookies[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
+      redirect_to root_path, notice: "Welcome! You have signed up successfully"
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  private
+    def <%= "#{singular_table_name}_params" %>
+      params.require(:<%= singular_table_name %>).permit(:email, :password, :password_confirmation)
+    end
+end

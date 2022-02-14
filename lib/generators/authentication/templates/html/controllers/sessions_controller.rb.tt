@@ -2,17 +2,17 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate, except: :destroy
 
   def new
-    @user = User.new
+    @<%= singular_table_name %> = <%= class_name %>.new
   end
 
   def create
-    @user = User.find_by_email(params[:email])
+    @<%= singular_table_name %> = <%= class_name %>.find_by_email(params[:email])
 
-    if @user.try(:authenticate, params[:password])
+    if @<%= singular_table_name %>.try(:authenticate, params[:password])
       if params[:remember_me] == "1"
-        cookies.permanent[:session_token] = { value: @user.session_token, httponly: true }
+        cookies.permanent[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
       else
-        cookies[:session_token] = { value: @user.session_token, httponly: true }
+        cookies[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
       end
 
       redirect_to root_path, notice: "Signed in successfully"
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
 
   def destroy
     cookies.delete :session_token
-    Current.user.regenerate_session_token
+    Current.<%= singular_table_name %>.regenerate_session_token
     redirect_to sign_in_path, notice: "Signed out successfully"
   end
 end
