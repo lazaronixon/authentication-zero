@@ -1,0 +1,7 @@
+Hi <%%= params[:<%= singular_table_name %>].email %>,
+
+Someone requested a reset of your password.
+
+If this was you, use this token to reset your password. The token will expire automatically in 15 minutes.
+
+<%%= @token %>
