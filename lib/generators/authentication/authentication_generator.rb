@@ -21,7 +21,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_views
     if options.api
-      directory "views/api", "app/views"
+      directory "views/password_mailer", "app/views/password_mailer"
     else
       directory "views/html", "app/views"
     end
@@ -47,7 +47,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     route "post 'cancellation', to: 'cancellations#destroy'"
     route "get 'password_reset/new', to: 'password_resets#new'" unless options.api?
     route "post 'password_reset', to: 'password_resets#create'"
-    route "get 'password_reset/edit', to: 'password_resets#edit'" unless options.api?
+    route "get 'password_reset/edit', to: 'password_resets#edit'"
     route "patch 'password_reset', to: 'password_resets#update'"
     route "delete 'sign_out', to: 'sessions#destroy'"
   end
