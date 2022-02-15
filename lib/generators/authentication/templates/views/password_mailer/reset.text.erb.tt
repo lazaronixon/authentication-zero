@@ -1,7 +1,8 @@
-Hi <%%= params[:<%= singular_table_name %>].email %>,
+Hello <%%= params[:<%= singular_table_name %>].email %>
 
-Someone requested a reset of your password.
+Someone has requested a link to change your password, and you can do this through the link below.
 
-If this was you, click the link to reset your password. The link will expire automatically in 15 minutes.
+[Change my password]<%%= password_reset_edit_url(token: @token) %>
 
-<%%= password_reset_edit_url(token: @token) %>
+If you didn't request this, please ignore this email.
+Your password won't change until you access the link above and create a new one.

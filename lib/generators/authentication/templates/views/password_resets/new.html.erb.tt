@@ -5,7 +5,7 @@
 <%%= form_with(url: password_reset_path) do |form| %>
   <div>
     <%%= form.label :email, style: "display: block" %>
-    <%%= form.email_field :email, autofocus: true, required: true, autocomplete: "email" %>
+    <%%= form.email_field :email, autofocus: true, required: true %>
   </div>
 
   <div>
