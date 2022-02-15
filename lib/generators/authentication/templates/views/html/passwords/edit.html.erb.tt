@@ -17,7 +17,7 @@
 
   <div>
     <%%= label_tag :current_password, nil, style: "display: block" %>
-    <%%= password_field_tag :current_password, autofocus: true, autocomplete: "current-password" %>
+    <%%= password_field_tag :current_password, nil, autofocus: true, autocomplete: "current-password" %>
   </div>
 
   <div>
