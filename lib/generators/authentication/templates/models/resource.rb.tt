@@ -7,4 +7,8 @@ class <%= class_name %> < ApplicationRecord
   validates_length_of :password, minimum: 8, allow_blank: true
 
   before_validation { self.email = email.downcase.strip }
+
+  def as_json(options)
+    super(options.merge(except: [:password_digest, :session_token]))
+  end  
 end
