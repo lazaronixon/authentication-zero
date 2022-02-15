@@ -22,7 +22,6 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    cookies.delete :session_token
     Current.<%= singular_table_name %>.regenerate_session_token
     redirect_to sign_in_path, notice: "Signed out successfully"
   end
