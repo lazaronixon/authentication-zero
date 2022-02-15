@@ -23,7 +23,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     if options.api
       directory "views/password_mailer", "app/views/password_mailer"
     else
-      directory "views/html", "app/views"
+      directory "views", "app/views"
     end
   end
 
