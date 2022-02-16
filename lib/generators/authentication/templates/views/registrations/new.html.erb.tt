@@ -33,9 +33,3 @@
     <%%= form.submit "Sign up" %>
   </div>
 <%% end %>
-
-<br>
-
-<div>
-  <%%= link_to "Sign in", sign_in_path %>
-</div>

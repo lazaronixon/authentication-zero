@@ -12,10 +12,3 @@
     <%%= form.submit "Send password reset email" %>
   </div>
 <%% end %>
-
-<br>
-
-<div>
-  <%%= link_to "Sign in", sign_in_path %> |
-  <%%= link_to "Sign up", sign_up_path %>
-</div>
