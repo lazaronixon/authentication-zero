@@ -1,6 +1,6 @@
 Hey there,
 
-Can’t remember your password for <%%= params[:<%= singular_table_name %>].email %>? That’s OK, it happens. Just hit the link below to set a new one.
+Can't remember your password for <%%= params[:<%= singular_table_name %>].email %>? That's OK, it happens. Just hit the link below to set a new one.
 
 [Reset my password]<%%= password_reset_edit_url(sid: @signed_id) %>
 
