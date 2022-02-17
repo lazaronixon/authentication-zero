@@ -1,5 +1,5 @@
 class CancellationsController < ApplicationController
-  def destroy
+  def create
     Current.<%= singular_table_name %>.destroy
   end
 end
