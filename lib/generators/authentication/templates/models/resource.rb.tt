@@ -6,9 +6,23 @@ class <%= class_name %> < ApplicationRecord
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/ }
   validates_length_of :password, minimum: 8, allow_blank: true
 
-  before_validation { self.email = email.downcase.strip }
+  before_validation do
+    self.email = email.downcase.strip
+  end
+
+  after_update_commit do
+    if self.email_previously_changed?
+      EmailMailer.with(change: self.email_previous_change).changed.deliver_later
+    end
+  end
+
+  after_update_commit do
+    if self.password_digest_previously_changed?
+      PasswordMailer.with(<%= singular_table_name %>: self).changed.deliver_later
+    end
+  end
 
   def as_json(options)
     super(options.merge(except: [:password_digest, :session_token]))
-  end  
+  end
 end
