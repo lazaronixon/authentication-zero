@@ -13,6 +13,6 @@ class RegistrationsController < ApplicationController
 
   private
     def <%= "#{singular_table_name}_params" %>
-      params.require(:<%= singular_table_name %>).permit(:email, :password, :password_confirmation)
+      params.permit(:email, :password, :password_confirmation)
     end
 end
