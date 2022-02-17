@@ -2,9 +2,9 @@
 
 <p>We just wanted to confirm that your email address has been updated.</p>
 
-<p><strong>Before, it was: <%= @previous_email %></strong></p>
+<p><strong>Before, it was: <%%= @previous_email %></strong></p>
 
-<p><strong>Now it is set to: <%= @current_email %></strong></p>
+<p><strong>Now it is set to: <%%= @current_email %></strong></p>
 
 <hr>
 
