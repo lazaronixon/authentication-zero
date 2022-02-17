@@ -8,6 +8,7 @@ class EmailsController < ApplicationController
       if @<%= singular_table_name %>.email_previously_changed?
         EmailMailer.with(email_change: @<%= singular_table_name %>.email_previous_change).changed.deliver_later
       end
+
       render json: @<%= singular_table_name %>
     else
       render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity

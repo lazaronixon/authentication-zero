@@ -11,6 +11,7 @@ class EmailsController < ApplicationController
       if @<%= singular_table_name %>.email_previously_changed?
         EmailMailer.with(email_change: @<%= singular_table_name %>.email_previous_change).changed.deliver_later
       end
+
       redirect_to root_path, notice: "Your email has been changed successfully"
     else
       render :edit, status: :unprocessable_entity
