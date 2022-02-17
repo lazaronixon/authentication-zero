@@ -2,6 +2,31 @@
 
 The purpose of authentication zero is to generate a pre-built authentication system into a rails application (web or api-only) that follows both security and rails best practices. By generating code into the user's application instead of using a library, the user has complete freedom to modify the authentication system so it works best with their app.
 
+## Features
+
+- Sign up
+- Email and password validations
+- Reset the user password and send reset instructions
+- Authentication by cookie (html)
+- Authentication by token (api)
+- Remember me (html)
+- Send e-mail when email is changed
+- Send e-mail when password is changed
+- Cancel my account
+- Log out
+
+## Security and best practices
+
+- [Current attributes](https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html): Abstract super class that provides a thread-isolated attributes singleton, which resets automatically before and after each request.
+- [has_secure_password](https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password): Adds methods to set and authenticate against a BCrypt password.
+- [has_secure_token](https://api.rubyonrails.org/classes/ActiveRecord/SecureToken/ClassMethods.html#method-i-has_secure_token): Adds methods to generate unique tokens.
+- [authenticate_with_http_token](https://api.rubyonrails.org/classes/ActionController/HttpAuthentication/Token.html): Compare the tokens in a time-constant manner, to mitigate timing attacks.
+- [signed_id](https://api.rubyonrails.org/classes/ActiveRecord/SignedId.html): Returns a signed id that is tamper proof, so it's safe to send in an email or otherwise share with the outside world.
+- [Http only cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): A cookie with the httponly attribute is inaccessible to the JavaScript, this precaution helps mitigate cross-site scripting (XSS) attacks.
+- [Log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
+- [Callbacks](https://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html): We use callbacks to send emails before changing an email or password.
+- [ActionMailer](https://api.rubyonrails.org/classes/ActionMailer/Base.html): Action Mailer allows you to send email from your application using a mailer model and views.
+
 ## Installation
 
 Add this lines to your application's Gemfile:
