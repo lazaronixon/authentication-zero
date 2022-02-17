@@ -2,7 +2,6 @@ class EmailsController < ApplicationController
   before_action :set_<%= singular_table_name %>
 
   def edit
-    @<%= singular_table_name %> = Current.<%= singular_table_name %>
   end
 
   def update
