@@ -16,6 +16,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_mailers
+    template "mailers/email_mailer.rb", "app/mailers/email_mailer.rb"    
     template "mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
   end
 
