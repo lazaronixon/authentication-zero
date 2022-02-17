@@ -31,6 +31,10 @@ Add these lines to your `app/views/home/index.html.erb`:
 <p>Signed as <%= Current.user.email %></p>
 
 <div>
+  <%= link_to "Change email", edit_emails_path %>
+</div>
+
+<div>
   <%= link_to "Change password", edit_passwords_path %>
 </div>
 

@@ -1,0 +1,11 @@
+<p>Hey there,</p>
+
+<p>We just wanted to confirm that your email address has been updated.</p>
+
+<p><strong>Before, it was: <%= @previous_email %></strong></p>
+
+<p><strong>Now it is set to: <%= @current_email %></strong></p>
+
+<hr>
+
+<p>If you didn't make this change, someone else may have access to your account. If you think that may be the case, please reply to this email and our support team will help you out.</p>

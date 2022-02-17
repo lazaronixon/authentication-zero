@@ -1,0 +1,23 @@
+class EmailsController < ApplicationController
+  before_action :set_<%= singular_table_name %>
+
+  def update
+    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+      render json: { error: "The current password you entered is incorrect" }, status: :bad_request
+    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>) && @<%= singular_table_name %>.email_previously_changed?
+      EmailMailer.with(email_change: @<%= singular_table_name %>.email_previous_change).changed.deliver_later
+      render json: @<%= singular_table_name %>
+    else
+      render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity
+    end
+  end
+
+  private
+    def set_<%= singular_table_name %>
+      @<%= singular_table_name %> = Current.<%= singular_table_name %>
+    end
+
+    def <%= "#{singular_table_name}_params" %>
+      params.permit(:email)
+    end
+end

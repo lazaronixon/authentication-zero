@@ -1,0 +1,9 @@
+Hey there,
+
+We just wanted to confirm that your email address has been updated.
+
+Before, it was: <%= @previous_email %>
+
+Now it is set to: <%= @current_email %>
+
+If you didn't make this change, someone else may have access to your account. If you think that may be the case, please reply to this email and our support team will help you out.
