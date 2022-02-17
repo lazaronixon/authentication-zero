@@ -7,8 +7,10 @@ class EmailsController < ApplicationController
   def update
     if !@<%= singular_table_name %>.authenticate(params[:current_password])
       redirect_to edit_emails_path, alert: "The current password you entered is incorrect"
-    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>) && @<%= singular_table_name %>.email_previously_changed?
-      EmailMailer.with(email_change: @<%= singular_table_name %>.email_previous_change).changed.deliver_later
+    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
+      if @<%= singular_table_name %>.email_previously_changed?
+        EmailMailer.with(email_change: @<%= singular_table_name %>.email_previous_change).changed.deliver_later
+      end
       redirect_to root_path, notice: "Your email has been changed successfully"
     else
       render :edit, status: :unprocessable_entity
