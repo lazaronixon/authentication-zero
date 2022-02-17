@@ -37,7 +37,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_routes
-    route "resource :password_resets, except: [:show, :destroy]"
+    route "resource :password_resets, only: [:new, :edit, :create, :update]"
     route "resource :cancellations, only: [:new, :create]"
     route "resource :passwords, only: [:update, :edit]"
     route "delete 'sign_out', to: 'sessions#destroy'"
