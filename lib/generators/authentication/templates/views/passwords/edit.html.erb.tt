@@ -2,7 +2,7 @@
 
 <h1>Change your password</h1>
 
-<%%= form_with(model: @<%= model_resource_name %>, url: password_path) do |form| %>
+<%%= form_with(model: @<%= model_resource_name %>, url: passwords_path) do |form| %>
   <%% if @<%= singular_table_name %>.errors.any? %>
     <div style="color: red">
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>

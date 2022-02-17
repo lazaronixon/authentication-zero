@@ -28,5 +28,5 @@
 
 <div>
   <%%= link_to "Sign up", sign_up_path %> |
-  <%%= link_to "Forgot your password?", password_reset_new_path %>
+  <%%= link_to "Forgot your password?", new_password_resets_path %>
 </div>

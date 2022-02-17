@@ -37,19 +37,14 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_routes
-    route "get 'sign_up', to: 'registrations#new'" unless options.api?
-    route "post 'sign_up', to: 'registrations#create'"
-    route "get 'sign_in', to: 'sessions#new'" unless options.api?
-    route "post 'sign_in', to: 'sessions#create'"
-    route "get 'password/edit', to: 'passwords#edit'" unless options.api?
-    route "patch 'password', to: 'passwords#update'"
-    route "get 'cancellation/new', to: 'cancellations#new'" unless options.api?
-    route "post 'cancellation', to: 'cancellations#destroy'"
-    route "get 'password_reset/new', to: 'password_resets#new'" unless options.api?
-    route "post 'password_reset', to: 'password_resets#create'"
-    route "get 'password_reset/edit', to: 'password_resets#edit'"
-    route "patch 'password_reset', to: 'password_resets#update'"
+    route "resource :password_resets, except: [:show, :destroy]"
+    route "resource :cancellations, only: [:new, :destroy]"
+    route "resource :passwords, only: [:update, :edit]"
     route "delete 'sign_out', to: 'sessions#destroy'"
+    route "post 'sign_up', to: 'registrations#create'"
+    route "get 'sign_up', to: 'registrations#new'" unless options.api?
+    route "post 'sign_in', to: 'sessions#create'"
+    route "get 'sign_in', to: 'sessions#new'" unless options.api?
   end
 
   def add_application_controller_methods

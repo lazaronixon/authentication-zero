@@ -31,11 +31,11 @@ Add these lines to your `app/views/home/index.html.erb`:
 <p>Signed as <%= Current.user.email %></p>
 
 <div>
-  <%= link_to "Change password", password_edit_path %>
+  <%= link_to "Change password", edit_passwords_path %>
 </div>
 
 <div>
-  <%= link_to "Cancel my account & delete my data", cancellation_new_path %>
+  <%= link_to "Cancel my account & delete my data", new_cancellations_path %>
 </div>
 
 <%= button_to "Log out", sign_out_path, method: :delete %>

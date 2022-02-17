@@ -2,7 +2,7 @@
 
 <h1>Forgot your password?</h1>
 
-<%%= form_with(url: password_reset_path) do |form| %>
+<%%= form_with(url: password_resets_path) do |form| %>
   <div>
     <%%= form.label :email, style: "display: block" %>
     <%%= form.email_field :email, autofocus: true, required: true %>
