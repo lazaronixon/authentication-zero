@@ -39,7 +39,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def add_routes
     route "resource :password_resets, only: [:new, :edit, :create, :update]"
     route "resource :cancellations, only: [:new, :create]"
-    route "resource :passwords, only: [:update, :edit]"
+    route "resource :passwords, only: [:edit, :update]"
     route "delete 'sign_out', to: 'sessions#destroy'"
     route "post 'sign_up', to: 'registrations#create'"
     route "get 'sign_up', to: 'registrations#new'" unless options.api?
