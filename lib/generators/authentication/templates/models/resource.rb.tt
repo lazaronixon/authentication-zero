@@ -22,6 +22,16 @@ class <%= class_name %> < ApplicationRecord
     end
   end
 
+  def signed_session_token
+    self.class.signed_id_verifier.generate(session_token)
+  end
+
+  def self.find_signed_session_token(signed_session_token)
+    if session_token = signed_id_verifier.verified(signed_session_token)
+      find_by_session_token(session_token)
+    end
+  end  
+
   def as_json(options = {})
     super(options.merge(except: [:password_digest, :session_token]))
   end
