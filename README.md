@@ -24,7 +24,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - [Signed cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): Returns a jar that'll automatically generate a signed representation of cookie value and verify it when reading from the cookie again.
 - [Http only cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): A cookie with the httponly attribute is inaccessible to the JavaScript, this precaution helps mitigate cross-site scripting (XSS) attacks.
 - [Log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
-- [Callbacks](https://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html): We use callbacks to send emails before changing an email or password.
+- [Callbacks](https://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html): We use callbacks to send emails after changing an email or password.
 - [Action mailer](https://api.rubyonrails.org/classes/ActionMailer/Base.html): Action Mailer allows you to send email from your application using a mailer model and views.
 
 ## Installation
