@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
 
     if @<%= singular_table_name %>.try(:authenticate, params[:password])
       if params[:remember_me] == "1"
-        cookies.signed.permanent[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
+        cookies.permanent[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
       else
-        cookies.signed[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
+        cookies[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
       end
 
       redirect_to root_path, notice: "Signed in successfully"
