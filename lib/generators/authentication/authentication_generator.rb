@@ -16,7 +16,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_mailers
-    template "mailers/email_mailer.rb", "app/mailers/email_mailer.rb"    
+    template "mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
     template "mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
   end
 
@@ -73,7 +73,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
         private
           def authenticate
-            if #{singular_table_name} = cookies[:session_token] && #{class_name}.find_by_session_token(cookies[:session_token])
+            if #{singular_table_name} = cookies[:session_token] && #{class_name}.find_by_session_token(cookies.signed[:session_token])
               Current.user = #{singular_table_name}
             else
               redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
