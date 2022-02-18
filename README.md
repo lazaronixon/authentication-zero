@@ -38,9 +38,13 @@ gem "authentication-zero"
 
 Then run `bundle install`
 
-You'll need to set up active record encryption, run the command below and follow the instructions.
+You'll need to [set up active record encryption](https://guides.rubyonrails.org/active_record_encryption.html#setup), run the commands below and follow the instructions.
 ```
 $ rails db:encryption:init
+```
+
+```
+$ rails credentials:edit
 ```
 
 You'll need to set the root path in your routes.rb, for this example let's use the following:
