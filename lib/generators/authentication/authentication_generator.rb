@@ -59,10 +59,8 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
         private
           def authenticate
-            if #{singular_table_name} = authenticate_with_http_token { |t, _| #{class_name}.find_signed_session_token(t) }
-              Current.#{singular_table_name} = #{singular_table_name}
-            else
-              request_http_token_authentication
+            authenticate_or_request_with_http_token do |token, _options|
+              Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
             end
           end
       CODE
