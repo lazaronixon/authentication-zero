@@ -2,6 +2,8 @@ class <%= class_name %> < ApplicationRecord
   has_secure_password :password
   has_secure_token :session_token
 
+  encrypts :session_token, deterministic: true
+
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/ }
   validates_length_of :password, minimum: 8, allow_blank: true
@@ -21,15 +23,4 @@ class <%= class_name %> < ApplicationRecord
       PasswordMailer.with(<%= singular_table_name %>: self).changed.deliver_later
     end
   end
-<% if options.api? %>
-  def signed_session_token
-    self.class.signed_id_verifier.generate(session_token)
-  end
-
-  def self.find_signed_session_token(signed_session_token)
-    if session_token = signed_id_verifier.verified(signed_session_token)
-      find_by_session_token(session_token)
-    end
-  end
-<% end -%>
 end

@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     @<%= singular_table_name %> = <%= class_name %>.find_by_email(params[:email])
 
     if @<%= singular_table_name %>.try(:authenticate, params[:password])
-      render json: { session_token: @<%= singular_table_name %>.signed_session_token }
+      render json: { session_token: @<%= singular_table_name %>.session_token }
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
     end

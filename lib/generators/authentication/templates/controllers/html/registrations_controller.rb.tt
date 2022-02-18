@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
 
     if @<%= singular_table_name %>.save
-      cookies.signed[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
+      cookies[:session_token] = { value: @<%= singular_table_name %>.session_token, httponly: true }
       redirect_to root_path, notice: "Welcome! You have signed up successfully"
     else
       render :new, status: :unprocessable_entity
