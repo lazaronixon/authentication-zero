@@ -9,29 +9,29 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_controllers
     if options.api
-      directory "controllers/api", "app/controllers"
+      directory "app/controllers/api", "app/controllers"
     else
-      directory "controllers/html", "app/controllers"
+      directory "app/controllers/html", "app/controllers"
     end
   end
 
   def create_mailers
-    template "mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
-    template "mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
+    template "app/mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
+    template "app/mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
   end
 
   def create_views
     if options.api
-      directory "views/email_mailer", "app/views/email_mailer"
-      directory "views/password_mailer", "app/views/password_mailer"
+      directory "app/views/email_mailer", "app/views/email_mailer"
+      directory "app/views/password_mailer", "app/views/password_mailer"
     else
-      directory "views", "app/views"
+      directory "app/views", "app/views"
     end
   end
 
   def create_models
-    template "models/current.rb", "app/models/current.rb"
-    template "models/model.rb", "app/models/#{singular_table_name}.rb"
+    template "app/models/current.rb", "app/models/current.rb"
+    template "app/models/model.rb", "app/models/#{singular_table_name}.rb"
   end
 
   def create_migrations
