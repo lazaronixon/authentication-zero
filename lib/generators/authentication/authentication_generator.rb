@@ -7,17 +7,21 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   source_root File.expand_path("templates", __dir__)
 
+  def create_migrations
+    invoke "migration", ["create_#{table_name}", "email:string:uniq", "password_digest:string", "session_token:string:uniq"]
+  end
+
+  def create_models
+    template "app/models/model.rb", "app/models/#{singular_table_name}.rb"
+    template "app/models/current.rb", "app/models/current.rb"
+  end
+
   def create_controllers
     if options.api
       directory "app/controllers/api", "app/controllers"
     else
       directory "app/controllers/html", "app/controllers"
     end
-  end
-
-  def create_mailers
-    template "app/mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
-    template "app/mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
   end
 
   def create_views
@@ -29,13 +33,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     end
   end
 
-  def create_models
-    template "app/models/current.rb", "app/models/current.rb"
-    template "app/models/model.rb", "app/models/#{singular_table_name}.rb"
-  end
-
-  def create_migrations
-    migration_template "migration.rb", "#{db_migrate_path}/create_#{file_name}.rb"
+  def create_mailers
+    template "app/mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
+    template "app/mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
   end
 
   def add_routes
