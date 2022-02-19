@@ -31,7 +31,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_models
     template "models/current.rb", "app/models/current.rb"
-    template "models/resource.rb", "app/models/#{singular_table_name}.rb"
+    template "models/model.rb", "app/models/#{singular_table_name}.rb"
   end
 
   def create_migrations
