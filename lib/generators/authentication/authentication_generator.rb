@@ -60,7 +60,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
         private
           def authenticate
             authenticate_or_request_with_http_token do |token, _options|
-              Current.#{singular_table_name} = #{class_name}.find_by_session_token(token)
+              Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
             end
           end
       CODE
@@ -71,7 +71,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
         private
           def authenticate
-            if #{singular_table_name} = #{class_name}.find_by_session_token(cookies[:session_token])
+            if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
               Current.#{singular_table_name} = #{singular_table_name}
             else
               redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
