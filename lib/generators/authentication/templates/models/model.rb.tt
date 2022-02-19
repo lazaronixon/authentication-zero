@@ -1,6 +1,6 @@
 class <%= class_name %> < ApplicationRecord
-  has_secure_password :password
   has_secure_token :session_token
+  has_secure_password
 
   validates :email, presence: true, uniqueness: true
   validates :email, format: { with: /\A[^@\s]+@[^@\s]+\z/ }
