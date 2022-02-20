@@ -32,7 +32,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 Add this lines to your application's Gemfile:
 
 ```ruby
-gem "bcrypt"
 gem "authentication-zero"
 ```
 
