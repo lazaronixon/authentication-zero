@@ -1,0 +1,41 @@
+require "test_helper"
+
+class SessionsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
+  end
+
+  test "should get new" do
+    get sign_in_url
+    assert_response :success
+  end
+
+  test "should sign in" do
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "secret123" }
+    assert_redirected_to root_url
+
+    get root_url
+    assert_response :success
+  end
+
+  test "should not sign in with wrong credentials" do
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "wrong_password" }
+    assert_redirected_to sign_in_url(email_hint: @<%= singular_table_name %>.email)
+    assert_equal "Invalid email or password", flash[:alert]
+
+    get root_url
+    assert_redirected_to sign_in_path
+    assert_equal "You need to sign in or sign up before continuing", flash[:alert]
+  end
+
+  test "should sign out" do
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "secret123" }
+
+    delete sign_out_url
+    assert_redirected_to sign_in_path
+
+    get root_path
+    assert_redirected_to sign_in_path
+    assert_equal "You need to sign in or sign up before continuing", flash[:alert]
+  end
+end

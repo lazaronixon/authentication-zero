@@ -1,0 +1,24 @@
+require "test_helper"
+
+class CancellationsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
+  end
+
+  test "should get new" do
+    get new_cancellations_url
+    assert_response :success
+  end
+
+  test "should create cancellation" do
+    assert_difference("<%= class_name %>.count", -1) do
+      post cancellations_url
+    end
+
+    assert_redirected_to sign_in_url
+  end
+
+  def sign_in_as(<%= singular_table_name %>)
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" }); <%= singular_table_name %>
+  end
+end

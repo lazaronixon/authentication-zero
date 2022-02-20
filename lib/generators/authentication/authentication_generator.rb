@@ -12,16 +12,12 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_models
-    template "app/models/model.rb", "app/models/#{singular_table_name}.rb"
+    template "app/models/model.rb", "app/models/#{file_name}.rb"
     template "app/models/current.rb", "app/models/current.rb"
   end
 
   def create_controllers
-    if options.api
-      directory "app/controllers/api", "app/controllers"
-    else
-      directory "app/controllers/html", "app/controllers"
-    end
+    directory "app/controllers/#{format_folder}", "app/controllers"
   end
 
   def create_views
@@ -81,4 +77,17 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       end
     end
   end
+
+  def create_fixture_file
+    template "test/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
+  end
+
+  def create_test_controllers
+    directory "test/controllers/#{format_folder}", "test/controllers"
+  end
+
+  private
+    def format_folder
+      options.api ? "api" : "html"
+    end
 end
