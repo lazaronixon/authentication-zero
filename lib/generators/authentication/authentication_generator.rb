@@ -47,39 +47,58 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_application_controller_methods
-    if options.api?
-      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<-CODE
-  include ActionController::HttpAuthentication::Token::ControllerMethods
+    api_code = <<~CODE
+      include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  before_action :authenticate
+      before_action :authenticate
 
-  private
-    def authenticate
-      authenticate_or_request_with_http_token do |token, _options|
-        Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
-      end
-    end
-      CODE
-      end
-    else
-      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<-CODE
-  before_action :authenticate
+      private
+        def authenticate
+          authenticate_or_request_with_http_token do |token, _options|
+            Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
+          end
+        end
+    CODE
 
-  private
-    def authenticate
-      if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
-        Current.#{singular_table_name} = #{singular_table_name}
-      else
-        redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
-      end
-    end
-      CODE
-      end
-    end
+    html_code = <<~CODE
+      before_action :authenticate
+
+      private
+        def authenticate
+          if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
+            Current.#{singular_table_name} = #{singular_table_name}
+          else
+            redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
+          end
+        end
+    CODE
+
+    source = "app/controllers/application_controller.rb"
+    injection_code = options.api? ? api_code : html_code
+    inject_into_class source, "ApplicationController", optimize_indentation(injection_code, 2), verbose: false
   end
 
   def create_fixture_file
     template "test/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
+  end
+
+  def add_test_helpers_methods
+    api_code = <<~CODE
+      def sign_in_as(#{table_name}(:lazaro_nixon))
+        post(sign_in_url, params: { email: #{singular_table_name}.email, password: "secret123" });
+        [#{singular_table_name}, response.parsed_body["session_token"]]
+      end
+    CODE
+
+    html_code = <<~CODE
+      def sign_in_as(#{table_name}(:lazaro_nixon))
+        post(sign_in_url, params: { email: #{singular_table_name}.email, password: "secret123" }); #{singular_table_name}
+      end
+    CODE
+
+    after = /Add more helper methods to be used by all tests here...\n/
+    injection_code = options.api? ? api_code : html_code
+    inject_into_file "test/test_helper.rb", optimize_indentation(injection_code, 2), after: after, verbose: false
   end
 
   def create_test_controllers

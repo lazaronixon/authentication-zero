@@ -29,7 +29,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign out" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "secret123" }
+    sign_in_as <%= table_name %>(:lazaro_nixon)
 
     delete sign_out_url
     assert_redirected_to sign_in_path
