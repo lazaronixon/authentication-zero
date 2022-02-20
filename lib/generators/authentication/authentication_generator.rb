@@ -52,31 +52,31 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_application_controller_methods
     if options.api?
-      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<~CODE
-        include ActionController::HttpAuthentication::Token::ControllerMethods
+      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<-CODE
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 
-        before_action :authenticate
+  before_action :authenticate
 
-        private
-          def authenticate
-            authenticate_or_request_with_http_token do |token, _options|
-              Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
-            end
-          end
+  private
+    def authenticate
+      authenticate_or_request_with_http_token do |token, _options|
+        Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
+      end
+    end
       CODE
       end
     else
-      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<~CODE
-        before_action :authenticate
+      inject_into_class "app/controllers/application_controller.rb", "ApplicationController", verbose: false do <<-CODE
+  before_action :authenticate
 
-        private
-          def authenticate
-            if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
-              Current.#{singular_table_name} = #{singular_table_name}
-            else
-              redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
-            end
-          end
+  private
+    def authenticate
+      if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
+        Current.#{singular_table_name} = #{singular_table_name}
+      else
+        redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
+      end
+    end
       CODE
       end
     end
