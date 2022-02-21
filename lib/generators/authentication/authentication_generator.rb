@@ -7,7 +7,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   source_root File.expand_path("templates", __dir__)
 
   def add_bcrypt
-    uncomment_lines 'Gemfile', /bcrypt/
+    uncomment_lines "Gemfile", /bcrypt/
   end
 
   def create_migrations
