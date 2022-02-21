@@ -1,8 +1,6 @@
 require "rails/generators/active_record"
 
 class AuthenticationGenerator < Rails::Generators::NamedBase
-  include ActiveRecord::Generators::Migration
-
   class_option :api, type: :boolean, desc: "Generates API authentication"
   class_option :system_tests, type: :string, desc: "Skip system test files"
 
