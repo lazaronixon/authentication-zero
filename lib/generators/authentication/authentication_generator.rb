@@ -88,11 +88,15 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_test_files
     directory "test_unit/controllers/#{format_folder}", "test/controllers"
-    directory "test_unit/system", "test/system" if !options.api? && options[:system_tests]
+    directory "test_unit/system", "test/system" if system_tests?
   end
 
   private
     def format_folder
       options.api ? "api" : "html"
+    end
+
+    def system_tests?
+      !options.api? && options[:system_tests]
     end
 end
