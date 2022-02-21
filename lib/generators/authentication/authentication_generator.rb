@@ -24,7 +24,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     end
   end
 
-  def create_model
+  def create_models
     template "models/model.rb", "app/models/#{file_name}.rb"
     template "models/current.rb", "app/models/current.rb"
   end
@@ -82,8 +82,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_mailers
-    template "mailers/email_mailer.rb", "app/mailers/email_mailer.rb"
-    template "mailers/password_mailer.rb", "app/mailers/password_mailer.rb"
+    directory "mailers", "app/mailers"
   end
 
   def add_routes
