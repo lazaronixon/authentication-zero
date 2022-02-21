@@ -38,4 +38,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to sign_in_path
     assert_equal "You need to sign in or sign up before continuing", flash[:alert]
   end
+
+  def sign_in_as(<%= singular_table_name %>)
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" }); user
+  end
 end

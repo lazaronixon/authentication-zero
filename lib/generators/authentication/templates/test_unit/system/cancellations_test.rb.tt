@@ -11,4 +11,13 @@ class CancellationsTest < ApplicationSystemTestCase
 
     assert_text "Bye! Your account has been successfully cancelled"
   end
+
+  def sign_in_as(<%= singular_table_name %>)
+    visit sign_in_url
+    fill_in :email, with: <%= singular_table_name %>.email
+    fill_in :password, with: "secret123"
+    click_on "Sign in"
+
+    return <%= singular_table_name %>
+  end  
 end

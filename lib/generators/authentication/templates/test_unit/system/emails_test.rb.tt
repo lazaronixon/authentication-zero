@@ -14,4 +14,13 @@ class EmailsTest < ApplicationSystemTestCase
 
     assert_text "Your email has been changed successfully"
   end
+
+  def sign_in_as(<%= singular_table_name %>)
+    visit sign_in_url
+    fill_in :email, with: <%= singular_table_name %>.email
+    fill_in :password, with: "secret123"
+    click_on "Sign in"
+
+    return <%= singular_table_name %>
+  end  
 end
