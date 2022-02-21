@@ -4,6 +4,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   include ActiveRecord::Generators::Migration
 
   class_option :api, type: :boolean, desc: "Generates API authentication"
+  class_option :system_tests, type: :string, desc: "Skip system test files"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -78,8 +79,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     CODE
 
     source = "app/controllers/application_controller.rb"
+    klass  = "ApplicationController"
     injection_code = options.api? ? api_code : html_code
-    inject_into_class source, "ApplicationController", optimize_indentation(injection_code, 2), verbose: false
+    inject_into_class source, klass, optimize_indentation(injection_code, 2), verbose: false
   end
 
   def create_fixture_file
@@ -100,13 +102,32 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       end
     CODE
 
-    after = /Add more helper methods to be used by all tests here...\n/
     injection_code = options.api? ? api_code : html_code
-    inject_into_file "test_unit/test_helper.rb", optimize_indentation(injection_code, 2), after: after, verbose: false
+    inject_into_file "test/test_helper.rb", optimize_indentation(injection_code, 2), before: /^end/, verbose: false
   end
 
-  def create_test_controllers
+  def add_system_test_helpers_methods
+    if !options.api? && options[:system_tests]
+      injection_code = <<~CODE
+
+        def sign_in_as(user)
+          visit sign_in_url
+          fill_in :email, with: user.email
+          fill_in :password, with: "secret123"
+          click_on "Sign in"
+
+          user
+        end
+      CODE
+
+      source = "test/application_system_test_case.rb"
+      inject_into_file source, optimize_indentation(injection_code, 2), before: /^end/, verbose: false
+    end
+  end
+
+  def create_test_files
     directory "test_unit/controllers/#{format_folder}", "test/controllers"
+    directory "test_unit/system", "test/system" if !options.api? && options[:system_tests]
   end
 
   private

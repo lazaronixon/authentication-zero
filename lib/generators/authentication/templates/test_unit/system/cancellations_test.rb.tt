@@ -1,0 +1,14 @@
+require "application_system_test_case"
+
+class CancellationsTest < ApplicationSystemTestCase
+  setup do
+    @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
+  end
+
+  test "cancelling my account" do
+    click_on "Cancel my account & delete my data"
+    click_on "OK, close my account"
+
+    assert_text "Bye! Your account has been successfully cancelled"
+  end
+end

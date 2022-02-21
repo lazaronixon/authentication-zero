@@ -1,0 +1,23 @@
+require "application_system_test_case"
+
+class SessionsTest < ApplicationSystemTestCase
+  setup do
+    @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
+  end
+
+  test "signing in" do
+    visit sign_in_url
+    fill_in "Email", with: @<%= singular_table_name %>.email
+    fill_in "Password", with: "secret123"
+    click_on "Sign in"
+
+    assert_text "Signed in successfully"
+  end
+
+  test "signing out" do
+    sign_in_as @<%= singular_table_name %>
+
+    click_on "Log out"
+    assert_text "Signed out successfully"
+  end
+end

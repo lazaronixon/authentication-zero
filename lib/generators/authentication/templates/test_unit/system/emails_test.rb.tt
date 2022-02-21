@@ -1,0 +1,17 @@
+require "application_system_test_case"
+
+class EmailsTest < ApplicationSystemTestCase
+  setup do
+    @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
+  end
+
+  test "updating the email" do
+    click_on "Change email"
+
+    fill_in "Current password", with: "secret123"
+    fill_in "New email", with: "new_email@hey.com"
+    click_on "Save changes"
+
+    assert_text "Your email has been changed successfully"
+  end
+end
