@@ -83,7 +83,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_fixture_file
-    template "test/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
+    template "test_unit/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
   end
 
   def add_test_helpers_methods
@@ -102,11 +102,11 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
     after = /Add more helper methods to be used by all tests here...\n/
     injection_code = options.api? ? api_code : html_code
-    inject_into_file "test/test_helper.rb", optimize_indentation(injection_code, 2), after: after, verbose: false
+    inject_into_file "test_unit/test_helper.rb", optimize_indentation(injection_code, 2), after: after, verbose: false
   end
 
   def create_test_controllers
-    directory "test/controllers/#{format_folder}", "test/controllers"
+    directory "test_unit/controllers/#{format_folder}", "test/controllers"
   end
 
   private
