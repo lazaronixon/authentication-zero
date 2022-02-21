@@ -16,7 +16,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign out" do
-    <%= singular_table_name %>, token = sign_in_as(<%= table_name %>(:lazaro_nixon))
+    <%= singular_table_name %>, token = sign_in_as(@<%= singular_table_name %>)
 
     delete sign_out_url, headers: { "Authorization" => "Bearer #{token}" }
     assert_response :no_content
