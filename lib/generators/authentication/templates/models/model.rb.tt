@@ -23,11 +23,11 @@ class <%= class_name %> < ApplicationRecord
   end
 <% if options.api? %>
   def signed_session_token
-    self.class.signed_id_verifier.generate(session_token)
+    Rails.application.message_verifier(:session_token).generate(session_token)
   end
 
   def self.find_signed_session_token(signed_session_token)
-    if session_token = signed_id_verifier.verified(signed_session_token)
+    if session_token = Rails.application.message_verifier(:session_token).verified(signed_session_token)
       find_by_session_token(session_token)
     end
   end
