@@ -3,10 +3,10 @@ require "rails/generators/active_record"
 class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :api, type: :boolean, desc: "Generates API authentication"
 
-  class_option :migration, type: :boolean
+  class_option :migration, type: :boolean, default: true
   class_option :test_framework, type: :string, desc: "Test framework to be invoked"
 
-  class_option :fixture, type: :boolean
+  class_option :fixture, type: :boolean, default: true
   class_option :system_tests, type: :string, desc: "Skip system test files"
 
   class_option :skip_routes, type: :boolean
@@ -32,7 +32,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   hook_for :fixture_replacement
 
   def create_fixture_file
-    if options.fixture
+    if options.fixture && options.fixture_replacement.nil?
       template "#{test_framework}/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
     end
   end
