@@ -26,6 +26,8 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - [Callbacks](https://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html): We use callbacks to send emails after changing an email or password.
 - [Action mailer](https://api.rubyonrails.org/classes/ActionMailer/Base.html): Action Mailer allows you to send email from your application using a mailer model and views.
 - [Log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
+- [Functional Tests](https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers): In Rails, testing the various actions of a controller is a form of writing functional tests.
+- [System Testing][https://guides.rubyonrails.org/testing.html#system-testing]: System tests allow you to test user interactions with your application, running tests in either a real or a headless browser.
 
 ## Installation
 
