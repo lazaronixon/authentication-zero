@@ -1,0 +1,11 @@
+require "test_helper"
+
+class RegistrationsControllerTest < ActionDispatch::IntegrationTest
+  test "should sign up" do
+    assert_difference("<%= class_name %>.count") do
+      post sign_up_url, params: { email: "lazaronixon@hey.com", password: "secret123", password_confirmation: "secret123" }
+    end
+
+    assert_response :created
+  end
+end

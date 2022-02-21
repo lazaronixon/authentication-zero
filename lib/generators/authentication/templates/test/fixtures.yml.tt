@@ -3,4 +3,4 @@
 lazaro_nixon:
   email: lazaronixon@hotmail.com
   password_digest: <%%= BCrypt::Password.create("secret123") %>
-  session_token: lazaro_nixon_token
+  session_token: <%%= SecureRandom.base58(24) %>

@@ -88,14 +88,14 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_test_helpers_methods
     api_code = <<~CODE
-      def sign_in_as(#{table_name}(:lazaro_nixon))
-        post(sign_in_url, params: { email: #{singular_table_name}.email, password: "secret123" });
+      def sign_in_as(#{singular_table_name})
+        post(sign_in_url, params: { email: #{singular_table_name}.email, password: "secret123" })
         [#{singular_table_name}, response.parsed_body["session_token"]]
       end
     CODE
 
     html_code = <<~CODE
-      def sign_in_as(#{table_name}(:lazaro_nixon))
+      def sign_in_as(#{singular_table_name})
         post(sign_in_url, params: { email: #{singular_table_name}.email, password: "secret123" }); #{singular_table_name}
       end
     CODE

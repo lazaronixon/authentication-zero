@@ -1,0 +1,15 @@
+require "test_helper"
+
+class CancellationsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
+  end
+
+  test "should create cancellation" do
+    assert_difference("<%= class_name %>.count", -1) do
+      post cancellations_url, headers: { "Authorization" => "Bearer #{@token}" }
+    end
+
+    assert_response :no_content
+  end
+end
