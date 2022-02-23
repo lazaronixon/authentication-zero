@@ -4,6 +4,6 @@ class CancellationsController < ApplicationController
 
   def create
     Current.<%= singular_table_name %>.destroy
-    redirect_to sign_in_path, notice: "Bye! Your account has been successfully cancelled"
+    redirect_to sign_in_path, notice: "Your account is closed"
   end
 end

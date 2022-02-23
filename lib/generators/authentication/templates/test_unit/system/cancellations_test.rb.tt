@@ -9,7 +9,7 @@ class CancellationsTest < ApplicationSystemTestCase
     click_on "Cancel my account & delete my data"
     click_on "OK, close my account"
 
-    assert_text "Bye! Your account has been successfully cancelled"
+    assert_text "Your account is closed"
   end
 
   def sign_in_as(<%= singular_table_name %>)
@@ -19,5 +19,5 @@ class CancellationsTest < ApplicationSystemTestCase
     click_on "Sign in"
 
     return <%= singular_table_name %>
-  end  
+  end
 end

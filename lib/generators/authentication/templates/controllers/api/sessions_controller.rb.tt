@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
       render json: session, status: :created
     else
-      render json: { error: "Invalid email or password" }, status: :unauthorized
+      render json: { error: "That email or password is incorrect" }, status: :unauthorized
     end
   end
 

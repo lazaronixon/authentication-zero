@@ -8,7 +8,7 @@ class EmailsController < ApplicationController
     if !@<%= singular_table_name %>.authenticate(params[:current_password])
       redirect_to edit_emails_path, alert: "The current password you entered is incorrect"
     elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
-      redirect_to root_path, notice: "Your email has been changed successfully"
+      redirect_to root_path, notice: "Your email has been changed"
     else
       render :edit, status: :unprocessable_entity
     end

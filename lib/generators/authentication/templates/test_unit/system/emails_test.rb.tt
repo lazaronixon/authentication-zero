@@ -12,7 +12,7 @@ class EmailsTest < ApplicationSystemTestCase
     fill_in "New email", with: "new_email@hey.com"
     click_on "Save changes"
 
-    assert_text "Your email has been changed successfully"
+    assert_text "Your email has been changed"
   end
 
   def sign_in_as(<%= singular_table_name %>)
@@ -22,5 +22,5 @@ class EmailsTest < ApplicationSystemTestCase
     click_on "Sign in"
 
     return <%= singular_table_name %>
-  end  
+  end
 end
