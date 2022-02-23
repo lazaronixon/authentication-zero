@@ -18,7 +18,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test "should sign in" do
     post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "secret123" }
 
-    assert_enqueued_email_with SessionMailer, :signed_in, args: { session: @<%= singular_table_name %>.sessions.last }
+    assert_enqueued_email_with SessionMailer, :signed_in_notification, args: { session: @<%= singular_table_name %>.sessions.last }
     assert_response :created
   end
 

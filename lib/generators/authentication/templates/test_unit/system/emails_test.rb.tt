@@ -15,6 +15,15 @@ class EmailsTest < ApplicationSystemTestCase
     assert_text "Your email has been changed"
   end
 
+  test "sending a verification email" do
+    @<%= singular_table_name %>.update! verified: false
+
+    click_on "Change email"
+    click_on "Re-send verification email"
+
+    assert_text "We sent a verification email to your email address"
+  end
+
   def sign_in_as(<%= singular_table_name %>)
     visit sign_in_url
     fill_in :email, with: <%= singular_table_name %>.email

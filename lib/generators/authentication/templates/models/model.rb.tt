@@ -10,4 +10,16 @@ class <%= class_name %> < ApplicationRecord
   before_validation do
     self.email = email.downcase.strip
   end
+
+  after_create_commit do
+    IdentityMailer.with(<%= singular_table_name %>: self).email_verify_confirmation.deliver_later
+  end
+
+  after_update_commit if: :email_previously_changed? do
+    update_columns verified: false
+  end
+
+  after_update_commit if: :email_previously_changed? do
+    IdentityMailer.with(<%= singular_table_name %>: self).email_verify_confirmation.deliver_later
+  end
 end

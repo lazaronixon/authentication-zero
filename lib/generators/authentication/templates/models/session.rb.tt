@@ -2,6 +2,6 @@ class Session < ApplicationRecord
   belongs_to :<%= singular_table_name %>
 
   after_create_commit do
-    SessionMailer.with(session: self).signed_in.deliver_later
+    SessionMailer.with(session: self).signed_in_notification.deliver_later
   end
 end
