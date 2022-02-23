@@ -1,6 +1,8 @@
 require "rails/generators/active_record"
 
 class AuthenticationGenerator < Rails::Generators::NamedBase
+  include ActiveRecord::Generators::Migration
+
   class_option :api, type: :boolean, desc: "Generates API authentication"
 
   class_option :migration, type: :boolean, default: true
@@ -18,14 +20,16 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     uncomment_lines "Gemfile", /bcrypt/
   end
 
-  def create_migration
+  def create_migrations
     if options.migration
-      invoke "migration", ["create_#{table_name}", "email:string:uniq", "password:digest", "session_token:string:uniq"]
+      migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
+      migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     end
   end
 
   def create_models
     template "models/model.rb", "app/models/#{file_name}.rb"
+    template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
   end
 
@@ -34,6 +38,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_fixture_file
     if options.fixture && options.fixture_replacement.nil?
       template "#{test_framework}/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
+      template "#{test_framework}/sessions.yml", "test/fixtures/sessions.yml"
     end
   end
 
@@ -45,8 +50,10 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
       private
         def authenticate
-          authenticate_or_request_with_http_token do |token, _options|
-            Current.#{singular_table_name} = #{class_name}.find_signed_session_token(token)
+          if session = authenticate_with_http_token { |token, _| Session.find_signed(token) }
+            Current.session = session
+          else
+            request_http_token_authentication
           end
         end
     CODE
@@ -56,10 +63,10 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
       private
         def authenticate
-          if #{singular_table_name} = #{class_name}.find_by_session_token(cookies.signed[:session_token])
-            Current.#{singular_table_name} = #{singular_table_name}
+          if session = Session.find_by_id(cookies.signed[:session_token])
+            Current.session = session
           else
-            redirect_to sign_in_path, alert: "You need to sign in or sign up before continuing"
+            redirect_to sign_in_path
           end
         end
     CODE
@@ -91,7 +98,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       route "resource :cancellations, only: [:new, :create]"
       route "resource :passwords, only: [:edit, :update]"
       route "resource :emails, only: [:edit, :update]"
-      route "delete 'sign_out', to: 'sessions#destroy'"
+      route "resources :sessions, only: [:index, :show, :destroy]"
       route "post 'sign_up', to: 'registrations#create'"
       route "get 'sign_up', to: 'registrations#new'" unless options.api?
       route "post 'sign_in', to: 'sessions#create'"

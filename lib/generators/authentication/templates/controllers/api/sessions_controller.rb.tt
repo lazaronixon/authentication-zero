@@ -1,17 +1,39 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate, except: :destroy
+  skip_before_action :authenticate, only: :create
+
+  before_action :set_session, only: %i[ show destroy ]
+
+  def index
+    render json: Current.<%= singular_table_name %>.sessions.order(created_at: :desc)
+  end
+
+  def show
+    render json: @session
+  end
 
   def create
     @<%= singular_table_name %> = <%= class_name %>.find_by_email(params[:email])
 
     if @<%= singular_table_name %>.try(:authenticate, params[:password])
-      render json: { session_token: @<%= singular_table_name %>.signed_session_token }, status: :ok
+      session = @<%= singular_table_name %>.sessions.create!(session_params)
+      response.set_header("X-Session-Token", session.signed_id)
+
+      render json: session, status: :created
     else
       render json: { error: "Invalid email or password" }, status: :unauthorized
     end
   end
 
   def destroy
-    Current.<%= singular_table_name %>.regenerate_session_token
+    @session.destroy
   end
+
+  private
+    def set_session
+      @session = Current.user.sessions.find(params[:id])
+    end
+
+    def session_params
+      { user_agent: request.user_agent, ip_address: request.remote_ip }
+    end
 end

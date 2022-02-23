@@ -1,0 +1,3 @@
+class Session < ApplicationRecord
+  belongs_to :<%= singular_table_name %>
+end

@@ -5,6 +5,13 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
   end
 
+  test "should get index" do
+    sign_in_as @<%= singular_table_name %>
+
+    get sessions_url
+    assert_response :success
+  end
+
   test "should get new" do
     get sign_in_url
     assert_response :success
@@ -25,18 +32,16 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
     get root_url
     assert_redirected_to sign_in_path
-    assert_equal "You need to sign in or sign up before continuing", flash[:alert]
   end
 
   test "should sign out" do
     sign_in_as @<%= singular_table_name %>
 
-    delete sign_out_url
-    assert_redirected_to sign_in_path
+    delete session_url(@<%= singular_table_name %>.sessions.last)
+    assert_redirected_to sessions_path
 
-    get root_path
+    follow_redirect!
     assert_redirected_to sign_in_path
-    assert_equal "You need to sign in or sign up before continuing", flash[:alert]
   end
 
   def sign_in_as(<%= singular_table_name %>)

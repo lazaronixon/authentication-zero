@@ -1,3 +1,7 @@
 class Current < ActiveSupport::CurrentAttributes
-  attribute :<%= singular_table_name %>
+  attribute :session, :<%= singular_table_name %>
+
+  def session=(session)
+    super; Current.<%= singular_table_name %> = session.<%= singular_table_name %>
+  end
 end

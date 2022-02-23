@@ -5,6 +5,13 @@ class SessionsTest < ApplicationSystemTestCase
     @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
   end
 
+  test "visiting the index" do
+    sign_in_as @<%= singular_table_name %>
+
+    click_on "Manage Sessions"
+    assert_selector "h1", text: "Sessions"
+  end
+
   test "signing in" do
     visit sign_in_url
     fill_in "Email", with: @<%= singular_table_name %>.email
@@ -18,7 +25,7 @@ class SessionsTest < ApplicationSystemTestCase
     sign_in_as @<%= singular_table_name %>
 
     click_on "Log out"
-    assert_text "Signed out successfully"
+    assert_selector "h1", text: "Sign in"
   end
 
   def sign_in_as(<%= singular_table_name %>)

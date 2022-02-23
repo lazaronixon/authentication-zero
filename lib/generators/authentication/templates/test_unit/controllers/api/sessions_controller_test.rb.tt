@@ -2,12 +2,22 @@ require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
+    @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
+  end
+
+  test "should get index" do
+    get sessions_url, headers: { "Authorization" => "Bearer #{@token}" }
+    assert_response :success
+  end
+
+  test "should show session" do
+    get session_url(@<%= singular_table_name %>.sessions.last), headers: { "Authorization" => "Bearer #{@token}" }
+    assert_response :success
   end
 
   test "should sign in" do
     post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "secret123" }
-    assert_response :success
+    assert_response :created
   end
 
   test "should not sign in with wrong credentials" do
@@ -16,14 +26,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign out" do
-    <%= singular_table_name %>, token = sign_in_as(@<%= singular_table_name %>)
-
-    delete sign_out_url, headers: { "Authorization" => "Bearer #{token}" }
+    delete session_url(@<%= singular_table_name %>.sessions.last), headers: { "Authorization" => "Bearer #{@token}" }
     assert_response :no_content
   end
 
   def sign_in_as(<%= singular_table_name %>)
     post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" })
-    [<%= singular_table_name %>, response.parsed_body["session_token"]]
+    [<%= singular_table_name %>, response.headers["X-Session-Token"]]
   end
 end

@@ -1,0 +1,34 @@
+<p style="color: green"><%%= notice %></p>
+
+<h1>Sessions</h1>
+
+<div id="sessions">
+  <%% @sessions.each do |session| %>
+    <div id="<%%= dom_id session %>">
+      <p>
+        <strong>User Agent:</strong>
+        <%%= session.user_agent %>
+      </p>
+
+      <p>
+        <strong>Ip Address:</strong>
+        <%%= session.ip_address %>
+      </p>
+
+      <p>
+        <strong>Created at:</strong>
+        <%%= session.created_at %>
+      </p>
+
+    </div>
+    <p>
+      <%%= button_to "Log out", session, method: :delete %>
+    </p>
+  <%% end %>
+</div>
+
+<br>
+
+<div>
+  <%%= link_to "Back", root_path %>
+</div>

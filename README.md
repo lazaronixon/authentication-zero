@@ -9,7 +9,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Reset the user password and send reset instructions
 - Authentication by cookie (html)
 - Authentication by token (api)
-- Remember me (html)
+- Manage sessions
 - Send e-mail when email is changed
 - Send e-mail when password is changed
 - Cancel my account
@@ -18,7 +18,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 ## Security and best practices
 
 - [has_secure_password](https://api.rubyonrails.org/classes/ActiveModel/SecurePassword/ClassMethods.html#method-i-has_secure_password): Adds methods to set and authenticate against a BCrypt password.
-- [has_secure_token](https://api.rubyonrails.org/classes/ActiveRecord/SecureToken/ClassMethods.html#method-i-has_secure_token): Adds methods to generate unique tokens.
 - [signed cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): Returns a jar that'll automatically generate a signed representation of cookie value and verify it when reading from the cookie again.
 - [httponly cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): A cookie with the httponly attribute is inaccessible to the JavaScript, this precaution helps mitigate cross-site scripting (XSS) attacks.
 - [signed_id](https://api.rubyonrails.org/classes/ActiveRecord/SignedId.html): Returns a signed id that is tamper proof, so it's safe to send in an email or otherwise share with the outside world.
@@ -57,18 +56,22 @@ Add these lines to your `app/views/home/index.html.erb`:
 <p>Signed as <%= Current.user.email %></p>
 
 <div>
+  <%= link_to "Change password", edit_passwords_path %>
+</div>
+
+<div>
   <%= link_to "Change email", edit_emails_path %>
 </div>
 
 <div>
-  <%= link_to "Change password", edit_passwords_path %>
+  <%= link_to "Manage Sessions", sessions_path %>
 </div>
 
 <div>
   <%= link_to "Cancel my account & delete my data", new_cancellations_path %>
 </div>
 
-<%= button_to "Log out", sign_out_path, method: :delete %>
+<%= button_to "Log out", Current.session, method: :delete %>
 ```
 
 And you'll need to set up the default URL options for the mailer in each environment. Here is a possible configuration for `config/environments/development.rb`:
