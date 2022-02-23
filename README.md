@@ -4,13 +4,14 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 
 ## Features
 
+- **Simplest code ever**
 - Sign up
 - Email and password validations
 - Reset the user password and send reset instructions
 - Authentication by cookie (html)
 - Authentication by token (api)
 - Send e-mail when sign-in to your account
-- Manage sessions
+- Manage multiple sessions
 - Cancel my account
 - Log out
 
