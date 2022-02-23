@@ -10,9 +10,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("<%= class_name %>.count") do
       post sign_up_url, params: { <%= singular_table_name %>: { email: "lazaronixon@hey.com", password: "secret123", password_confirmation: "secret123" } }
     end
-    assert_redirected_to root_url
 
-    follow_redirect!
-    assert_response :success
+    assert_redirected_to sign_in_url
   end
 end
