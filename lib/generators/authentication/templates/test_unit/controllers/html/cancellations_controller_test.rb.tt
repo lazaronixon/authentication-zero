@@ -6,13 +6,13 @@ class CancellationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get new_cancellations_url
+    get new_cancellation_url
     assert_response :success
   end
 
   test "should create cancellation" do
     assert_difference("<%= class_name %>.count", -1) do
-      post cancellations_url
+      post cancellation_url
     end
 
     assert_redirected_to sign_in_url

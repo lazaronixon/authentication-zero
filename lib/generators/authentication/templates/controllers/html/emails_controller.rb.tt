@@ -6,7 +6,7 @@ class EmailsController < ApplicationController
 
   def update
     if !@<%= singular_table_name %>.authenticate(params[:current_password])
-      redirect_to edit_emails_path, alert: "The current password you entered is incorrect"
+      redirect_to edit_email_path, alert: "The current password you entered is incorrect"
     elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
       redirect_to root_path, notice: "Your email has been changed"
     else

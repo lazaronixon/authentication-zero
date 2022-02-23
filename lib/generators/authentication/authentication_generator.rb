@@ -94,10 +94,10 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_routes
     unless options.skip_routes
-      route "resource :password_resets, only: [:new, :edit, :create, :update]"
-      route "resource :cancellations, only: [:new, :create]"
-      route "resource :passwords, only: [:edit, :update]"
-      route "resource :emails, only: [:edit, :update]"
+      route "resource :password_reset, only: [:new, :edit, :create, :update]"
+      route "resource :cancellation, only: [:new, :create]"
+      route "resource :password, only: [:edit, :update]"
+      route "resource :email, only: [:edit, :update]"
       route "resources :sessions, only: [:index, :show, :destroy]"
       route "post 'sign_up', to: 'registrations#create'"
       route "get 'sign_up', to: 'registrations#new'" unless options.api?

@@ -7,7 +7,7 @@ class CancellationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create cancellation" do
     assert_difference("<%= class_name %>.count", -1) do
-      post cancellations_url, headers: { "Authorization" => "Bearer #{@token}" }
+      post cancellation_url, headers: { "Authorization" => "Bearer #{@token}" }
     end
 
     assert_response :no_content
