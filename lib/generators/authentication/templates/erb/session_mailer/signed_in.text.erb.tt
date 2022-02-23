@@ -1,0 +1,17 @@
+Hey there,
+
+A new device just signed in to your account (<%%= @session.<%= singular_table_name %>.email %>).
+
+<%%= @session.user_agent %>
+
+<%%= @session.created_at %>
+
+<%%= @session.ip_address %>
+
+If this was you, carry on. We won't notify you about sign-ins from this device again.
+
+If you don't recognize this device, someone else may have accessed your account. You should immediately [change your password]<%%= new_password_resets_url %>.
+
+Tip: It's a good idea to periodically review all of the [devices and sessions]<%%= sessions_url %> in your account for suspicious activity.
+
+<p>Have questions or need help? Just reply to this email and our support team will help you sort it out.

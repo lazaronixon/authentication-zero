@@ -11,17 +11,12 @@ class EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update email" do
-    assert_enqueued_email_with EmailMailer, :changed, args: { change: [@<%= singular_table_name %>.email, "new_email@hey.com"] } do
-      patch emails_url, params: { current_password: "secret123", <%= singular_table_name %>: { email: "new_email@hey.com" } }
-    end
-
+    patch emails_url, params: { current_password: "secret123", <%= singular_table_name %>: { email: "new_email@hey.com" } }
     assert_redirected_to root_path
   end
 
   test "should not update email with wrong current password" do
-    assert_no_enqueued_emails do
-      patch emails_url, params: { current_password: "wrong_password", <%= singular_table_name %>: { email: @<%= singular_table_name %>.email } }
-    end
+    patch emails_url, params: { current_password: "wrong_password", <%= singular_table_name %>: { email: @<%= singular_table_name %>.email } }
 
     assert_redirected_to edit_emails_path
     assert_equal "The current password you entered is incorrect", flash[:alert]

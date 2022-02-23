@@ -1,6 +1,0 @@
-class EmailMailer < ApplicationMailer
-  def changed
-    @previous_email, @current_email = params[:change]
-    mail to: @previous_email
-  end
-end

@@ -10,16 +10,4 @@ class <%= class_name %> < ApplicationRecord
   before_validation do
     self.email = email.downcase.strip
   end
-
-  after_update_commit do
-    if self.email_previously_changed?
-      EmailMailer.with(change: self.email_previous_change).changed.deliver_later
-    end
-  end
-
-  after_update_commit do
-    if self.password_digest_previously_changed?
-      PasswordMailer.with(<%= singular_table_name %>: self).changed.deliver_later
-    end
-  end
 end

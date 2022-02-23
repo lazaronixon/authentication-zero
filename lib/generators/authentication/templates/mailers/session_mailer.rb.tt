@@ -1,0 +1,6 @@
+class SessionMailer < ApplicationMailer
+  def signed_in
+    @session = params[:session]
+    mail to: @session.<%= singular_table_name %>.email, subject: "New sign-in to your account"
+  end
+end

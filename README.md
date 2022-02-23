@@ -9,9 +9,8 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Reset the user password and send reset instructions
 - Authentication by cookie (html)
 - Authentication by token (api)
+- Send e-mail when sign-in to your account
 - Manage sessions
-- Send e-mail when email is changed
-- Send e-mail when password is changed
 - Cancel my account
 - Log out
 
@@ -22,7 +21,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - [httponly cookies](https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html): A cookie with the httponly attribute is inaccessible to the JavaScript, this precaution helps mitigate cross-site scripting (XSS) attacks.
 - [signed_id](https://api.rubyonrails.org/classes/ActiveRecord/SignedId.html): Returns a signed id that is tamper proof, so it's safe to send in an email or otherwise share with the outside world.
 - [Current attributes](https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html): Abstract super class that provides a thread-isolated attributes singleton, which resets automatically before and after each request.
-- [Callbacks](https://api.rubyonrails.org/classes/ActiveRecord/Callbacks.html): We use callbacks to send emails after changing an email or password.
 - [Action mailer](https://api.rubyonrails.org/classes/ActionMailer/Base.html): Action Mailer allows you to send email from your application using a mailer model and views.
 - [Log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
 - [Functional Tests](https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers): In Rails, testing the various actions of a controller is a form of writing functional tests.
