@@ -23,6 +23,6 @@ class EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" }); user
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" }); <%= singular_table_name %>
   end
 end
