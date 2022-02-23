@@ -81,7 +81,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_views
     if options.api
-      directory "erb/email_mailer", "app/views/email_mailer"
+      directory "erb/session_mailer", "app/views/session_mailer"
       directory "erb/password_mailer", "app/views/password_mailer"
     else
       directory "#{template_engine}", "app/views"
