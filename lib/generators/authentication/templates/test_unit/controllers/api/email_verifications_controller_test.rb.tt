@@ -18,12 +18,12 @@ class EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should verify email" do
-    patch email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
     assert_response :no_content
   end
 
   test "should not verify email with expired token" do
-    patch email_verification_url, params: { token: @sid_exp, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_email_verification_url, params: { token: @sid_exp, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]
@@ -32,7 +32,7 @@ class EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   test "should not verify email with previous token" do
     @<%= singular_table_name %>.update! email: "other_email@hey.com"
 
-    patch email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email_previously_was }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email_previously_was }, headers: { "Authorization" => "Bearer #{@token}" }
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]

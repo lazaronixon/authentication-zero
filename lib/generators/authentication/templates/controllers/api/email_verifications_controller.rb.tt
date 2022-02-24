@@ -1,12 +1,12 @@
 class EmailVerificationsController < ApplicationController
-  before_action :set_<%= singular_table_name %>, only: :update
+  before_action :set_<%= singular_table_name %>, only: :edit
+
+  def edit
+    @<%= singular_table_name %>.update! verified: true
+  end
 
   def create
     IdentityMailer.with(<%= singular_table_name %>: Current.<%= singular_table_name %>).email_verify_confirmation.deliver_later
-  end
-
-  def update
-    @<%= singular_table_name %>.update! verified: true
   end
 
   private

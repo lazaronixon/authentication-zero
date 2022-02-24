@@ -1,5 +1,5 @@
 class EmailVerificationsController < ApplicationController
-  before_action :set_<%= singular_table_name %>, only: %i[ edit update ]
+  before_action :set_<%= singular_table_name %>, only: :edit
 
   def edit
     @<%= singular_table_name %>.update! verified: true
