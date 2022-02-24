@@ -38,7 +38,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_fixture_file
     if options.fixture && options.fixture_replacement.nil?
       template "#{test_framework}/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
-      template "#{test_framework}/sessions.yml", "test/fixtures/sessions.yml"
     end
   end
 

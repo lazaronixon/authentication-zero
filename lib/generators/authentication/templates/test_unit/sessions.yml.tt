@@ -1,6 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-lazaro_nixon_ios:
-  <%= singular_table_name %>: lazaro_nixon
-  user_agent: Device iOS
-  ip_address: 127.0.0.1
