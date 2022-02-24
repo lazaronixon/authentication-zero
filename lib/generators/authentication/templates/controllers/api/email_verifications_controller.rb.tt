@@ -6,12 +6,16 @@ class EmailVerificationsController < ApplicationController
   end
 
   def update
-    @<%= singular_table_name %>.update! verified: true
+    if Current.<%= singular_table_name %>.email == params[:email]
+      @<%= singular_table_name %>.update! verified: true
+    else
+      render json: { error: "That email verification link is invalid" }, status: :bad_request
+    end
   end
 
   private
     def set_<%= singular_table_name %>
-      @<%= singular_table_name %> = <%= class_name %>.find_signed!(params[:token], purpose: "verify_#{params[:email]}")
+      @<%= singular_table_name %> = <%= class_name %>.find_signed!(params[:token], purpose: params[:email])
     rescue ActiveSupport::MessageVerifier::InvalidSignature
       render json: { error: "That email verification link is invalid" }, status: :bad_request
     end

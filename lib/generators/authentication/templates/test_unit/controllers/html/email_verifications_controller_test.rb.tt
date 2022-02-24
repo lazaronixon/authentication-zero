@@ -3,8 +3,8 @@ require "test_helper"
 class EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
-    @sid = @<%= singular_table_name %>.signed_id(purpose: "verify_#{@<%= singular_table_name %>.email}", expires_in: 20.minutes)
-    @sid_exp = @<%= singular_table_name %>.signed_id(purpose: "verify_#{@<%= singular_table_name %>.email}", expires_in: 0.minutes)
+    @sid = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
+    @sid_exp = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 0.minutes)
 
     @<%= singular_table_name %>.update! verified: false
   end
@@ -24,6 +24,15 @@ class EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not verify email with expired token" do
     get edit_email_verification_url(token: @sid_exp, email: @<%= singular_table_name %>.email)
+
+    assert_redirected_to edit_email_path
+    assert_equal "That email verification link is invalid", flash[:alert]
+  end
+
+  test "should not verify email with previous token" do
+    @<%= singular_table_name %>.update! email: "other_email@hey.com"
+
+    get edit_email_verification_url(token: @sid, email: @<%= singular_table_name %>.email_previously_was)
 
     assert_redirected_to edit_email_path
     assert_equal "That email verification link is invalid", flash[:alert]
