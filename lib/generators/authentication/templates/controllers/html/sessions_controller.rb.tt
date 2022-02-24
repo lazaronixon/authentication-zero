@@ -15,8 +15,8 @@ class SessionsController < ApplicationController
     @<%= singular_table_name %> = <%= class_name %>.find_by_email(params[:email])
 
     if @<%= singular_table_name %>.try(:authenticate, params[:password])
-      @session = @<%= singular_table_name %>.sessions.create!(session_params)
-      cookies.signed.permanent[:session_token] = { value: @session.id, httponly: true }
+      session = @<%= singular_table_name %>.sessions.create!(session_params)
+      cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
 
       redirect_to root_path, notice: "Signed in successfully"
     else

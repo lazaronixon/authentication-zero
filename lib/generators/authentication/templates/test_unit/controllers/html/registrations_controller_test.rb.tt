@@ -11,7 +11,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       post sign_up_url, params: { <%= singular_table_name %>: { email: "lazaronixon@hey.com", password: "secret123", password_confirmation: "secret123" } }
     end
 
-    assert_redirected_to sign_in_url
+    assert_redirected_to root_url
   end
 
   test "should destroy account" do

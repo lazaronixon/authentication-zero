@@ -9,7 +9,10 @@ class RegistrationsController < ApplicationController
     @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
 
     if @<%= singular_table_name %>.save
-      redirect_to sign_in_path, notice: "Welcome! You have signed up successfully"
+      session = @<%= singular_table_name %>.sessions.create!(session_params)
+      cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
+
+      redirect_to root_path, notice: "Welcome! You have signed up successfully"
     else
       render :new, status: :unprocessable_entity
     end
@@ -23,5 +26,9 @@ class RegistrationsController < ApplicationController
   private
     def <%= "#{singular_table_name}_params" %>
       params.require(:<%= singular_table_name %>).permit(:email, :password, :password_confirmation)
+    end
+
+    def session_params
+      { user_agent: request.user_agent, ip_address: request.remote_ip }
     end
 end
