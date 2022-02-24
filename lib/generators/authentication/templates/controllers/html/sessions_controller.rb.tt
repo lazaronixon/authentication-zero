@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
   def create
     @<%= singular_table_name %> = <%= class_name %>.find_by_email(params[:email])
 
-    if @<%= singular_table_name %>.try(:authenticate, params[:password])
+    if @<%= singular_table_name %> && @<%= singular_table_name %>.authenticate(params[:password])
       session = @<%= singular_table_name %>.sessions.create!(session_params)
       cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
 
