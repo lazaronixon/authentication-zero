@@ -1,6 +1,6 @@
 <p style="color: green"><%%= notice %></p>
 
-<h1>Sessions</h1>
+<h1>Devices & Sessions</h1>
 
 <div id="sessions">
   <%% @sessions.each do |session| %>
