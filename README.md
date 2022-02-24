@@ -11,6 +11,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Reset the user password only from verified emails
 - Authentication by cookie (html)
 - Authentication by token (api)
+- Send e-mail verification when change your email
 - Send e-mail when sign-in to your account
 - Manage multiple sessions
 - Cancel my account
@@ -56,11 +57,11 @@ Add these lines to your `app/views/home/index.html.erb`:
 <p>Signed as <%= Current.user.email %></p>
 
 <div>
-  <%= link_to "Change password", edit_passwords_path %>
+  <%= link_to "Change password", edit_password_path %>
 </div>
 
 <div>
-  <%= link_to "Change email", edit_emails_path %>
+  <%= link_to "Change email", edit_email_path %>
 </div>
 
 <div>
@@ -68,7 +69,7 @@ Add these lines to your `app/views/home/index.html.erb`:
 </div>
 
 <div>
-  <%= link_to "Cancel my account & delete my data", new_cancellations_path %>
+  <%= button_to "Cancel my account", registration_path, method: :delete  %>
 </div>
 
 <%= button_to "Log out", Current.session, method: :delete %>

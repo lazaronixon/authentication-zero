@@ -89,16 +89,15 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_mailers
-    directory "erb/identity_mailer", "app/views/identity_mailer"
-    directory "erb/session_mailer", "app/views/session_mailer"
+    directory "mailers", "app/mailers"
   end
 
   def add_routes
     unless options.skip_routes
-      route "resource :cancellation, only: [:new, :create]"
+      route "resource :registration, only: :destroy"
       route "resource :password_reset, only: [:new, :edit, :create, :update]"
       route "resource :password, only: [:edit, :update]"
-      route "resource :email_verification, only: [:new, :edit, :create, :update]"      
+      route "resource :email_verification, only: [:new, :edit, :create, :update]"
       route "resource :email, only: [:edit, :update]"
       route "resources :sessions, only: [:index, :show, :destroy]"
       route "post 'sign_up', to: 'registrations#create'"

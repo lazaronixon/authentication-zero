@@ -8,7 +8,7 @@ A new device just signed in to your account (<%%= @session.<%= singular_table_na
 
 <%%= @session.ip_address %>
 
-If this was you, carry on. We won't notify you about sign-ins from this device again.
+If this was you, carry on. We could notify you about sign-ins from this device again.
 
 If you don't recognize this device, someone else may have accessed your account. You should immediately [change your password]<%%= new_password_reset_url %>.
 
