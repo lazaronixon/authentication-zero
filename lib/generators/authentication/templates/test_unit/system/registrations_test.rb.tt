@@ -19,7 +19,7 @@ class RegistrationsTest < ApplicationSystemTestCase
 
   test "cancelling my account" do
     sign_in_as @<%= singular_table_name %>
-    click_on "Cancel my account"
+    click_on "Cancel my account & delete my data"
 
     assert_text "Your account is closed"
   end

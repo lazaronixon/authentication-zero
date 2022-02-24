@@ -5,6 +5,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 ## Features
 
 - **Simplest code ever (~200 lines of code)**
+- **Inspired by hey.com**
 - Sign up
 - Email and password validations
 - Reset the user password and send reset instructions
@@ -61,16 +62,18 @@ Add these lines to your `app/views/home/index.html.erb`:
 </div>
 
 <div>
-  <%= link_to "Change email", edit_email_path %>
+  <%= link_to "Change email address", edit_email_path %>
 </div>
 
 <div>
-  <%= link_to "Manage Sessions", sessions_path %>
+  <%= link_to "Devices & Sessions", sessions_path %>
 </div>
 
 <div>
-  <%= button_to "Cancel my account", registration_path, method: :delete  %>
+  <%= button_to "Cancel my account & delete my data", registration_path, method: :delete  %>
 </div>
+
+<br>
 
 <%= button_to "Log out", Current.session, method: :delete %>
 ```

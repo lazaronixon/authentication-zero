@@ -8,7 +8,7 @@ class SessionsTest < ApplicationSystemTestCase
   test "visiting the index" do
     sign_in_as @<%= singular_table_name %>
 
-    click_on "Manage Sessions"
+    click_on "Devices & Sessions"
     assert_selector "h1", text: "Sessions"
   end
 

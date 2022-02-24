@@ -6,7 +6,7 @@ class EmailsTest < ApplicationSystemTestCase
   end
 
   test "updating the email" do
-    click_on "Change email"
+    click_on "Change email address"
 
     fill_in "Current password", with: "secret123"
     fill_in "New email", with: "new_email@hey.com"
@@ -18,7 +18,7 @@ class EmailsTest < ApplicationSystemTestCase
   test "sending a verification email" do
     @<%= singular_table_name %>.update! verified: false
 
-    click_on "Change email"
+    click_on "Change email address"
     click_on "Re-send verification email"
 
     assert_text "We sent a verification email to your email address"
