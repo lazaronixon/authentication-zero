@@ -12,8 +12,8 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Reset the user password only from verified emails
 - Authentication by cookie (html)
 - Authentication by token (api)
-- Send e-mail verification when your email is changed
-- Send e-mail when someone has signed-in into your account
+- Send e-mail verification when your email has been changed
+- Send email when someone has logged into your account
 - Manage multiple sessions & devices
 - Cancel my account
 - Log out
