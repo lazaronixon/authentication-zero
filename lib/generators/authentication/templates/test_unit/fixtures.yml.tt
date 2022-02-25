@@ -2,5 +2,5 @@
 
 lazaro_nixon:
   email: lazaronixon@hotmail.com
-  password_digest: <%%= BCrypt::Password.create("Secret123") %>
+  password_digest: <%%= BCrypt::Password.create("Secret123456") %>
   verified: true

@@ -11,7 +11,7 @@ class EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update email" do
-    patch email_url, params: { current_password: "Secret123", <%= singular_table_name %>: { email: "new_email@hey.com" } }
+    patch email_url, params: { current_password: "Secret123456", <%= singular_table_name %>: { email: "new_email@hey.com" } }
     assert_redirected_to root_path
   end
 
@@ -23,6 +23,6 @@ class EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123" }); <%= singular_table_name %>
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }); <%= singular_table_name %>
   end
 end

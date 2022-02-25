@@ -6,7 +6,7 @@ class <%= class_name %> < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
 
-  validates_length_of :password, minimum: 8, allow_blank: true
+  validates_length_of :password, minimum: 12, allow_blank: true
   validates_format_of :password, with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, allow_blank: true, message: "might easily be guessed"
 
   before_validation do

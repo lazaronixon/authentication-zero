@@ -8,7 +8,7 @@ class EmailsTest < ApplicationSystemTestCase
   test "updating the email" do
     click_on "Change email address"
 
-    fill_in "Current password", with: "Secret123"
+    fill_in "Current password", with: "Secret123456"
     fill_in "New email", with: "new_email@hey.com"
     click_on "Save changes"
 
@@ -27,7 +27,7 @@ class EmailsTest < ApplicationSystemTestCase
   def sign_in_as(<%= singular_table_name %>)
     visit sign_in_url
     fill_in :email, with: <%= singular_table_name %>.email
-    fill_in :password, with: "Secret123"
+    fill_in :password, with: "Secret123456"
     click_on "Sign in"
 
     return <%= singular_table_name %>
