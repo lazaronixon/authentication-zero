@@ -8,7 +8,6 @@ class EmailsTest < ApplicationSystemTestCase
   test "updating the email" do
     click_on "Change email address"
 
-    fill_in "Current password", with: "Secret123456"
     fill_in "New email", with: "new_email@hey.com"
     click_on "Save changes"
 

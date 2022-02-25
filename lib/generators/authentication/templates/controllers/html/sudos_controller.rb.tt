@@ -1,0 +1,19 @@
+class SudosController < ApplicationController
+  before_action :set_session, only: :create
+
+  def new
+  end
+
+  def create
+    if @session.<%= singular_table_name %>.authenticate(params[:password])
+      @session.update!(sudo_at: Time.current); redirect_to(params[:proceed_to_url])
+    else
+      redirect_to new_sudo_path(proceed_to_url: params[:proceed_to_url]), alert: "The password you entered is incorrect"
+    end
+  end
+
+  private
+    def set_session
+      @session = Current.session
+    end
+end

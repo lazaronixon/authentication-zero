@@ -47,27 +47,37 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
       before_action :authenticate
 
-      private
-        def authenticate
-          if session = authenticate_with_http_token { |token, _| Session.find_signed(token) }
-            Current.session = session
-          else
-            request_http_token_authentication
-          end
+      def authenticate
+        if session = authenticate_with_http_token { |token, _| Session.find_signed(token) }
+          Current.session = session
+        else
+          request_http_token_authentication
         end
+      end
+
+      def require_sudo
+        if Time.current > 30.minutes.after(Current.session.sudo_at)
+          render json: { error: "Enter your password to continue" }, status: :forbidden
+        end
+      end
     CODE
 
     html_code = <<~CODE
       before_action :authenticate
 
-      private
-        def authenticate
-          if session = Session.find_by_id(cookies.signed[:session_token])
-            Current.session = session
-          else
-            redirect_to sign_in_path
-          end
+      def authenticate
+        if session = Session.find_by_id(cookies.signed[:session_token])
+          Current.session = session
+        else
+          redirect_to sign_in_path
         end
+      end
+
+      def require_sudo
+        if Time.current > 30.minutes.after(Current.session.sudo_at)
+          redirect_to new_sudo_path(proceed_to_url: request.url)
+        end
+      end
     CODE
 
     inject_code = options.api? ? api_code : html_code
@@ -93,6 +103,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_routes
     unless options.skip_routes
+      route "resource :sudo, only: [:new, :create]"
       route "resource :registration, only: :destroy"
       route "resource :password_reset, only: [:new, :edit, :create, :update]"
       route "resource :password, only: [:edit, :update]"

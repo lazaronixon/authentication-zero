@@ -29,6 +29,6 @@ class RegistrationsController < ApplicationController
     end
 
     def session_params
-      { user_agent: request.user_agent, ip_address: request.remote_ip }
+      { user_agent: request.user_agent, ip_address: request.remote_ip, sudo_at: Time.current }
     end
 end

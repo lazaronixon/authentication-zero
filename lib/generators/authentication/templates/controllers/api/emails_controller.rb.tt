@@ -1,10 +1,9 @@
 class EmailsController < ApplicationController
+  before_action :require_sudo
   before_action :set_<%= singular_table_name %>
 
   def update
-    if !@<%= singular_table_name %>.authenticate(params[:current_password])
-      render json: { error: "The current password you entered is incorrect" }, status: :bad_request
-    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
+    if @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
       render json: @<%= singular_table_name %>
     else
       render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity

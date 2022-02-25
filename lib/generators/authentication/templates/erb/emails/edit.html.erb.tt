@@ -22,11 +22,6 @@
   <%% end %>
 
   <div>
-    <%%= label_tag :current_password, nil, style: "display: block" %>
-    <%%= password_field_tag :current_password, nil, autofocus: true, autocomplete: "current-password" %>
-  </div>
-
-  <div>
     <%%= form.label :email, "New email", style: "display: block" %>
     <%%= form.email_field :email %>
   </div>

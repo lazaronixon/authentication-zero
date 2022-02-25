@@ -5,6 +5,8 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.string :user_agent
       t.string :ip_address
 
+      t.datetime :sudo_at, null: false
+
       t.timestamps
     end
   end
