@@ -1,12 +1,13 @@
 class EmailsController < ApplicationController
   before_action :set_<%= singular_table_name %>
-  before_action :validate_current_password, only: :update
 
   def edit
   end
 
   def update
-    if @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
+    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+      redirect_to edit_email_path, alert: "The current password you entered is incorrect"
+    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
       redirect_to root_path, notice: "Your email has been changed"
     else
       render :edit, status: :unprocessable_entity
@@ -20,11 +21,5 @@ class EmailsController < ApplicationController
 
     def <%= "#{singular_table_name}_params" %>
       params.require(:<%= singular_table_name %>).permit(:email)
-    end
-
-    def validate_current_password
-      unless @<%= singular_table_name %>.authenticate(params[:current_password])
-        redirect_to edit_email_path, alert: "The current password you entered is incorrect"
-      end
     end
 end
