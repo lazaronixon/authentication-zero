@@ -8,7 +8,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should sign up" do
     assert_difference("<%= class_name %>.count") do
-      post sign_up_url, params: { <%= singular_table_name %>: { email: "lazaronixon@hey.com", password: "secret123", password_confirmation: "secret123" } }
+      post sign_up_url, params: { <%= singular_table_name %>: { email: "lazaronixon@hey.com", password: "Secret123", password_confirmation: "Secret123" } }
     end
 
     assert_redirected_to root_url
@@ -25,6 +25,6 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "secret123" }); <%= singular_table_name %>
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123" }); <%= singular_table_name %>
   end
 end
