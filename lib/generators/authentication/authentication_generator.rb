@@ -12,7 +12,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :system_tests, type: :string, desc: "Skip system test files"
 
   class_option :skip_routes, type: :boolean, default: false
-  class_option :template_engine, type: :string, desc: "Template engine to be invoked"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -93,7 +92,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       directory "erb/identity_mailer", "app/views/identity_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
     else
-      directory "#{template_engine}", "app/views"
+      directory "erb", "app/views"
     end
   end
 
@@ -125,10 +124,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   private
     def format_folder
       options.api ? "api" : "html"
-    end
-
-    def template_engine
-      options.template_engine
     end
 
     def test_framework
