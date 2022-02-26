@@ -11,7 +11,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :fixture, type: :boolean, default: true
   class_option :system_tests, type: :string, desc: "Skip system test files"
 
-  class_option :skip_routes, type: :boolean
+  class_option :skip_routes, type: :boolean, default: false
   class_option :template_engine, type: :string, desc: "Template engine to be invoked"
 
   source_root File.expand_path("templates", __dir__)
