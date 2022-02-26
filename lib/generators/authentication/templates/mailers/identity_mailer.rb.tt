@@ -1,14 +1,14 @@
 class IdentityMailer < ApplicationMailer
   def password_reset_provision
     @<%= singular_table_name %> = params[:<%= singular_table_name %>]
-    @signed_id = params[:<%= singular_table_name %>].signed_id(purpose: :password_reset, expires_in: 20.minutes)
+    @signed_id = @<%= singular_table_name %>.signed_id(purpose: :password_reset, expires_in: 20.minutes)
 
     mail to: @<%= singular_table_name %>.email, subject: "Reset your password"
   end
 
   def email_verify_confirmation
     @<%= singular_table_name %> = params[:<%= singular_table_name %>]
-    @signed_id = params[:<%= singular_table_name %>].signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
+    @signed_id = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
 
     mail to: @<%= singular_table_name %>.email, subject: "Verify your email"
   end
