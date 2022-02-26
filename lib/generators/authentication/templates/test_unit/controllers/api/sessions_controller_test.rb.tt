@@ -23,7 +23,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not sign in with wrong credentials" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "wrong_password" }
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong123" }
     assert_response :unauthorized
   end
 

@@ -6,8 +6,7 @@ class RegistrationsTest < ApplicationSystemTestCase
   end
 
   test "signing up" do
-    visit sign_in_url
-    click_on "Sign up"
+    visit sign_up_url
 
     fill_in "Email", with: "lazaronixon@hey.com"
     fill_in "Password", with: "Secret654321"
@@ -19,8 +18,8 @@ class RegistrationsTest < ApplicationSystemTestCase
 
   test "cancelling my account" do
     sign_in_as @<%= singular_table_name %>
-    click_on "Cancel my account & delete my data"
 
+    click_on "Cancel my account & delete my data"
     assert_text "Your account is closed"
   end
 
