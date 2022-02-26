@@ -8,10 +8,11 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - **Inspired by hey.com**
 - Sign up
 - Email and password validations
-- Reset the user password and send reset instructions
-- Reset the user password only from verified emails
 - Authentication by cookie (html)
 - Authentication by token (api)
+- Ask password before sensitive data changes, aka: sudo
+- Reset the user password and send reset instructions
+- Reset the user password only from verified emails
 - Send e-mail verification when your email has been changed
 - Send email when someone has logged into your account
 - Manage multiple sessions & devices
