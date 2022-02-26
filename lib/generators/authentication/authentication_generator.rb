@@ -55,7 +55,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       end
 
       def require_sudo
-        if Time.current > 30.minutes.after(Current.session.sudo_at)
+        if Current.session.sudo_at < 30.minutes.ago
           render json: { error: "Enter your password to continue" }, status: :forbidden
         end
       end
@@ -73,7 +73,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       end
 
       def require_sudo
-        if Time.current > 30.minutes.after(Current.session.sudo_at)
+        if Current.session.sudo_at < 30.minutes.ago
           redirect_to new_sudo_path(proceed_to_url: request.url)
         end
       end
