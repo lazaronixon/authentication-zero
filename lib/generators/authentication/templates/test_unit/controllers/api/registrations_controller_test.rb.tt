@@ -20,6 +20,6 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }, headers: { "User-Agent" => "App iOS" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
   end
 end

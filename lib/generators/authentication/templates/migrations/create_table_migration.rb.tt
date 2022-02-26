@@ -1,10 +1,10 @@
 class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
   def change
     create_table :<%= table_name %> do |t|
-      t.string :email, null: false
+      t.string :email,           null: false
       t.string :password_digest, null: false
 
-      t.boolean :verified, default: false
+      t.boolean :verified, null: false, default: false
 
       t.timestamps
     end

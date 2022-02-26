@@ -39,6 +39,6 @@ class EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }); <%= singular_table_name %>
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }, headers: { "User-Agent" => "Firefox" }); <%= singular_table_name %>
   end
 end
