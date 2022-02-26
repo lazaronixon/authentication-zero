@@ -10,7 +10,7 @@ class SudosTest < ApplicationSystemTestCase
     fill_in :password, with: "Secret123456"
     click_on "Continue"
 
-    assert_selector "h1", text: "Enter your password to continue"
+    assert_selector "h1", text: "Change your password"
   end
 
   def sign_in_as(<%= singular_table_name %>)
