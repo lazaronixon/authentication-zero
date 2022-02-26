@@ -1,4 +1,6 @@
 class EmailVerificationsController < ApplicationController
+  skip_before_action :authenticate, only: :edit
+
   before_action :set_<%= singular_table_name %>, only: :edit
 
   def edit
