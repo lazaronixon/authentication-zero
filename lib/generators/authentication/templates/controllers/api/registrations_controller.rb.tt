@@ -2,12 +2,12 @@ class RegistrationsController < ApplicationController
   skip_before_action :authenticate, only: :create
 
   def create
-    @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
+    <%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
 
-    if @<%= singular_table_name %>.save
-      render json: @<%= singular_table_name %>, status: :created
+    if <%= singular_table_name %>.save
+      render json: <%= singular_table_name %>, status: :created
     else
-      render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity
+      render json: <%= singular_table_name %>.errors, status: :unprocessable_entity
     end
   end
 

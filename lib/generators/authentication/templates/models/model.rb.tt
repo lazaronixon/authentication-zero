@@ -19,7 +19,7 @@ class <%= class_name %> < ApplicationRecord
 
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).destroy_all
-  end  
+  end
 
   after_create_commit do
     IdentityMailer.with(<%= singular_table_name %>: self).email_verify_confirmation.deliver_later
