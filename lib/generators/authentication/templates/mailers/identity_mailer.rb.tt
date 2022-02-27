@@ -8,7 +8,7 @@ class IdentityMailer < ApplicationMailer
 
   def email_verify_confirmation
     @<%= singular_table_name %> = params[:<%= singular_table_name %>]
-    @signed_id = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
+    @signed_id = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 3.days)
 
     mail to: @<%= singular_table_name %>.email, subject: "Verify your email"
   end
