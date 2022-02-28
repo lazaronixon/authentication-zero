@@ -94,7 +94,7 @@ $ rails generate authentication user
 
 Then run `bundle install` again!
 
-#### --lockable
+#### --lockable (optional)
 
 Run `rails kredis:install`, to add a default configuration at `config/redis/shared.yml`.
 
