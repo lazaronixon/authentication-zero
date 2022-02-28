@@ -1,3 +1,7 @@
+## Authentication Zero 2.5.0 (February 28, 2022) ##
+
+* Implemented pwned
+
 ## Authentication Zero 2.4.0 (February 28, 2022) ##
 
 * Implemented lockable
