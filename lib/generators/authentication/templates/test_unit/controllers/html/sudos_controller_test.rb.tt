@@ -11,16 +11,16 @@ class SudosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sudo" do
-    post sudo_url, params: { password: "Secret123456", proceed_to_url: edit_password_url }
+    post sudo_url, params: { password: "Secret1*3*5*", proceed_to_url: edit_password_url }
     assert_redirected_to edit_password_url
   end
 
   test "should not sudo with wrong password" do
-    post sudo_url, params: { password: "SecretWrong123", proceed_to_url: edit_password_url }
+    post sudo_url, params: { password: "SecretWrong1*3", proceed_to_url: edit_password_url }
     assert_redirected_to new_sudo_url(proceed_to_url: edit_password_url)
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }, headers: { "User-Agent" => "Firefox" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "Firefox" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
   end
 end

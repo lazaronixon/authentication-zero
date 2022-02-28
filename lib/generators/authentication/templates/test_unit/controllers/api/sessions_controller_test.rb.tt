@@ -16,14 +16,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign in" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "Secret123456" }, headers: { "User-Agent" => "App iOS" }
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "App iOS" }
 
     assert_enqueued_email_with SessionMailer, :signed_in_notification, args: { session: @<%= singular_table_name %>.sessions.last }
     assert_response :created
   end
 
   test "should not sign in with wrong credentials" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong123" }, headers: { "User-Agent" => "App iOS" }
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong1*3" }, headers: { "User-Agent" => "App iOS" }
     assert_response :unauthorized
   end
 
@@ -33,6 +33,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret123456" }, headers: { "User-Agent" => "App iOS" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "App iOS" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
   end
 end

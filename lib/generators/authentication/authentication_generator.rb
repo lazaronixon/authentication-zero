@@ -5,9 +5,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   class_option :api, type: :boolean, desc: "Generates API authentication"
 
-  class_option :lockable, type: :boolean, desc: "Generates password reset locking"
+  class_option :lockable, type: :boolean, desc: "Add password reset locking"
 
-  class_option :skip_routes, type: :boolean
+  class_option :pwned, type: :boolean, desc: "Add pwned password validation"
 
   class_option :migration, type: :boolean, default: true
   class_option :test_framework, type: :string, desc: "Test framework to be invoked"
@@ -19,10 +19,11 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   source_root File.expand_path("templates", __dir__)
 
-  def add_bcrypt
+  def add_gems
     uncomment_lines "Gemfile", /"bcrypt"/
     uncomment_lines "Gemfile", /"redis"/  if options.lockable
     uncomment_lines "Gemfile", /"kredis"/ if options.lockable
+    gem "pwned", comment: "Use pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned
   end
 
   def create_migrations

@@ -9,8 +9,8 @@ class RegistrationsTest < ApplicationSystemTestCase
     visit sign_up_url
 
     fill_in "Email", with: "lazaronixon@hey.com"
-    fill_in "Password", with: "Secret654321"
-    fill_in "Password confirmation", with: "Secret654321"
+    fill_in "Password", with: "Secret6*4*2*"
+    fill_in "Password confirmation", with: "Secret6*4*2*"
     click_on "Sign up"
 
     assert_text "Welcome! You have signed up successfully"
@@ -26,7 +26,7 @@ class RegistrationsTest < ApplicationSystemTestCase
   def sign_in_as(<%= singular_table_name %>)
     visit sign_in_url
     fill_in :email, with: <%= singular_table_name %>.email
-    fill_in :password, with: "Secret123456"
+    fill_in :password, with: "Secret1*3*5*"
     click_on "Sign in"
 
     assert_current_path root_path

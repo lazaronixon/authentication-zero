@@ -26,7 +26,7 @@ class EmailsTest < ApplicationSystemTestCase
   def sign_in_as(<%= singular_table_name %>)
     visit sign_in_url
     fill_in :email, with: <%= singular_table_name %>.email
-    fill_in :password, with: "Secret123456"
+    fill_in :password, with: "Secret1*3*5*"
     click_on "Sign in"
 
     assert_current_path root_path
