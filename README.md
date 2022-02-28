@@ -8,6 +8,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - **Inspired by hey.com**
 - Sign up
 - Email and password validations
+- Checks if a password has been found in any data breach (--pwned)
 - Authentication by cookie
 - Authentication by token (--api)
 - Ask password before sensitive data changes, aka: sudo
