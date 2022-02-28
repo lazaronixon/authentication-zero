@@ -5,18 +5,24 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   class_option :api, type: :boolean, desc: "Generates API authentication"
 
+  class_option :lockable, type: :boolean, desc: "Generates password reset locking"
+
+  class_option :skip_routes, type: :boolean
+
   class_option :migration, type: :boolean, default: true
   class_option :test_framework, type: :string, desc: "Test framework to be invoked"
 
   class_option :fixture, type: :boolean, default: true
   class_option :system_tests, type: :string, desc: "Skip system test files"
 
-  class_option :skip_routes, type: :boolean, default: false
+  class_option :skip_routes, type: :boolean
 
   source_root File.expand_path("templates", __dir__)
 
   def add_bcrypt
-    uncomment_lines "Gemfile", /bcrypt/
+    uncomment_lines "Gemfile", /"bcrypt"/
+    uncomment_lines "Gemfile", /"redis"/  if options.lockable
+    uncomment_lines "Gemfile", /"kredis"/ if options.lockable
   end
 
   def create_migrations
@@ -30,6 +36,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     template "models/model.rb", "app/models/#{file_name}.rb"
     template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
+    template "models/locking.rb", "app/models/locking.rb" if options.lockable
   end
 
   hook_for :fixture_replacement

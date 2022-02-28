@@ -8,13 +8,14 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - **Inspired by hey.com**
 - Sign up
 - Email and password validations
-- Authentication by cookie (html)
-- Authentication by token (api)
+- Authentication by cookie
+- Authentication by token (--api)
 - Ask password before sensitive data changes, aka: sudo
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
-- Send e-mail verification when your email has been changed
-- Send email when someone has logged into your account
+- Lock sending reset password email after many attempts (--lockable)
+- Send e-mail notification when your email has been changed
+- Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
 - Cancel my account
 - Log out
@@ -92,6 +93,10 @@ $ rails generate authentication user
 ```
 
 Then run `bundle install` again!
+
+#### --lockable
+
+Run `rails kredis:install`, to add a default configuration at `config/redis/shared.yml`.
 
 ## Development
 
