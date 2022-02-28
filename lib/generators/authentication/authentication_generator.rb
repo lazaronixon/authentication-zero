@@ -26,6 +26,10 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     gem "pwned", comment: "Use pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned
   end
 
+  def create_configuartions
+     copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable
+  end
+
   def create_migrations
     if options.migration
       migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
