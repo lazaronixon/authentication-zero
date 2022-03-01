@@ -3,9 +3,10 @@ require "rails/generators/active_record"
 class AuthenticationGenerator < Rails::Generators::NamedBase
   include ActiveRecord::Generators::Migration
 
-  class_option :api,      type: :boolean, desc: "Generates API authentication"
-  class_option :lockable, type: :boolean, desc: "Add password reset locking"
-  class_option :pwned,    type: :boolean, desc: "Add pwned password validation"
+  class_option :api,       type: :boolean, desc: "Generates API authentication"
+  class_option :pwned,     type: :boolean, desc: "Add pwned password validation"
+  class_option :lockable,  type: :boolean, desc: "Add password reset locking"
+  class_option :ratelimit, type: :boolean, desc: "Add request rate limiting"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -13,11 +14,21 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     uncomment_lines "Gemfile", /"bcrypt"/
     uncomment_lines "Gemfile", /"redis"/  if options.lockable?
     uncomment_lines "Gemfile", /"kredis"/ if options.lockable?
-    gem "pwned", comment: "Use pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned?
+    gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned?
+    gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests" if options.ratelimit?
   end
 
-  def create_config_files
+  def create_configuration_files
      copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
+  end
+
+  def add_environment_configurations
+     ratelimit_code = <<~CODE
+      # Rate limit general requests by IP address in a rate of 1000 requests per hour
+      config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.hour], logger: Rails.logger, redis: Redis.new) { |env| ActionDispatch::Request.new(env).ip }
+    CODE
+
+    environment ratelimit_code, env: "production" if options.ratelimit?
   end
 
   def create_migrations
