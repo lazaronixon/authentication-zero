@@ -15,7 +15,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     uncomment_lines "Gemfile", /"redis"/  if options.lockable?
     uncomment_lines "Gemfile", /"kredis"/ if options.lockable?
     gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned?
-    gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests" if options.ratelimit?
+    gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests [https://github.com/jeremy/rack-ratelimit]" if options.ratelimit?
   end
 
   def create_configuration_files
@@ -25,7 +25,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def add_environment_configurations
      ratelimit_code = <<~CODE
       # Rate limit general requests by IP address in a rate of 1000 requests per hour
-      config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.hour], logger: Rails.logger, redis: Redis.new) { |env| ActionDispatch::Request.new(env).ip }
+      config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.hour], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
     CODE
 
     environment ratelimit_code, env: "production" if options.ratelimit?
