@@ -3,53 +3,37 @@ require "rails/generators/active_record"
 class AuthenticationGenerator < Rails::Generators::NamedBase
   include ActiveRecord::Generators::Migration
 
-  class_option :api, type: :boolean, desc: "Generates API authentication"
-
+  class_option :api,      type: :boolean, desc: "Generates API authentication"
   class_option :lockable, type: :boolean, desc: "Add password reset locking"
-
-  class_option :pwned, type: :boolean, desc: "Add pwned password validation"
-
-  class_option :migration, type: :boolean, default: true
-  class_option :test_framework, type: :string, desc: "Test framework to be invoked"
-
-  class_option :fixture, type: :boolean, default: true
-  class_option :system_tests, type: :string, desc: "Skip system test files"
-
-  class_option :skip_routes, type: :boolean
+  class_option :pwned,    type: :boolean, desc: "Add pwned password validation"
 
   source_root File.expand_path("templates", __dir__)
 
   def add_gems
     uncomment_lines "Gemfile", /"bcrypt"/
-    uncomment_lines "Gemfile", /"redis"/  if options.lockable
-    uncomment_lines "Gemfile", /"kredis"/ if options.lockable
-    gem "pwned", comment: "Use pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned
+    uncomment_lines "Gemfile", /"redis"/  if options.lockable?
+    uncomment_lines "Gemfile", /"kredis"/ if options.lockable?
+    gem "pwned", comment: "Use pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned?
   end
 
-  def create_configuartions
-     copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable
+  def create_config_files
+     copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
   end
 
   def create_migrations
-    if options.migration
-      migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
-      migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
-    end
+    migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
+    migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
   end
 
   def create_models
     template "models/model.rb", "app/models/#{file_name}.rb"
     template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
-    template "models/locking.rb", "app/models/locking.rb" if options.lockable
+    template "models/locking.rb", "app/models/locking.rb" if options.lockable?
   end
 
-  hook_for :fixture_replacement
-
   def create_fixture_file
-    if options.fixture && options.fixture_replacement.nil?
-      template "#{test_framework}/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
-    end
+    template "test_unit/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
   end
 
   def add_application_controller_methods
@@ -100,7 +84,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_views
-    if options.api
+    if options.api?
       directory "erb/identity_mailer", "app/views/identity_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
     else
@@ -113,40 +97,26 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_routes
-    unless options.skip_routes
-      route "resource :sudo, only: [:new, :create]"
-      route "resource :registration, only: :destroy"
-      route "resource :password_reset, only: [:new, :edit, :create, :update]"
-      route "resource :password, only: [:edit, :update]"
-      route "resource :email_verification, only: [:edit, :create]"
-      route "resource :email, only: [:edit, :update]"
-      route "resources :sessions, only: [:index, :show, :destroy]"
-      route "post 'sign_up', to: 'registrations#create'"
-      route "get 'sign_up', to: 'registrations#new'" unless options.api?
-      route "post 'sign_in', to: 'sessions#create'"
-      route "get 'sign_in', to: 'sessions#new'" unless options.api?
-    end
+    route "resource :sudo, only: [:new, :create]"
+    route "resource :registration, only: :destroy"
+    route "resource :password_reset, only: [:new, :edit, :create, :update]"
+    route "resource :password, only: [:edit, :update]"
+    route "resource :email_verification, only: [:edit, :create]"
+    route "resource :email, only: [:edit, :update]"
+    route "resources :sessions, only: [:index, :show, :destroy]"
+    route "post 'sign_up', to: 'registrations#create'"
+    route "get 'sign_up', to: 'registrations#new'" unless options.api?
+    route "post 'sign_in', to: 'sessions#create'"
+    route "get 'sign_in', to: 'sessions#new'" unless options.api?
   end
 
   def create_test_files
-    directory "#{test_framework}/controllers/#{format_folder}", "test/controllers"
-    directory "#{system_tests}/system", "test/system" if system_tests?
+    directory "test_unit/controllers/#{format_folder}", "test/controllers"
+    directory "test_unit/system", "test/system" unless options.api?
   end
 
   private
     def format_folder
-      options.api ? "api" : "html"
-    end
-
-    def test_framework
-      options.test_framework
-    end
-
-    def system_tests
-      options.system_tests
-    end
-
-    def system_tests?
-      !options.api? && options.system_tests
+      options.api? ? "api" : "html"
     end
 end
