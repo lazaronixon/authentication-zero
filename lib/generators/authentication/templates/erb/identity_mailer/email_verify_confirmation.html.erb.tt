@@ -4,7 +4,7 @@
 
 <p><strong>You must hit the link below to confirm that you received this email.</strong></p>
 
-<%%= link_to "Yes, use this email for my account", edit_email_verification_url(token: @signed_id, email: @<%= singular_table_name %>.email) %>
+<%%= link_to "Yes, use this email for my account", edit_identity_email_verification_url(token: @signed_id, email: @<%= singular_table_name %>.email) %>
 
 <hr>
 

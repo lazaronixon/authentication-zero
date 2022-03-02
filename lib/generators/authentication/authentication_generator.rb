@@ -95,7 +95,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
       def require_sudo
         if Current.session.sudo_at < 30.minutes.ago
-          redirect_to new_sudo_path(proceed_to_url: request.url)
+          redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
         end
       end
     CODE
@@ -106,7 +106,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_controllers
     directory "controllers/#{format_folder}", "app/controllers"
-    directory "controllers/omniauth", "app/controllers" if omniauth?
+    template  "controllers/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauth?
   end
 
   def create_views
@@ -124,18 +124,18 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_routes
     if omniauth?
-      route "post '/auth/:provider/callback', to: 'omniauth_sessions#create'"
-      route "get '/auth/:provider/callback', to: 'omniauth_sessions#create'"
-      route "get '/auth/failure', to: 'omniauth_sessions#failure'"
+      route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
+      route "get '/auth/:provider/callback', to: 'sessions/omniauth#create'"
+      route "get '/auth/failure', to: 'sessions/omniauth#failure'"
     end
 
-    route "resource :sudo, only: [:new, :create]"
-    route "resource :registration, only: :destroy"
-    route "resource :password_reset, only: [:new, :edit, :create, :update]"
-    route "resource :password, only: [:edit, :update]"
-    route "resource :email_verification, only: [:edit, :create]"
-    route "resource :email, only: [:edit, :update]"
+    route "resource :password_reset, only: [:new, :edit, :create, :update]", namespace: :identity
+    route "resource :email_verification, only: [:edit, :create]", namespace: :identity
+    route "resource :email, only: [:edit, :update]", namespace: :identity
+    route "resource :sudo, only: [:new, :create]", namespace: :sessions
     route "resources :sessions, only: [:index, :show, :destroy]"
+    route "resource :password, only: [:edit, :update]"
+    route "resource :registration, only: :destroy"
     route "post 'sign_up', to: 'registrations#create'"
     route "get 'sign_up', to: 'registrations#new'" unless options.api?
     route "post 'sign_in', to: 'sessions#create'"

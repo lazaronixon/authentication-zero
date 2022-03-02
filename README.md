@@ -67,7 +67,7 @@ Add these lines to your `app/views/home/index.html.erb`:
 </div>
 
 <div>
-  <%= link_to "Change email address", edit_email_path %>
+  <%= link_to "Change email address", edit_identity_email_path %>
 </div>
 
 <div>

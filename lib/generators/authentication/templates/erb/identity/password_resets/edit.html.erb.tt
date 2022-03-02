@@ -1,0 +1,32 @@
+<h1>Reset your password</h1>
+
+<%%= form_with(model: @<%= model_resource_name %>, url: identity_password_reset_path) do |form| %>
+  <%% if @<%= singular_table_name %>.errors.any? %>
+    <div style="color: red">
+      <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+      <ul>
+        <%% @<%= singular_table_name %>.errors.each do |error| %>
+          <li><%%= error.full_message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+  <%%= hidden_field_tag :token, params[:token] %>
+
+  <div>
+    <%%= form.label :password, "New password", style: "display: block" %>
+    <%%= form.password_field :password, autofocus: true, autocomplete: "new-password" %>
+    <div>12 characters minimum.</div>
+  </div>
+
+  <div>
+    <%%= form.label :password_confirmation, "Confirm new password", style: "display: block" %>
+    <%%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div>
+    <%%= form.submit "Save changes" %>
+  </div>
+<%% end %>

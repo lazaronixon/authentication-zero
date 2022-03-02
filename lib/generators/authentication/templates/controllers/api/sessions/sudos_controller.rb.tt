@@ -1,0 +1,11 @@
+class Sessions::SudosController < ApplicationController
+  def create
+    session = Current.session
+
+    if session.<%= singular_table_name %>.authenticate(params[:password])
+      session.update! sudo_at: Time.current
+    else
+      render json: { error: "The password you entered is incorrect" }, status: :bad_request
+    end
+  end
+end
