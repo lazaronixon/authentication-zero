@@ -1,3 +1,7 @@
+## Authentication Zero 2.8.0 (March 2, 2022) ##
+
+* Organize controllers in identity and sessions namespaces
+
 ## Authentication Zero 2.7.0 (March 2, 2022) ##
 
 * Implemented omniauth
