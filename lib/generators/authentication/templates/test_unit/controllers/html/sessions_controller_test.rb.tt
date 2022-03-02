@@ -33,17 +33,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "That email or password is incorrect", flash[:alert]
 
     get root_url
-    assert_redirected_to sign_in_path
+    assert_redirected_to sign_in_url
   end
 
   test "should sign out" do
     sign_in_as @<%= singular_table_name %>
 
     delete session_url(@<%= singular_table_name %>.sessions.last)
-    assert_redirected_to sessions_path
+    assert_redirected_to sessions_url
 
     follow_redirect!
-    assert_redirected_to sign_in_path
+    assert_redirected_to sign_in_url
   end
 
   def sign_in_as(<%= singular_table_name %>)

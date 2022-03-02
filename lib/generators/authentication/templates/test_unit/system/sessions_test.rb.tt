@@ -27,7 +27,7 @@ class SessionsTest < ApplicationSystemTestCase
     fill_in :password, with: "Secret1*3*5*"
     click_on "Sign in"
 
-    assert_current_path root_path
+    assert_current_url root_url
     return <%= singular_table_name %>
   end
 end
