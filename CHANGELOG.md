@@ -1,3 +1,7 @@
+## Authentication Zero 2.7.0 (March 2, 2022) ##
+
+* Implemented omniauth
+
 ## Authentication Zero 2.6.0 (March 1, 2022) ##
 
 * Implemented ratelimit
