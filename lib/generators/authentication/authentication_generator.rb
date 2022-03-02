@@ -7,6 +7,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :pwned,     type: :boolean, desc: "Add pwned password validation"
   class_option :lockable,  type: :boolean, desc: "Add password reset locking"
   class_option :ratelimit, type: :boolean, desc: "Add request rate limiting"
+  class_option :omniauth,  type: :boolean, desc: "Add social login support"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -14,12 +15,24 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     uncomment_lines "Gemfile", /"bcrypt"/
     uncomment_lines "Gemfile", /"redis"/  if options.lockable?
     uncomment_lines "Gemfile", /"kredis"/ if options.lockable?
-    gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]" if options.pwned?
-    gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests [https://github.com/jeremy/rack-ratelimit]" if options.ratelimit?
+
+    if options.pwned?
+      gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]"
+    end
+
+    if options.ratelimit?
+      gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests [https://github.com/jeremy/rack-ratelimit]"
+    end
+
+    if omniauth?
+      gem "omniauth", comment: "Use OmniAuth to support multi-provider authentication [https://github.com/omniauth/omniauth]"
+      gem "omniauth-rails_csrf_protection", comment: "Provides a mitigation against CVE-2015-9284 [https://github.com/cookpad/omniauth-rails_csrf_protection]"
+    end
   end
 
   def create_configuration_files
      copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
+     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauth?
   end
 
   def add_environment_configurations
@@ -34,6 +47,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_migrations
     migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
+    migration_template "migrations/add_omniauth_migration.rb", "#{db_migrate_path}/add_omniauth_to_#{table_name}.rb" if omniauth?
   end
 
   def create_models
@@ -92,6 +106,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_controllers
     directory "controllers/#{format_folder}", "app/controllers"
+    directory "controllers/omniauth", "app/controllers" if omniauth?
   end
 
   def create_views
@@ -108,6 +123,12 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_routes
+    if omniauth?
+      route "post '/auth/:provider/callback', to: 'omniauth_sessions#create'"
+      route "get '/auth/:provider/callback', to: 'omniauth_sessions#create'"
+      route "get '/auth/failure', to: 'omniauth_sessions#failure'"
+    end
+
     route "resource :sudo, only: [:new, :create]"
     route "resource :registration, only: :destroy"
     route "resource :password_reset, only: [:new, :edit, :create, :update]"
@@ -129,5 +150,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   private
     def format_folder
       options.api? ? "api" : "html"
+    end
+
+    def omniauth?
+      options.omniauth? && !options.api?
     end
 end

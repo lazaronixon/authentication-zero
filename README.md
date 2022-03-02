@@ -11,6 +11,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Checks if a password has been found in any data breach (--pwned)
 - Authentication by cookie
 - Authentication by token (--api)
+- Social Login with OmniAuth (--omniauth)
 - Ask password before sensitive data changes, aka: sudo
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails

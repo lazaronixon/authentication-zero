@@ -1,0 +1,8 @@
+class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
+  def change
+    add_column :<%= table_name %>, :provider, :string
+    add_column :<%= table_name %>, :uid, :string
+  end
+
+  add_index :<%= table_name %>, [:provider, :uid], unique: true
+end
