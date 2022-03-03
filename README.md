@@ -63,11 +63,11 @@ Add these lines to your `app/views/home/index.html.erb`:
 <p>Signed as <%= Current.user.email %></p>
 
 <div>
-  <%= link_to "Change password", edit_password_path %>
+  <%= link_to "Change email address", edit_identity_email_path %>
 </div>
 
 <div>
-  <%= link_to "Change email address", edit_identity_email_path %>
+  <%= link_to "Change password", edit_password_path %>
 </div>
 
 <div>
