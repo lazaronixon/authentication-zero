@@ -3,11 +3,11 @@ require "rails/generators/active_record"
 class AuthenticationGenerator < Rails::Generators::NamedBase
   include ActiveRecord::Generators::Migration
 
-  class_option :api,       type: :boolean, desc: "Generates API authentication"
-  class_option :pwned,     type: :boolean, desc: "Add pwned password validation"
-  class_option :lockable,  type: :boolean, desc: "Add password reset locking"
-  class_option :ratelimit, type: :boolean, desc: "Add request rate limiting"
-  class_option :omniauth,  type: :boolean, desc: "Add social login support"
+  class_option :api,          type: :boolean, desc: "Generates API authentication"
+  class_option :pwned,        type: :boolean, desc: "Add pwned password validation"
+  class_option :lockable,     type: :boolean, desc: "Add password reset locking"
+  class_option :ratelimit,    type: :boolean, desc: "Add request rate limiting"
+  class_option :omniauthable, type: :boolean, desc: "Add social login support"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -24,7 +24,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests [https://github.com/jeremy/rack-ratelimit]"
     end
 
-    if omniauth?
+    if omniauthable?
       gem "omniauth", comment: "Use OmniAuth to support multi-provider authentication [https://github.com/omniauth/omniauth]"
       gem "omniauth-rails_csrf_protection", comment: "Provides a mitigation against CVE-2015-9284 [https://github.com/cookpad/omniauth-rails_csrf_protection]"
     end
@@ -32,7 +32,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_configuration_files
      copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
-     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauth?
+     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
   end
 
   def add_environment_configurations
@@ -47,7 +47,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_migrations
     migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
-    migration_template "migrations/add_omniauth_migration.rb", "#{db_migrate_path}/add_omniauth_to_#{table_name}.rb" if omniauth?
+    migration_template "migrations/add_omniauth_migration.rb", "#{db_migrate_path}/add_omniauth_to_#{table_name}.rb" if omniauthable?
   end
 
   def create_models
@@ -106,7 +106,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def create_controllers
     directory "controllers/#{format_folder}", "app/controllers"
-    template  "controllers/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauth?
+    template  "controllers/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
   end
 
   def create_views
@@ -123,7 +123,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def add_routes
-    if omniauth?
+    if omniauthable?
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get '/auth/failure', to: 'sessions/omniauth#failure'"
@@ -151,7 +151,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       options.api? ? "api" : "html"
     end
 
-    def omniauth?
-      options.omniauth? && !options.api?
+    def omniauthable?
+      options.omniauthable? && !options.api?
     end
 end
