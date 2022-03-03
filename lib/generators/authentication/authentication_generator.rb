@@ -135,7 +135,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     route "resource :sudo, only: [:new, :create]", namespace: :sessions
     route "resources :sessions, only: [:index, :show, :destroy]"
     route "resource :password, only: [:edit, :update]"
-    route "resource :registration, only: :destroy"
     route "post 'sign_up', to: 'registrations#create'"
     route "get 'sign_up', to: 'registrations#new'" unless options.api?
     route "post 'sign_in', to: 'sessions#create'"

@@ -8,18 +8,4 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :created
   end
-
-  test "should destroy account" do
-    @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
-
-    assert_difference("<%= class_name %>.count", -1) do
-      delete registration_url, headers: { "Authorization" => "Bearer #{@token}" }
-    end
-
-    assert_response :no_content
-  end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "App iOS" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
-  end
 end

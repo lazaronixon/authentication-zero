@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  skip_before_action :authenticate, only: :create
+  skip_before_action :authenticate
 
   def create
     @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
@@ -9,10 +9,6 @@ class RegistrationsController < ApplicationController
     else
       render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    Current.<%= singular_table_name %>.destroy
   end
 
   private

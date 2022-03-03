@@ -20,7 +20,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Send e-mail confirmation when your email has been changed
 - Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
-- Cancel my account
 - Log out
 
 ## Security and best practices
@@ -72,10 +71,6 @@ Add these lines to your `app/views/home/index.html.erb`:
 
 <div>
   <%= link_to "Devices & Sessions", sessions_path %>
-</div>
-
-<div>
-  <%= button_to "Cancel my account & delete my data", registration_path, method: :delete  %>
 </div>
 
 <br>

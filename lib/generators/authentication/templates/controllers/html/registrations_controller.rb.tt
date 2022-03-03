@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  skip_before_action :authenticate, only: %i[ new create ]
+  skip_before_action :authenticate
 
   def new
     @<%= singular_table_name %> = <%= class_name %>.new
@@ -16,10 +16,6 @@ class RegistrationsController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    Current.<%= singular_table_name %>.destroy; redirect_to(sign_in_path, notice: "Your account is closed")
   end
 
   private

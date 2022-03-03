@@ -1,10 +1,6 @@
 require "application_system_test_case"
 
 class RegistrationsTest < ApplicationSystemTestCase
-  setup do
-    @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
-  end
-
   test "signing up" do
     visit sign_up_url
 
@@ -14,22 +10,5 @@ class RegistrationsTest < ApplicationSystemTestCase
     click_on "Sign up"
 
     assert_text "Welcome! You have signed up successfully"
-  end
-
-  test "cancelling my account" do
-    sign_in_as @<%= singular_table_name %>
-
-    click_on "Cancel my account & delete my data"
-    assert_text "Your account is closed"
-  end
-
-  def sign_in_as(<%= singular_table_name %>)
-    visit sign_in_url
-    fill_in :email, with: <%= singular_table_name %>.email
-    fill_in :password, with: "Secret1*3*5*"
-    click_on "Sign in"
-
-    assert_current_path root_url
-    return <%= singular_table_name %>
   end
 end
