@@ -18,14 +18,14 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update email" do
-    patch identity_email_url, params: { <%= singular_table_name %>: { email: "new_email@hey.com" } }
+    patch identity_email_url, params: { email: "new_email@hey.com" }
     assert_redirected_to root_url
   end
 
   test "should not update email without sudo" do
     @<%= singular_table_name %>.sessions.last.update! sudo_at: 1.day.ago
 
-    patch identity_email_url, params: { <%= singular_table_name %>: { email: "new_email@hey.com" } }
+    patch identity_email_url, params: { email: "new_email@hey.com" }
     assert_redirected_to new_sessions_sudo_url(proceed_to_url: identity_email_url)
   end
 

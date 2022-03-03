@@ -1,6 +1,6 @@
 <h1>Reset your password</h1>
 
-<%%= form_with(model: @<%= model_resource_name %>, url: identity_password_reset_path) do |form| %>
+<%%= form_with(url: identity_password_reset_path, method: :patch) do |form| %>
   <%% if @<%= singular_table_name %>.errors.any? %>
     <div style="color: red">
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>

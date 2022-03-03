@@ -19,6 +19,6 @@ class Identity::EmailsController < ApplicationController
     end
 
     def <%= "#{singular_table_name}_params" %>
-      params.require(:<%= singular_table_name %>).permit(:email)
+      params.permit(:email)
     end
 end

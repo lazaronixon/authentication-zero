@@ -8,7 +8,7 @@
   <p><%%= button_to "Re-send verification email", identity_email_verification_path %></p>
 <%% end %>
 
-<%%= form_with(model: @<%= model_resource_name %>, url: identity_email_path) do |form| %>
+<%%= form_with(url: identity_email_path, method: :patch) do |form| %>
   <%% if @<%= singular_table_name %>.errors.any? %>
     <div style="color: red">
       <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
