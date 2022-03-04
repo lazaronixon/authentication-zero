@@ -47,7 +47,6 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_migrations
     migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
-    migration_template "migrations/add_omniauth_migration.rb", "#{db_migrate_path}/add_omniauth_to_#{table_name}.rb" if omniauthable?
   end
 
   def create_models

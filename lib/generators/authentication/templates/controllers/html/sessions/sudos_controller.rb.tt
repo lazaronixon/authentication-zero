@@ -5,7 +5,7 @@ class Sessions::SudosController < ApplicationController
   def create
     session = Current.session
 
-<% if options.omniauth? -%>
+<% if omniauthable? -%>
     if session.<%= singular_table_name %>.authenticate(params[:password]) || session.<%= singular_table_name %>.provider
 <% else -%>
     if session.<%= singular_table_name %>.authenticate(params[:password])
