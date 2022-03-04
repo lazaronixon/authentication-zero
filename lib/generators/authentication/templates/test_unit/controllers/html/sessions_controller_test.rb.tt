@@ -18,7 +18,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign in" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "Firefox" }
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "Secret1*3*5*" }
     assert_enqueued_email_with SessionMailer, :signed_in_notification, args: { session: @<%= singular_table_name %>.sessions.last }
 
     assert_redirected_to root_url
@@ -28,7 +28,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not sign in with wrong credentials" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong1*3" }, headers: { "User-Agent" => "Firefox" }
+    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong1*3" }
     assert_redirected_to sign_in_url(email_hint: @<%= singular_table_name %>.email)
     assert_equal "That email or password is incorrect", flash[:alert]
 
@@ -47,6 +47,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }, headers: { "User-Agent" => "Firefox" }); <%= singular_table_name %>
+    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); <%= singular_table_name %>
   end
 end

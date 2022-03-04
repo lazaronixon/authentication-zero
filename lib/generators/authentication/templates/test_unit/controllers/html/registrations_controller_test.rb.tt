@@ -8,7 +8,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "should sign up" do
     assert_difference("<%= class_name %>.count") do
-      post sign_up_url, params: { email: "lazaronixon@hey.com", password: "Secret1*3*5*", password_confirmation: "Secret1*3*5*" }, headers: { "User-Agent" => "Firefox" }
+      post sign_up_url, params: { email: "lazaronixon@hey.com", password: "Secret1*3*5*", password_confirmation: "Secret1*3*5*" }
     end
 
     assert_redirected_to root_url
