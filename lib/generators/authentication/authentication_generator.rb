@@ -8,6 +8,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :lockable,     type: :boolean, desc: "Add password reset locking"
   class_option :ratelimit,    type: :boolean, desc: "Add request rate limiting"
   class_option :omniauthable, type: :boolean, desc: "Add social login support"
+  class_option :trackable,    type: :boolean, desc: "Add activity log support"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -47,6 +48,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_migrations
     migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
+    migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
   end
 
   def create_models
@@ -54,6 +56,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
     template "models/locking.rb", "app/models/locking.rb" if options.lockable?
+    template "models/event.rb", "app/models/event.rb" if options.trackable?
   end
 
   def create_fixture_file
@@ -85,7 +88,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
         def set_current_request_details
           Current.user_agent = request.user_agent
           Current.ip_address = request.ip
-        end        
+        end
     CODE
 
     html_code = <<~CODE
@@ -118,8 +121,13 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_controllers
-    directory "controllers/#{format_folder}", "app/controllers"
-    template  "controllers/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
+    directory "controllers/#{format_folder}/identity", "app/controllers/identity"
+    template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
+    template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
+    template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
+    template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb"
+    template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
+    template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
   end
 
   def create_views
@@ -127,7 +135,11 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       directory "erb/identity_mailer", "app/views/identity_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
     else
-      directory "erb", "app/views"
+      directory "erb/identity", "app/views/identity"
+      directory "erb/passwords", "app/views/passwords"
+      directory "erb/registrations", "app/views/registrations"
+      directory "erb/sessions", "app/views/sessions"
+      directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
     end
   end
 
@@ -140,6 +152,10 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get '/auth/failure', to: 'sessions/omniauth#failure'"
+    end
+
+    if options.trackable?
+      route "resources :events, only: :index", namespace: :authentications
     end
 
     route "resource :password_reset, only: [:new, :edit, :create, :update]", namespace: :identity

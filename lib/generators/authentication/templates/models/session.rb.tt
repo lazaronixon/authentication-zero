@@ -5,9 +5,18 @@ class Session < ApplicationRecord
     self.user_agent = Current.user_agent
     self.ip_address = Current.ip_address
     self.sudo_at = Time.current
-  end  
+  end
 
   after_create_commit do
     SessionMailer.with(session: self).signed_in_notification.deliver_later
   end
+<% if options.trackable? %>
+  after_create do
+    <%= singular_table_name %>.events.create! action: "signed_in"
+  end
+
+  after_destroy do
+    <%= singular_table_name %>.events.create! action: "signed_out"
+  end
+<% end -%>
 end

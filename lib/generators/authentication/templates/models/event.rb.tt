@@ -1,0 +1,8 @@
+class Event < ApplicationRecord
+  belongs_to :<%= singular_table_name %>
+
+  before_create do
+    self.user_agent = Current.user_agent
+    self.ip_address = Current.ip_address
+  end
+end

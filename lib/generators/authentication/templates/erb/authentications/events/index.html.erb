@@ -1,0 +1,33 @@
+<h1>Activity Log</h1>
+
+<div id="sessions">
+  <% @events.each do |event| %>
+    <div id="<%= dom_id event %>">
+      <p>
+        <strong>User Agent:</strong>
+        <%= event.user_agent %>
+      </p>
+
+      <p>
+        <strong>Action:</strong>
+        <%= event.action %>
+      </p>
+
+      <p>
+        <strong>Ip Address:</strong>
+        <%= event.ip_address %>
+      </p>
+
+      <p>
+        <strong>Created at:</strong>
+        <%= event.created_at %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<br>
+
+<div>
+  <%= link_to "Back", root_path %>
+</div>

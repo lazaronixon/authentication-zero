@@ -2,6 +2,9 @@ class <%= class_name %> < ApplicationRecord
   has_secure_password
 
   has_many :sessions, dependent: :destroy
+<% if options.trackable? -%>
+  has_many :events, dependent: :destroy
+<% end -%>
 
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
@@ -27,4 +30,17 @@ class <%= class_name %> < ApplicationRecord
   after_save_commit if: :email_previously_changed? do
     IdentityMailer.with(user: self).email_verify_confirmation.deliver_later
   end
+<% if options.trackable? %>
+  after_save_commit if: :email_previously_changed? do
+    events.create! action: "email_verification_requested"
+  end
+
+  after_update if: :password_digest_previously_changed? do
+    events.create! action: "password_changed"
+  end
+
+  after_update if: :verified_previously_changed? do
+    events.create! action: "email_verified" if verified?
+  end
+<% end -%>
 end
