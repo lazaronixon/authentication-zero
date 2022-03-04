@@ -74,6 +74,10 @@ Add these lines to your `app/views/home/index.html.erb`:
   <%= link_to "Devices & Sessions", sessions_path %>
 </div>
 
+<div>
+  <%# link_to "Activity Log", authentications_events_path %>
+</div>
+
 <br>
 
 <%= button_to "Log out", Current.session, method: :delete %>
