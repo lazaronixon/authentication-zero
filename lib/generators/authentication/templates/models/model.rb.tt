@@ -24,11 +24,7 @@ class <%= class_name %> < ApplicationRecord
     sessions.where.not(id: Current.session).destroy_all
   end
 
-  after_create_commit do
-    IdentityMailer.with(<%= singular_table_name %>: self).email_verify_confirmation.deliver_later
-  end
-
-  after_update_commit if: :email_previously_changed? do
-    IdentityMailer.with(<%= singular_table_name %>: self).email_verify_confirmation.deliver_later
+  after_save_commit if: :email_previously_changed? do
+    IdentityMailer.with(user: self).email_verify_confirmation.deliver_later
   end
 end

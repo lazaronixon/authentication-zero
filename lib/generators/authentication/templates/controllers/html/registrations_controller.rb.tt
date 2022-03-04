@@ -9,7 +9,7 @@ class RegistrationsController < ApplicationController
     @<%= singular_table_name %> = <%= class_name %>.new(<%= "#{singular_table_name}_params" %>)
 
     if @<%= singular_table_name %>.save
-      session = @<%= singular_table_name %>.sessions.create!(session_params)
+      session = @<%= singular_table_name %>.sessions.create!
       cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
 
       redirect_to root_path, notice: "Welcome! You have signed up successfully"
@@ -21,9 +21,5 @@ class RegistrationsController < ApplicationController
   private
     def <%= "#{singular_table_name}_params" %>
       params.permit(:email, :password, :password_confirmation)
-    end
-
-    def session_params
-      { user_agent: request.user_agent, ip_address: request.remote_ip, sudo_at: Time.current }
     end
 end

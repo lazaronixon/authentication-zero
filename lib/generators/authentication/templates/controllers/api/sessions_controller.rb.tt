@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     <%= singular_table_name %> = <%= class_name %>.find_by(email: params[:email])
 
     if <%= singular_table_name %> && <%= singular_table_name %>.authenticate(params[:password])
-      @session = <%= singular_table_name %>.sessions.create!(session_params)
+      @session = <%= singular_table_name %>.sessions.create!
       response.set_header("X-Session-Token", @session.signed_id)
 
       render json: @session, status: :created
@@ -31,9 +31,5 @@ class SessionsController < ApplicationController
   private
     def set_session
       @session = Current.<%= singular_table_name %>.sessions.find(params[:id])
-    end
-
-    def session_params
-      { user_agent: request.user_agent, ip_address: request.remote_ip, sudo_at: Time.current }
     end
 end

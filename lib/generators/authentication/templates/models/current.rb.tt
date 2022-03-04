@@ -1,5 +1,6 @@
 class Current < ActiveSupport::CurrentAttributes
   attribute :session, :<%= singular_table_name %>
+  attribute :user_agent, :ip_address
 
   def session=(session)
     super; self.<%= singular_table_name %> = session.<%= singular_table_name %>
