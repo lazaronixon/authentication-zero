@@ -6,7 +6,7 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
       t.boolean :verified, null: false, default: false
 <% if omniauthable? %>
-      t.string :provide
+      t.string :provider
       t.string :uid
 <% end -%>
 
