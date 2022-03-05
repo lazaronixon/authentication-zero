@@ -22,6 +22,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Manage multiple sessions & devices
 - Activity log (--trackable)
 - Log out
+- [API documentation](https://github.com/lazaronixon/authentication-zero/blob/master/authentication-zero-api.md)
 
 ## Security and best practices
 
