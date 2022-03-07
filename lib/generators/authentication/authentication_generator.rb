@@ -135,6 +135,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       directory "erb/identity_mailer", "app/views/identity_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
     else
+      directory "erb/identity_mailer", "app/views/identity_mailer"
+      directory "erb/session_mailer", "app/views/session_mailer"
+
       directory "erb/identity", "app/views/identity"
       directory "erb/passwords", "app/views/passwords"
       directory "erb/registrations", "app/views/registrations"
