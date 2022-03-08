@@ -22,14 +22,4 @@ class Identity::EmailsTest < ApplicationSystemTestCase
 
     assert_text "We sent a verification email to your email address"
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    visit sign_in_url
-    fill_in :email, with: <%= singular_table_name %>.email
-    fill_in :password, with: "Secret1*3*5*"
-    click_on "Sign in"
-
-    assert_current_path root_url
-    return <%= singular_table_name %>
-  end
 end

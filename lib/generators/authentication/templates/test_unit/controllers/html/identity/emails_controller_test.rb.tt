@@ -28,8 +28,4 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
     patch identity_email_url, params: { email: "new_email@hey.com" }
     assert_redirected_to new_sessions_sudo_url(proceed_to_url: identity_email_url)
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); <%= singular_table_name %>
-  end
 end

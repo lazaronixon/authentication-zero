@@ -18,8 +18,4 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
     assert_equal "Enter your password to continue", response.parsed_body["error"]
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
-  end
 end

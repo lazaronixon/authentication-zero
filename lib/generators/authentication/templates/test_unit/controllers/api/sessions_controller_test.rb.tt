@@ -31,8 +31,4 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     delete session_url(@<%= singular_table_name %>.sessions.last), headers: { "Authorization" => "Bearer #{@token}" }
     assert_response :no_content
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
-  end
 end

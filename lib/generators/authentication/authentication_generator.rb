@@ -32,12 +32,12 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_configuration_files
-     copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
-     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
+    copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
+    copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
   end
 
   def add_environment_configurations
-     ratelimit_code = <<~CODE
+    ratelimit_code = <<~CODE
       # Rate limit general requests by IP address in a rate of 1000 requests per hour
       config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.hour], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
     CODE
@@ -121,6 +121,8 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_test_files
     directory "test_unit/controllers/#{format_folder}", "test/controllers"
     directory "test_unit/system", "test/system" unless options.api?
+    template "test_unit/test_helper.rb", "test/test_helper.rb", force: true
+    template "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
   end
 
   private

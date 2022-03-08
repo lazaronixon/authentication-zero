@@ -19,8 +19,4 @@ class Sessions::SudosControllerTest < ActionDispatch::IntegrationTest
     post sessions_sudo_url, params: { password: "SecretWrong1*3", proceed_to_url: edit_password_url }
     assert_redirected_to new_sessions_sudo_url(proceed_to_url: edit_password_url)
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
-  end
 end

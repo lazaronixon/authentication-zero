@@ -45,8 +45,4 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_redirected_to sign_in_url
   end
-
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); <%= singular_table_name %>
-  end
 end
