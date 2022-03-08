@@ -21,6 +21,13 @@ class SessionsTest < ApplicationSystemTestCase
     assert_text "Signed in successfully"
   end
 
+  test "signing out" do
+    sign_in_as @<%= singular_table_name %>
+
+    click_on "Log out"
+    assert_text "That session has been logged out"
+  end
+
   def sign_in_as(<%= singular_table_name %>)
     visit sign_in_url
     fill_in :email, with: <%= singular_table_name %>.email
