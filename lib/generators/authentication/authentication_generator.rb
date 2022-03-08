@@ -153,24 +153,24 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def add_routes
     if omniauthable?
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
-      route "get '/auth/:provider/callback', to: 'sessions/omniauth#create'"
-      route "get '/auth/failure', to: 'sessions/omniauth#failure'"
+      route "get  '/auth/:provider/callback', to: 'sessions/omniauth#create'"
+      route "get  '/auth/failure',            to: 'sessions/omniauth#failure'"
     end
 
     if options.trackable?
       route "resources :events, only: :index", namespace: :authentications
     end
 
-    route "resource :password_reset, only: [:new, :edit, :create, :update]", namespace: :identity
+    route "resource :password_reset,     only: [:new, :edit, :create, :update]", namespace: :identity
     route "resource :email_verification, only: [:edit, :create]", namespace: :identity
-    route "resource :email, only: [:edit, :update]", namespace: :identity
+    route "resource :email,              only: [:edit, :update]", namespace: :identity
     route "resource :sudo, only: [:new, :create]", namespace: :sessions
+    route "resource  :password, only: [:edit, :update]"
     route "resources :sessions, only: [:index, :show, :destroy]"
-    route "resource :password, only: [:edit, :update]"
     route "post 'sign_up', to: 'registrations#create'"
-    route "get 'sign_up', to: 'registrations#new'" unless options.api?
+    route "get  'sign_up', to: 'registrations#new'" unless options.api?
     route "post 'sign_in', to: 'sessions#create'"
-    route "get 'sign_in', to: 'sessions#new'" unless options.api?
+    route "get  'sign_in', to: 'sessions#new'" unless options.api?
   end
 
   def create_test_files
