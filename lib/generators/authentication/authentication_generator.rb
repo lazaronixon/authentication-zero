@@ -63,64 +63,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     template "test_unit/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
   end
 
-  def add_application_controller_methods
-    api_code = <<~CODE
-      include ActionController::HttpAuthentication::Token::ControllerMethods
-
-      before_action :set_current_request_details
-      before_action :authenticate
-
-      def require_sudo
-        if Current.session.sudo_at < 30.minutes.ago
-          render json: { error: "Enter your password to continue" }, status: :forbidden
-        end
-      end
-
-      private
-        def authenticate
-          if session = authenticate_with_http_token { |token, _| Session.find_signed(token) }
-            Current.session = session
-          else
-            request_http_token_authentication
-          end
-        end
-
-        def set_current_request_details
-          Current.user_agent = request.user_agent
-          Current.ip_address = request.ip
-        end
-    CODE
-
-    html_code = <<~CODE
-      before_action :set_current_request_details
-      before_action :authenticate
-
-      def require_sudo
-        if Current.session.sudo_at < 30.minutes.ago
-          redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
-        end
-      end
-
-      private
-        def authenticate
-          if session = Session.find_by_id(cookies.signed[:session_token])
-            Current.session = session
-          else
-            redirect_to sign_in_path
-          end
-        end
-
-        def set_current_request_details
-          Current.user_agent = request.user_agent
-          Current.ip_address = request.ip
-        end
-    CODE
-
-    inject_code = options.api? ? api_code : html_code
-    inject_into_class "app/controllers/application_controller.rb", "ApplicationController", optimize_indentation(inject_code, 2), verbose: false
-  end
-
   def create_controllers
+    template  "controllers/#{format_folder}/application_controller.rb", "app/controllers/application_controller.rb", force: true
+
     directory "controllers/#{format_folder}/identity", "app/controllers/identity"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
