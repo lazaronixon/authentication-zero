@@ -7,7 +7,7 @@
   <%%= hidden_field_tag :proceed_to_url, params[:proceed_to_url] %>
 
   <div>
-    <%%= password_field_tag :password, nil, autofocus: true, autocomplete: "current-password" %>
+    <%%= password_field_tag :password, nil, required: true, autofocus: true, autocomplete: "current-password" %>
   </div>
 
   <div>

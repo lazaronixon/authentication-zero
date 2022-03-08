@@ -17,13 +17,13 @@
 
   <div>
     <%%= form.label :password, "New password", style: "display: block" %>
-    <%%= form.password_field :password, autofocus: true, autocomplete: "new-password" %>
+    <%%= form.password_field :password, required: true, autofocus: true, autocomplete: "new-password" %>
     <div>12 characters minimum.</div>
   </div>
 
   <div>
     <%%= form.label :password_confirmation, "Confirm new password", style: "display: block" %>
-    <%%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%%= form.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
   </div>
 
   <div>
