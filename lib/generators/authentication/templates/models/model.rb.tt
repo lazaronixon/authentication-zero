@@ -9,8 +9,8 @@ class <%= class_name %> < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
 
-  validates_length_of :password, minimum: 12, allow_blank: true
-  validates_format_of :password, with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, allow_blank: true, message: "might easily be guessed"
+  validates_length_of :password, minimum: 12, allow_nil: true
+  validates_format_of :password, with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, allow_nil: true, message: "might easily be guessed"
 <% if options.pwned? -%>
   validates :password, not_pwned: { message: "might easily be guessed" }
 <% end -%>
