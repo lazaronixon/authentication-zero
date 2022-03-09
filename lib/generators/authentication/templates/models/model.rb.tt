@@ -2,18 +2,18 @@ class <%= class_name %> < ApplicationRecord
   has_secure_password
 
   has_many :sessions, dependent: :destroy
-<% if options.trackable? -%>
+  <%- if options.trackable? -%>
   has_many :events, dependent: :destroy
-<% end -%>
+  <%- end -%>
 
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
 
   validates_length_of :password, minimum: 12, allow_nil: true
   validates_format_of :password, with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, allow_nil: true, message: "might easily be guessed"
-<% if options.pwned? -%>
+  <%- if options.pwned? -%>
   validates :password, not_pwned: { message: "might easily be guessed" }
-<% end -%>
+  <%- end -%>
 
   before_validation do
     self.email = email.downcase.strip
@@ -30,7 +30,7 @@ class <%= class_name %> < ApplicationRecord
   after_save_commit if: :email_previously_changed? do
     IdentityMailer.with(user: self).email_verify_confirmation.deliver_later
   end
-<% if options.trackable? %>
+  <%- if options.trackable? %>
   after_save_commit if: :email_previously_changed? do
     events.create! action: "email_verification_requested"
   end
@@ -42,5 +42,5 @@ class <%= class_name %> < ApplicationRecord
   after_update if: :verified_previously_changed? do
     events.create! action: "email_verified" if verified?
   end
-<% end -%>
+  <%- end -%>
 end

@@ -5,17 +5,17 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.string :password_digest, null: false
 
       t.boolean :verified, null: false, default: false
-<% if omniauthable? %>
+      <%- if omniauthable? %>
       t.string :provider
       t.string :uid
-<% end -%>
+      <%- end -%>
 
       t.timestamps
     end
 
     add_index :<%= table_name %>, :email, unique: true
-<% if omniauthable? -%>
+    <%- if omniauthable? -%>
     add_index :<%= table_name %>, [:provider, :uid], unique: true
-<% end -%>
+    <%- end -%>
   end
 end

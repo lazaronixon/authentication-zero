@@ -10,7 +10,7 @@ class Session < ApplicationRecord
   after_create_commit do
     SessionMailer.with(session: self).signed_in_notification.deliver_later
   end
-<% if options.trackable? %>
+  <%- if options.trackable? %>
   after_create do
     <%= singular_table_name %>.events.create! action: "signed_in"
   end
@@ -18,5 +18,5 @@ class Session < ApplicationRecord
   after_destroy do
     <%= singular_table_name %>.events.create! action: "signed_out"
   end
-<% end -%>
+  <%- end -%>
 end

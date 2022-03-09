@@ -5,11 +5,11 @@ class Sessions::SudosController < ApplicationController
   def create
     session = Current.session
 
-<% if omniauthable? -%>
+    <%- if omniauthable? -%>
     if session.<%= singular_table_name %>.authenticate(params[:password]) || session.<%= singular_table_name %>.provider
-<% else -%>
+    <%- else -%>
     if session.<%= singular_table_name %>.authenticate(params[:password])
-<% end -%>
+    <%- end -%>
       session.update!(sudo_at: Time.current); redirect_to(params[:proceed_to_url])
     else
       redirect_to new_sessions_sudo_path(proceed_to_url: params[:proceed_to_url]), alert: "The password you entered is incorrect"
