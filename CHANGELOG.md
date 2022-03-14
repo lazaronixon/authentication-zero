@@ -1,3 +1,7 @@
+## Authentication Zero 2.10.0 (March 2, 2022) ##
+
+* Implement two-factor
+
 ## Authentication Zero 2.9.0 (March 2, 2022) ##
 
 * Implement trackable
