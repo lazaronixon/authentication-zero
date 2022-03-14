@@ -53,7 +53,7 @@ root "home#index"
 ```
 
 ```
-$ rails generate controller home index
+rails generate controller home index
 ```
 
 Add these lines to your `app/views/home/index.html.erb`:
@@ -93,7 +93,7 @@ config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 ## Usage
 
 ```
-$ rails generate authentication user
+rails generate authentication user
 ```
 
 Then run `bundle install` again!
