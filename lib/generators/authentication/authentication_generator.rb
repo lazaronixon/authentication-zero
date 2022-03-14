@@ -9,6 +9,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   class_option :ratelimit,    type: :boolean, desc: "Add request rate limiting"
   class_option :omniauthable, type: :boolean, desc: "Add social login support"
   class_option :trackable,    type: :boolean, desc: "Add activity log support"
+  class_option :two_factor,   type: :boolean, desc: "Add two factor authentication"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -28,6 +29,11 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     if omniauthable?
       gem "omniauth", comment: "Use OmniAuth to support multi-provider authentication [https://github.com/omniauth/omniauth]"
       gem "omniauth-rails_csrf_protection", comment: "Provides a mitigation against CVE-2015-9284 [https://github.com/cookpad/omniauth-rails_csrf_protection]"
+    end
+
+    if two_factor?
+      gem "rotp", comment: "Use rotp for generating and validating one time passwords [https://github.com/mdp/rotp]"
+      gem "rqrcode", comment: "Use rqrcode for creating and rendering QR codes into various formats [https://github.com/whomwah/rqrcode]"
     end
   end
 
@@ -66,10 +72,16 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_controllers
     template  "controllers/#{format_folder}/application_controller.rb", "app/controllers/application_controller.rb", force: true
 
+    if two_factor?
+      directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication"
+      template  "controllers/#{format_folder}/sessions_controller_two_factor.rb", "app/controllers/sessions_controller.rb"
+    else
+      template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
+    end
+
     directory "controllers/#{format_folder}/identity", "app/controllers/identity"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
-    template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb"
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
@@ -87,6 +99,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       directory "erb/passwords", "app/views/passwords"
       directory "erb/registrations", "app/views/registrations"
       directory "erb/sessions", "app/views/sessions"
+      directory "erb/two_factor_authentication", "app/views/two_factor_authentication" if two_factor?
       directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
     end
   end
@@ -100,6 +113,11 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get  '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get  '/auth/failure',            to: 'sessions/omniauth#failure'"
+    end
+
+    if two_factor?
+      route "resource :totp,      only: [:new, :create]", namespace: :two_factor_authentication
+      route "resource :challenge, only: [:new, :create]", namespace: :two_factor_authentication
     end
 
     if options.trackable?
@@ -132,5 +150,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
     def omniauthable?
       options.omniauthable? && !options.api?
+    end
+
+    def two_factor?
+      options.two_factor? && !options.api?
     end
 end

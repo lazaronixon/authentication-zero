@@ -11,6 +11,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Checks if a password has been found in any data breach (--pwned)
 - Authentication by cookie
 - Authentication by token (--api)
+- Two factor authentication (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
 - Ask password before sensitive data changes, aka: sudo
 - Reset the user password and send reset instructions
@@ -77,6 +78,10 @@ Add these lines to your `app/views/home/index.html.erb`:
 
 <div>
   <%# link_to "Activity Log", authentications_events_path %>
+</div>
+
+<div>
+  <%# link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
 </div>
 
 <br>
