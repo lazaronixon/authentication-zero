@@ -72,14 +72,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   def create_controllers
     template  "controllers/#{format_folder}/application_controller.rb", "app/controllers/application_controller.rb", force: true
 
-    if two_factor?
-      directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication"
-      template  "controllers/#{format_folder}/sessions_controller_two_factor.rb", "app/controllers/sessions_controller.rb"
-    else
-      template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
-    end
-
     directory "controllers/#{format_folder}/identity", "app/controllers/identity"
+    directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication" if two_factor?
+    template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb"
