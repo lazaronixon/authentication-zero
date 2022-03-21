@@ -10,6 +10,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     click_on "Sign in"
 
     assert_current_path root_url
-    return <%= singular_table_name %>
+    <%= singular_table_name %>
   end
 end
