@@ -78,7 +78,6 @@ This endpoint will return `201 Created` with the current JSON representation of 
     "user_id": 1,
     "user_agent": "insomnia/2022.1.0",
     "ip_address": "127.0.0.1",
-    "sudo_at": "2022-03-04T17:20:33.632Z",
     "created_at": "2022-03-04T17:20:33.632Z",
     "updated_at": "2022-03-04T17:20:33.632Z"
   },
@@ -87,7 +86,6 @@ This endpoint will return `201 Created` with the current JSON representation of 
     "user_id": 1,
     "user_agent": "insomnia/2022.1.0",
     "ip_address": "127.0.0.1",
-    "sudo_at": "2022-03-04T17:14:03.386Z",
     "created_at": "2022-03-04T17:14:03.386Z",
     "updated_at": "2022-03-04T17:14:03.386Z"
   }
@@ -106,7 +104,6 @@ This endpoint will return `201 Created` with the current JSON representation of 
   "user_id": 1,
   "user_agent": "insomnia/2022.1.0",
   "ip_address": "127.0.0.1",
-  "sudo_at": "2022-03-04T17:14:03.386Z",
   "created_at": "2022-03-04T17:14:03.386Z",
   "updated_at": "2022-03-04T17:14:03.386Z"
 }

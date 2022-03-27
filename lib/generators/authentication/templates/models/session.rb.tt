@@ -10,7 +10,7 @@ class Session < ApplicationRecord
   end
   <%- if options.sudoable? %>
   after_create_commit do
-    self.sudo.mark expires_in: 1.minutes
+    self.sudo.mark expires_in: 30.minutes
   end
   <%- end -%>
 
