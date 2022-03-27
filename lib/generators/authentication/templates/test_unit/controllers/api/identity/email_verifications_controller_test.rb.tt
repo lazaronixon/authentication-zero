@@ -9,21 +9,25 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
     @<%= singular_table_name %>.update! verified: false
   end
 
+  def default_headers
+    { "Authorization" => "Bearer #{@token}" }
+  end
+
   test "should send a verification email" do
     assert_enqueued_email_with IdentityMailer, :email_verify_confirmation, args: { <%= singular_table_name %>: @<%= singular_table_name %> } do
-      post identity_email_verification_url, headers: { "Authorization" => "Bearer #{@token}" }
+      post identity_email_verification_url, headers: default_headers
     end
 
     assert_response :no_content
   end
 
   test "should verify email" do
-    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email }, headers: default_headers
     assert_response :no_content
   end
 
   test "should not verify email with expired token" do
-    get edit_identity_email_verification_url, params: { token: @sid_exp, email: @<%= singular_table_name %>.email }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_identity_email_verification_url, params: { token: @sid_exp, email: @<%= singular_table_name %>.email }, headers: default_headers
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]
@@ -32,7 +36,7 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   test "should not verify email with previous token" do
     @<%= singular_table_name %>.update! email: "other_email@hey.com"
 
-    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email_previously_was }, headers: { "Authorization" => "Bearer #{@token}" }
+    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email_previously_was }, headers: default_headers
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]

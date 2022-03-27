@@ -5,13 +5,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
   end
 
+  def default_headers
+    { "Authorization" => "Bearer #{@token}" }
+  end
+
   test "should get index" do
-    get sessions_url, headers: { "Authorization" => "Bearer #{@token}" }
+    get sessions_url, headers: default_headers
     assert_response :success
   end
 
   test "should show session" do
-    get session_url(@<%= singular_table_name %>.sessions.last), headers: { "Authorization" => "Bearer #{@token}" }
+    get session_url(@<%= singular_table_name %>.sessions.last), headers: default_headers
     assert_response :success
   end
 
@@ -28,7 +32,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign out" do
-    delete session_url(@<%= singular_table_name %>.sessions.last), headers: { "Authorization" => "Bearer #{@token}" }
+    delete session_url(@<%= singular_table_name %>.sessions.last), headers: default_headers
     assert_response :no_content
   end
 end
