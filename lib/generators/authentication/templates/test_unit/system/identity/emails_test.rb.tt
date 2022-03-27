@@ -8,6 +8,7 @@ class Identity::EmailsTest < ApplicationSystemTestCase
   test "updating the email" do
     click_on "Change email address"
 
+    fill_in "Current password", with: "Secret1*3*5*"
     fill_in "New email", with: "new_email@hey.com"
     click_on "Save changes"
 

@@ -1,12 +1,13 @@
 class Identity::EmailsController < ApplicationController
-  before_action :require_sudo
   before_action :set_<%= singular_table_name %>
 
   def edit
   end
 
   def update
-    if @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
+    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+      redirect_to edit_identity_email_path, alert: "The password you entered is incorrect"
+    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
       redirect_to root_path, notice: "Your email has been changed"
     else
       render :edit, status: :unprocessable_entity

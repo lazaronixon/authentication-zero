@@ -1,11 +1,18 @@
 class Session < ApplicationRecord
   belongs_to :<%= singular_table_name %>
+  <%- if options.sudoable? %>
+  kredis_flag :sudo
+  <%- end -%>
 
   before_create do
     self.user_agent = Current.user_agent
     self.ip_address = Current.ip_address
-    self.sudo_at = Time.current
   end
+  <%- if options.sudoable? %>
+  after_create_commit do
+    self.sudo.mark expires_in: 1.minutes
+  end
+  <%- end -%>
 
   after_create_commit do
     SessionMailer.with(session: self).signed_in_notification.deliver_later

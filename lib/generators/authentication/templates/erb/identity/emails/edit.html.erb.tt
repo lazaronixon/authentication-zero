@@ -22,6 +22,11 @@
   <%% end %>
 
   <div>
+    <%%= form.label :current_password, style: "display: block" %>
+    <%%= form.password_field :current_password, required: true, autofocus: true, autocomplete: "current-password" %>
+  </div>
+
+  <div>
     <%%= form.label :email, "New email", style: "display: block" %>
     <%%= form.email_field :email %>
   </div>

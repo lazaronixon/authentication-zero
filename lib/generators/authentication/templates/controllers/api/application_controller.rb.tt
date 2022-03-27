@@ -3,12 +3,13 @@ class ApplicationController < ActionController::API
 
   before_action :set_current_request_details
   before_action :authenticate
-
+  <%- if options.sudoable? %>
   def require_sudo
-    if Current.session.sudo_at < 30.minutes.ago
+    unless Current.session.sudo?
       render json: { error: "Enter your password to continue" }, status: :forbidden
     end
   end
+  <%- end -%>
 
   private
     def authenticate

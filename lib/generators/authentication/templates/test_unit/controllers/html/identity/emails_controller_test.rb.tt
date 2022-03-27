@@ -10,22 +10,15 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should not get edit without sudo" do
-    @<%= singular_table_name %>.sessions.last.update! sudo_at: 1.day.ago
-
-    get edit_identity_email_url
-    assert_redirected_to new_sessions_sudo_url(proceed_to_url: edit_identity_email_url)
-  end
-
   test "should update email" do
-    patch identity_email_url, params: { email: "new_email@hey.com" }
+    patch identity_email_url, params: { email: "new_email@hey.com", current_password: "Secret1*3*5*" }
     assert_redirected_to root_url
   end
 
-  test "should not update email without sudo" do
-    @<%= singular_table_name %>.sessions.last.update! sudo_at: 1.day.ago
+  test "should not update email with wrong current password" do
+    patch identity_email_url, params: { email: "new_email@hey.com", current_password: "SecretWrong1*3" }
 
-    patch identity_email_url, params: { email: "new_email@hey.com" }
-    assert_redirected_to new_sessions_sudo_url(proceed_to_url: identity_email_url)
+    assert_redirected_to edit_identity_email_url
+    assert_equal "The password you entered is incorrect", flash[:alert]
   end
 end

@@ -18,6 +18,11 @@
   <%%= form.hidden_field :secret, value: @totp.secret %>
 
   <div>
+    <%%= form.label :current_password, style: "display: block" %>
+    <%%= form.password_field :current_password, required: true, autofocus: true, autocomplete: "current-password" %>
+  </div>
+
+  <div>
     <%%= form.label :code, "After scanning with your camera, the app will generate a six-digit code. Enter it here:", style: "display: block" %>
     <%%= form.text_field :code, autofocus: true, required: true, autocomplete: :off %>
   </div>

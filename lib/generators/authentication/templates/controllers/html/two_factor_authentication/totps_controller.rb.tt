@@ -1,5 +1,4 @@
 class TwoFactorAuthentication::TotpsController < ApplicationController
-  before_action :require_sudo
   before_action :set_<%= singular_table_name %>
   before_action :set_totp
 
@@ -8,7 +7,9 @@ class TwoFactorAuthentication::TotpsController < ApplicationController
   end
 
   def create
-    if @totp.verify(params[:code], drift_behind: 15)
+    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+      redirect_to two_factor_authentication_totp_path, alert: "The password you entered is incorrect"
+    elsif @totp.verify(params[:code], drift_behind: 15)
       @<%= singular_table_name %>.update! otp_secret: params[:secret]
       redirect_to root_path, notice: "2FA is enabled on your account"
     else

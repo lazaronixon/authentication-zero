@@ -13,7 +13,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Authentication by token (--api)
 - Two factor authentication (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
-- Ask password before sensitive data changes, aka: sudo
+- Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
 - Lock sending reset password email after many attempts (--lockable)

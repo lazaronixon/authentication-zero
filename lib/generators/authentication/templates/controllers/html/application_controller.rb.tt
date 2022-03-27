@@ -1,12 +1,13 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
-
+  <%- if options.sudoable? %>
   def require_sudo
-    if Current.session.sudo_at < 30.minutes.ago
+    unless Current.session.sudo?
       redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
     end
   end
+  <%- end -%>
 
   private
     def authenticate

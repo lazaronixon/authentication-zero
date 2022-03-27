@@ -3,6 +3,8 @@ class Identity::EmailsController < ApplicationController
   before_action :set_<%= singular_table_name %>
 
   def update
+    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+      render json: { error: "The password you entered is incorrect" }, status: :bad_request
     if @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
       render json: @<%= singular_table_name %>
     else

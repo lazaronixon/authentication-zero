@@ -5,6 +5,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   class_option :api,          type: :boolean, desc: "Generates API authentication"
   class_option :pwned,        type: :boolean, desc: "Add pwned password validation"
+  class_option :sudoable,     type: :boolean, desc: "Add password request before sensitive data changes"
   class_option :lockable,     type: :boolean, desc: "Add password reset locking"
   class_option :ratelimit,    type: :boolean, desc: "Add request rate limiting"
   class_option :omniauthable, type: :boolean, desc: "Add social login support"
@@ -15,8 +16,8 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
   def add_gems
     uncomment_lines "Gemfile", /"bcrypt"/
-    uncomment_lines "Gemfile", /"redis"/  if options.lockable?
-    uncomment_lines "Gemfile", /"kredis"/ if options.lockable?
+    uncomment_lines "Gemfile", /"redis"/  if redis?
+    uncomment_lines "Gemfile", /"kredis"/ if redis?
 
     if options.pwned?
       gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]"
@@ -38,7 +39,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_configuration_files
-    copy_file "config/redis/shared.yml", "config/redis/shared.yml" if options.lockable?
+    copy_file "config/redis/shared.yml", "config/redis/shared.yml" if redis?
     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
   end
 
@@ -77,7 +78,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
-    template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb"
+    template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb" if options.sudoable?
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
   end
@@ -93,7 +94,12 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
       directory "erb/identity", "app/views/identity"
       directory "erb/passwords", "app/views/passwords"
       directory "erb/registrations", "app/views/registrations"
-      directory "erb/sessions", "app/views/sessions"
+
+      template  "erb/sessions/index.html.erb", "app/views/sessions/index.html.erb"
+      template  "erb/sessions/new.html.erb", "app/views/sessions/new.html.erb"
+
+      directory "erb/sessions/sudos", "app/views/sessions/sudos" if options.sudoable?
+
       directory "erb/two_factor_authentication", "app/views/two_factor_authentication" if two_factor?
       directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
     end
@@ -122,7 +128,7 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
     route "resource :password_reset,     only: [:new, :edit, :create, :update]", namespace: :identity
     route "resource :email_verification, only: [:edit, :create]", namespace: :identity
     route "resource :email,              only: [:edit, :update]", namespace: :identity
-    route "resource :sudo, only: [:new, :create]", namespace: :sessions
+    route "resource :sudo, only: [:new, :create]", namespace: :sessions if options.sudoable?
     route "resource  :password, only: [:edit, :update]"
     route "resources :sessions, only: [:index, :show, :destroy]"
     route "post 'sign_up', to: 'registrations#create'"
@@ -149,5 +155,9 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
 
     def two_factor?
       options.two_factor? && !options.api?
+    end
+
+    def redis?
+      options.lockable? || options.sudoable?
     end
 end
