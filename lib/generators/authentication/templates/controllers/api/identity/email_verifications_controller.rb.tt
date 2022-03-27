@@ -13,8 +13,16 @@ class Identity::EmailVerificationsController < ApplicationController
 
   private
     def set_<%= singular_table_name %>
+    <%- if code_verifiable? -%>
+      @<%= singular_table_name %> = <%= class_name %>.find_by(email: params[:email])
+
+      unless @<%= singular_table_name %> && @<%= singular_table_name %>.verification_code.value == params[:token]
+        render json: { error: "That email verification code is invalid" }, status: :bad_request
+      end
+    <%- else -%>
       @<%= singular_table_name %> = <%= class_name %>.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
     rescue
       render json: { error: "That email verification link is invalid" }, status: :bad_request
-    end
+    <%- end -%>
+  end
 end

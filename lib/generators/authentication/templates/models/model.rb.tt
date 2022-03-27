@@ -5,6 +5,9 @@ class <%= class_name %> < ApplicationRecord
   <%- if options.trackable? -%>
   has_many :events, dependent: :destroy
   <%- end -%>
+  <%- if code_verifiable? %>
+  kredis_string :verification_code, expires_in: 2.days
+  <%- end -%>
 
   validates :email, presence: true, uniqueness: true
   validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
