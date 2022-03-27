@@ -1,3 +1,9 @@
+## Authentication Zero 2.11.0 (March 27, 2022) ##
+
+* Remove sudo from default generator
+* Remove sudo_at from database
+* Implement sudoable using redis
+
 ## Authentication Zero 2.10.0 (March 2, 2022) ##
 
 * Implement two-factor
