@@ -10,7 +10,7 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update email" do
-    patch identity_email_url, params: { email: "new_email@hey.com" }, headers: default_headers
+    patch identity_email_url, params: { email: "new_email@hey.com", current_password: "Secret1*3*5*" }, headers: default_headers
     assert_response :success
   end
 
