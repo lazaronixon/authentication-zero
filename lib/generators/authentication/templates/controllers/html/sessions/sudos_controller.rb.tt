@@ -10,7 +10,7 @@ class Sessions::SudosController < ApplicationController
     <%- else -%>
     if session.<%= singular_table_name %>.authenticate(params[:password])
     <%- end -%>
-      session.sudo.mark(expires_in: 30.minutes); redirect_to(params[:proceed_to_url])
+      session.sudo.mark; redirect_to(params[:proceed_to_url])
     else
       redirect_to new_sessions_sudo_path(proceed_to_url: params[:proceed_to_url]), alert: "The password you entered is incorrect"
     end

@@ -3,7 +3,7 @@ class Sessions::SudosController < ApplicationController
     session = Current.session
 
     if session.<%= singular_table_name %>.authenticate(params[:password])
-      session.sudo.mark expires_in: 30.minutes
+      session.sudo.mark
     else
       render json: { error: "The password you entered is incorrect" }, status: :bad_request
     end

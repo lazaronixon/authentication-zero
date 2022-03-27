@@ -1,7 +1,7 @@
 class Session < ApplicationRecord
   belongs_to :<%= singular_table_name %>
   <%- if options.sudoable? %>
-  kredis_flag :sudo
+  kredis_flag :sudo, expires_in: 30.minutes
   <%- end -%>
 
   before_create do
@@ -10,7 +10,7 @@ class Session < ApplicationRecord
   end
   <%- if options.sudoable? %>
   after_create_commit do
-    self.sudo.mark expires_in: 30.minutes
+    self.sudo.mark
   end
   <%- end -%>
 
