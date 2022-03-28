@@ -1,4 +1,4 @@
-class IdentityMailer < ApplicationMailer
+class UserMailer < ApplicationMailer
   def password_reset_provision
     @user = params[:user]
     @signed_id = @user.signed_id(purpose: :password_reset, expires_in: 20.minutes)
