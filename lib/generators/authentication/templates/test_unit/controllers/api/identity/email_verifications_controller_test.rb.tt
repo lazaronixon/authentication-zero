@@ -2,11 +2,11 @@ require "test_helper"
 
 class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
-    @sid = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
-    @sid_exp = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 0.minutes)
+    @user, @token = sign_in_as(users(:lazaro_nixon))
+    @sid = @user.signed_id(purpose: @user.email, expires_in: 20.minutes)
+    @sid_exp = @user.signed_id(purpose: @user.email, expires_in: 0.minutes)
 
-    @<%= singular_table_name %>.update! verified: false
+    @user.update! verified: false
   end
 
   def default_headers
@@ -14,7 +14,7 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   end
 
   test "should send a verification email" do
-    assert_enqueued_email_with IdentityMailer, :email_verify_confirmation, args: { <%= singular_table_name %>: @<%= singular_table_name %> } do
+    assert_enqueued_email_with IdentityMailer, :email_verify_confirmation, args: { user: @user } do
       post identity_email_verification_url, headers: default_headers
     end
 
@@ -22,21 +22,21 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   end
 
   test "should verify email" do
-    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email }, headers: default_headers
+    get edit_identity_email_verification_url, params: { token: @sid, email: @user.email }, headers: default_headers
     assert_response :no_content
   end
 
   test "should not verify email with expired token" do
-    get edit_identity_email_verification_url, params: { token: @sid_exp, email: @<%= singular_table_name %>.email }, headers: default_headers
+    get edit_identity_email_verification_url, params: { token: @sid_exp, email: @user.email }, headers: default_headers
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]
   end
 
   test "should not verify email with previous token" do
-    @<%= singular_table_name %>.update! email: "other_email@hey.com"
+    @user.update! email: "other_email@hey.com"
 
-    get edit_identity_email_verification_url, params: { token: @sid, email: @<%= singular_table_name %>.email_previously_was }, headers: default_headers
+    get edit_identity_email_verification_url, params: { token: @sid, email: @user.email_previously_was }, headers: default_headers
 
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]

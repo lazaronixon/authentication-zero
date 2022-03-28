@@ -1,13 +1,13 @@
 class Identity::EmailsController < ApplicationController
-  before_action :set_<%= singular_table_name %>
+  before_action :set_user
 
   def edit
   end
 
   def update
-    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+    if !@user.authenticate(params[:current_password])
       redirect_to edit_identity_email_path, alert: "The password you entered is incorrect"
-    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
+    elsif @user.update(user_params)
       redirect_to root_path, notice: "Your email has been changed"
     else
       render :edit, status: :unprocessable_entity
@@ -15,11 +15,11 @@ class Identity::EmailsController < ApplicationController
   end
 
   private
-    def set_<%= singular_table_name %>
-      @<%= singular_table_name %> = Current.<%= singular_table_name %>
+    def set_user
+      @user = Current.user
     end
 
-    def <%= "#{singular_table_name}_params" %>
+    def user_params
       params.permit(:email)
     end
 end

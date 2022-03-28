@@ -1,12 +1,12 @@
 <h1>Reset your password</h1>
 
 <%%= form_with(url: identity_password_reset_path, method: :patch) do |form| %>
-  <%% if @<%= singular_table_name %>.errors.any? %>
+  <%% if @user.errors.any? %>
     <div style="color: red">
-      <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+      <h2><%%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
       <ul>
-        <%% @<%= singular_table_name %>.errors.each do |error| %>
+        <%% @user.errors.each do |error| %>
           <li><%%= error.full_message %></li>
         <%% end %>
       </ul>

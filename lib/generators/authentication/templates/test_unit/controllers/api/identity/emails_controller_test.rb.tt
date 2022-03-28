@@ -2,7 +2,7 @@ require "test_helper"
 
 class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @<%= singular_table_name %>, @token = sign_in_as(<%= table_name %>(:lazaro_nixon))
+    @user, @token = sign_in_as(users(:lazaro_nixon))
   end
 
   def default_headers

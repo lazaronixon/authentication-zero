@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   before_action :set_session, only: %i[ show destroy ]
 
   def index
-    render json: Current.<%= singular_table_name %>.sessions.order(created_at: :desc)
+    render json: Current.user.sessions.order(created_at: :desc)
   end
 
   def show
@@ -12,10 +12,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    <%= singular_table_name %> = <%= class_name %>.find_by(email: params[:email])
+    user = User.find_by(email: params[:email])
 
-    if <%= singular_table_name %> && <%= singular_table_name %>.authenticate(params[:password])
-      @session = <%= singular_table_name %>.sessions.create!
+    if user && user.authenticate(params[:password])
+      @session = user.sessions.create!
       response.set_header("X-Session-Token", @session.signed_id)
 
       render json: @session, status: :created
@@ -30,6 +30,6 @@ class SessionsController < ApplicationController
 
   private
     def set_session
-      @session = Current.<%= singular_table_name %>.sessions.find(params[:id])
+      @session = Current.user.sessions.find(params[:id])
     end
 end

@@ -1,22 +1,22 @@
 class Identity::EmailsController < ApplicationController
-  before_action :set_<%= singular_table_name %>
+  before_action :set_user
 
   def update
-    if !@<%= singular_table_name %>.authenticate(params[:current_password])
+    if !@user.authenticate(params[:current_password])
       render json: { error: "The password you entered is incorrect" }, status: :bad_request
-    elsif @<%= singular_table_name %>.update(<%= "#{singular_table_name}_params" %>)
-      render json: @<%= singular_table_name %>
+    elsif @user.update(user_params)
+      render json: @user
     else
-      render json: @<%= singular_table_name %>.errors, status: :unprocessable_entity
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   private
-    def set_<%= singular_table_name %>
-      @<%= singular_table_name %> = Current.<%= singular_table_name %>
+    def set_user
+      @user = Current.user
     end
 
-    def <%= "#{singular_table_name}_params" %>
+    def user_params
       params.permit(:email)
     end
 end

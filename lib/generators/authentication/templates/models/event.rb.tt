@@ -1,5 +1,5 @@
 class Event < ApplicationRecord
-  belongs_to :<%= singular_table_name %>
+  belongs_to :user
 
   before_create do
     self.user_agent = Current.user_agent

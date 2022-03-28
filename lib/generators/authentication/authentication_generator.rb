@@ -1,6 +1,6 @@
 require "rails/generators/active_record"
 
-class AuthenticationGenerator < Rails::Generators::NamedBase
+class AuthenticationGenerator < Rails::Generators::Base
   include ActiveRecord::Generators::Migration
 
   class_option :api,              type: :boolean, desc: "Generates API authentication"
@@ -54,13 +54,13 @@ class AuthenticationGenerator < Rails::Generators::NamedBase
   end
 
   def create_migrations
-    migration_template "migrations/create_table_migration.rb", "#{db_migrate_path}/create_#{table_name}.rb"
+    migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
   end
 
   def create_models
-    template "models/model.rb", "app/models/#{file_name}.rb"
+    template "models/user.rb", "app/models/user.rb"
     template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
     template "models/locking.rb", "app/models/locking.rb" if options.lockable?

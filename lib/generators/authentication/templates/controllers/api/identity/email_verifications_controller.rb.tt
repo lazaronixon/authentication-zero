@@ -1,26 +1,26 @@
 class Identity::EmailVerificationsController < ApplicationController
   skip_before_action :authenticate, only: :edit
 
-  before_action :set_<%= singular_table_name %>, only: :edit
+  before_action :set_user, only: :edit
 
   def edit
-    @<%= singular_table_name %>.update! verified: true
+    @user.update! verified: true
   end
 
   def create
-    IdentityMailer.with(<%= singular_table_name %>: Current.<%= singular_table_name %>).email_verify_confirmation.deliver_later
+    IdentityMailer.with(user: Current.user).email_verify_confirmation.deliver_later
   end
 
   private
-    def set_<%= singular_table_name %>
+    def set_user
     <%- if code_verifiable? -%>
-      @<%= singular_table_name %> = <%= class_name %>.find_by(email: params[:email])
+      @user = User.find_by(email: params[:email])
 
-      unless @<%= singular_table_name %> && @<%= singular_table_name %>.verification_code.value == params[:token]
+      unless @user && @user.verification_code.value == params[:token]
         render json: { error: "That email verification code is invalid" }, status: :bad_request
       end
     <%- else -%>
-      @<%= singular_table_name %> = <%= class_name %>.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
+      @user = User.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
     rescue
       render json: { error: "That email verification link is invalid" }, status: :bad_request
     <%- end -%>

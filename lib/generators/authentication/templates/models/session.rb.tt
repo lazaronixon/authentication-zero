@@ -1,5 +1,5 @@
 class Session < ApplicationRecord
-  belongs_to :<%= singular_table_name %>
+  belongs_to :user
   <%- if options.sudoable? %>
   kredis_flag :sudo, expires_in: 30.minutes
   <%- end -%>
@@ -19,11 +19,11 @@ class Session < ApplicationRecord
   end
   <%- if options.trackable? %>
   after_create do
-    <%= singular_table_name %>.events.create! action: "signed_in"
+    user.events.create! action: "signed_in"
   end
 
   after_destroy do
-    <%= singular_table_name %>.events.create! action: "signed_out"
+    user.events.create! action: "signed_out"
   end
   <%- end -%>
 end

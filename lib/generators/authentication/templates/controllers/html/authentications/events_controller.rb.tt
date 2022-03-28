@@ -1,5 +1,5 @@
 class Authentications::EventsController < ApplicationController
   def index
-    @events = Current.<%= singular_table_name %>.events.order(created_at: :desc)
+    @events = Current.user.events.order(created_at: :desc)
   end
 end

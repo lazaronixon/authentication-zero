@@ -2,11 +2,11 @@ require "test_helper"
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @<%= singular_table_name %> = <%= table_name %>(:lazaro_nixon)
+    @user = users(:lazaro_nixon)
   end
 
   test "should get index" do
-    sign_in_as @<%= singular_table_name %>
+    sign_in_as @user
 
     get sessions_url
     assert_response :success
@@ -18,8 +18,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign in" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "Secret1*3*5*" }
-    assert_enqueued_email_with SessionMailer, :signed_in_notification, args: { session: @<%= singular_table_name %>.sessions.last }
+    post sign_in_url, params: { email: @user.email, password: "Secret1*3*5*" }
+    assert_enqueued_email_with SessionMailer, :signed_in_notification, args: { session: @user.sessions.last }
 
     assert_redirected_to root_url
 
@@ -28,8 +28,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not sign in with wrong credentials" do
-    post sign_in_url, params: { email: @<%= singular_table_name %>.email, password: "SecretWrong1*3" }
-    assert_redirected_to sign_in_url(email_hint: @<%= singular_table_name %>.email)
+    post sign_in_url, params: { email: @user.email, password: "SecretWrong1*3" }
+    assert_redirected_to sign_in_url(email_hint: @user.email)
     assert_equal "That email or password is incorrect", flash[:alert]
 
     get root_url
@@ -37,9 +37,9 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should sign out" do
-    sign_in_as @<%= singular_table_name %>
+    sign_in_as @user
 
-    delete session_url(@<%= singular_table_name %>.sessions.last)
+    delete session_url(@user.sessions.last)
     assert_redirected_to sessions_url
 
     follow_redirect!

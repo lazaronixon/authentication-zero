@@ -1,6 +1,6 @@
 <p>Hey there,</p>
 
-<p>A new device just signed in to your account (<%%= @session.<%= singular_table_name %>.email %>).</p>
+<p>A new device just signed in to your account (<%%= @session.user.email %>).</p>
 
 <p>
   <strong><%%= @session.user_agent %></strong>

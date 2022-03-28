@@ -11,12 +11,12 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   <%- if options.api? -%>
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); [<%= singular_table_name %>, response.headers["X-Session-Token"]]
+  def sign_in_as(user)
+    post(sign_in_url, params: { email: user.email, password: "Secret1*3*5*" }); [user, response.headers["X-Session-Token"]]
   end
   <%- else -%>
-  def sign_in_as(<%= singular_table_name %>)
-    post(sign_in_url, params: { email: <%= singular_table_name %>.email, password: "Secret1*3*5*" }); <%= singular_table_name %>
+  def sign_in_as(user)
+    post(sign_in_url, params: { email: user.email, password: "Secret1*3*5*" }); user
   end
   <%- end -%>
 end

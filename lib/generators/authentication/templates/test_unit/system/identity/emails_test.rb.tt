@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class Identity::EmailsTest < ApplicationSystemTestCase
   setup do
-    @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
+    @user = sign_in_as(users(:lazaro_nixon))
   end
 
   test "updating the email" do
@@ -16,7 +16,7 @@ class Identity::EmailsTest < ApplicationSystemTestCase
   end
 
   test "sending a verification email" do
-    @<%= singular_table_name %>.update! verified: false
+    @user.update! verified: false
 
     click_on "Change email address"
     click_on "Re-send verification email"

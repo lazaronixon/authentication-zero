@@ -1,6 +1,6 @@
 Hey there,
 
-A new device just signed in to your account (<%%= @session.<%= singular_table_name %>.email %>).
+A new device just signed in to your account (<%%= @session.user.email %>).
 
 <%%= @session.user_agent %>
 

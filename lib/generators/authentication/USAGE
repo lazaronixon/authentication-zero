@@ -8,4 +8,4 @@ Description:
     to modify the authentication system so it works best with their app.
 
 Example:
-    bin/rails generate authentication user
+    bin/rails generate authentication

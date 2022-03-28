@@ -3,13 +3,13 @@ require "test_helper"
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
 
-  def sign_in_as(<%= singular_table_name %>)
+  def sign_in_as(user)
     visit sign_in_url
-    fill_in :email, with: <%= singular_table_name %>.email
+    fill_in :email, with: user.email
     fill_in :password, with: "Secret1*3*5*"
     click_on "Sign in"
 
     assert_current_path root_url
-    <%= singular_table_name %>
+    user
   end
 end

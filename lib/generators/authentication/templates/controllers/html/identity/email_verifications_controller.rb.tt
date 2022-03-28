@@ -1,21 +1,21 @@
 class Identity::EmailVerificationsController < ApplicationController
   skip_before_action :authenticate, only: :edit
 
-  before_action :set_<%= singular_table_name %>, only: :edit
+  before_action :set_user, only: :edit
 
   def edit
-    @<%= singular_table_name %>.update! verified: true
+    @user.update! verified: true
     redirect_to root_path, notice: "Thank you for verifying your email address"
   end
 
   def create
-    IdentityMailer.with(<%= singular_table_name %>: Current.<%= singular_table_name %>).email_verify_confirmation.deliver_later
+    IdentityMailer.with(user: Current.user).email_verify_confirmation.deliver_later
     redirect_to root_path, notice: "We sent a verification email to your email address"
   end
 
   private
-    def set_<%= singular_table_name %>
-      @<%= singular_table_name %> = <%= class_name %>.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
+    def set_user
+      @user = User.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
     rescue
       redirect_to edit_identity_email_path, alert: "That email verification link is invalid"
     end

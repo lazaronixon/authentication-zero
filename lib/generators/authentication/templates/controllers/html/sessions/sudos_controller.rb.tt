@@ -6,9 +6,9 @@ class Sessions::SudosController < ApplicationController
     session = Current.session
 
     <%- if omniauthable? -%>
-    if session.<%= singular_table_name %>.authenticate(params[:password]) || session.<%= singular_table_name %>.provider
+    if session.user.authenticate(params[:password]) || session.user.provider
     <%- else -%>
-    if session.<%= singular_table_name %>.authenticate(params[:password])
+    if session.user.authenticate(params[:password])
     <%- end -%>
       session.sudo.mark; redirect_to(params[:proceed_to_url])
     else

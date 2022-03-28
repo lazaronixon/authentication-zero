@@ -2,15 +2,15 @@ require "test_helper"
 
 class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @<%= singular_table_name %> = sign_in_as(<%= table_name %>(:lazaro_nixon))
-    @sid = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 20.minutes)
-    @sid_exp = @<%= singular_table_name %>.signed_id(purpose: @<%= singular_table_name %>.email, expires_in: 0.minutes)
+    @user = sign_in_as(users(:lazaro_nixon))
+    @sid = @user.signed_id(purpose: @user.email, expires_in: 20.minutes)
+    @sid_exp = @user.signed_id(purpose: @user.email, expires_in: 0.minutes)
 
-    @<%= singular_table_name %>.update! verified: false
+    @user.update! verified: false
   end
 
   test "should send a verification email" do
-    assert_enqueued_email_with IdentityMailer, :email_verify_confirmation, args: { <%= singular_table_name %>: @<%= singular_table_name %> } do
+    assert_enqueued_email_with IdentityMailer, :email_verify_confirmation, args: { user: @user } do
       post identity_email_verification_url
     end
 
@@ -18,21 +18,21 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   end
 
   test "should verify email" do
-    get edit_identity_email_verification_url(token: @sid, email: @<%= singular_table_name %>.email)
+    get edit_identity_email_verification_url(token: @sid, email: @user.email)
     assert_redirected_to root_url
   end
 
   test "should not verify email with expired token" do
-    get edit_identity_email_verification_url(token: @sid_exp, email: @<%= singular_table_name %>.email)
+    get edit_identity_email_verification_url(token: @sid_exp, email: @user.email)
 
     assert_redirected_to edit_identity_email_url
     assert_equal "That email verification link is invalid", flash[:alert]
   end
 
   test "should not verify email with previous token" do
-    @<%= singular_table_name %>.update! email: "other_email@hey.com"
+    @user.update! email: "other_email@hey.com"
 
-    get edit_identity_email_verification_url(token: @sid, email: @<%= singular_table_name %>.email_previously_was)
+    get edit_identity_email_verification_url(token: @sid, email: @user.email_previously_was)
 
     assert_redirected_to edit_identity_email_url
     assert_equal "That email verification link is invalid", flash[:alert]

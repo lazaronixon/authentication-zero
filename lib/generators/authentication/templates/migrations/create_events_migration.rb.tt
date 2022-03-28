@@ -1,7 +1,7 @@
 class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
   def change
     create_table :events do |t|
-      t.references :<%= singular_table_name %>, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
       t.string :action, null: false
       t.string :user_agent
       t.string :ip_address
