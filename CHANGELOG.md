@@ -1,3 +1,7 @@
+## Authentication Zero 2.12.0 (March 28, 2022) ##
+
+* Remove model option from generator
+
 ## Authentication Zero 2.11.0 (March 27, 2022) ##
 
 * Remove sudo from default generator
