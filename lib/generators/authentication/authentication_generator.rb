@@ -68,7 +68,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def create_fixture_file
-    template "test_unit/fixtures.yml", "test/fixtures/#{fixture_file_name}.yml"
+    template "test_unit/users.yml", "test/fixtures/users.yml"
   end
 
   def create_controllers
@@ -86,10 +86,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def create_views
     if options.api?
-      directory "erb/identity_mailer", "app/views/identity_mailer"
+      directory "erb/user_mailer", "app/views/user_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
     else
-      directory "erb/identity_mailer", "app/views/identity_mailer"
+      directory "erb/user_mailer", "app/views/user_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
 
       directory "erb/identity", "app/views/identity"

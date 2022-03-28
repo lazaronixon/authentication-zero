@@ -14,9 +14,11 @@ class Identity::EmailVerificationsController < ApplicationController
   private
     def set_user
     <%- if code_verifiable? -%>
-      @user = User.find_by(email: params[:email])
+      verified_user = User.find_by(email: params[:email])
 
-      unless @user && @user.verification_code.value == params[:token]
+      if verified_user && verified_user.verification_code.value == params[:token]
+        @user = verified_user
+      else
         render json: { error: "That email verification code is invalid" }, status: :bad_request
       end
     <%- else -%>
