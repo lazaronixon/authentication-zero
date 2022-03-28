@@ -18,11 +18,12 @@
     <%%= form.submit "Sign in" %>
   </div>
 <%% end %>
-<% if omniauthable? %>
+
+<%- if omniauthable? -%>
 <div>
   <%%= button_to "Sign in with OmniAuth", "/auth/developer", "data-turbo" => false %>
 </div>
-<% end -%>
+<%- end -%>
 
 <br>
 

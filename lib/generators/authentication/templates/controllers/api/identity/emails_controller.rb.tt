@@ -1,10 +1,17 @@
 class Identity::EmailsController < ApplicationController
+  <%- if options.sudoable? -%>
+  before_action :require_sudo
+  <%- end -%>
   before_action :set_user
 
   def update
+    <%- unless options.sudoable? -%>
     if !@user.authenticate(params[:current_password])
       render json: { error: "The password you entered is incorrect" }, status: :bad_request
     elsif @user.update(user_params)
+    <%- else -%>
+    if @user.update(user_params)
+    <%- end -%>
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity
