@@ -21,7 +21,6 @@ curl -H "Authorization: Bearer $ACCESS_TOKEN" \
 - [Get your sessions](#get-your-sessions)
 - [Get a session](#get-a-session)
 - [Destroy a session](#destroy-a-session)
-- [Execute sudo](#execute-sudo)
 - [Update your password](#update-your-password)
 - [Update your email](#update-your-email)
 - [Send verification email](#send-verification-email)
@@ -115,21 +114,6 @@ This endpoint will return `201 Created` with the current JSON representation of 
 
 Returns `204 No Content` if successful.
 
-
-### Execute sudo
-
-* `POST /sessions/sudo` will grant temporary access to sensitive information.
-
-###### Example JSON Request
-
-``` json
-{
-  "password": "Secret1*2*3*4*5*6",
-}
-```
-
-Returns `204 No Content` if successful.
-
 ## Password
 
 ### Update your password
@@ -158,6 +142,7 @@ This endpoint will return 200 OK with the current JSON representation of the use
 
 ``` json
 {
+  "current_password": "Secret1*2*3*4*5*6",  
   "email": "new_email@hey.com"
 }
 ```
