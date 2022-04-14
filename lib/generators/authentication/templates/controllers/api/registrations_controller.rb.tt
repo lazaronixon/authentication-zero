@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
       session = @user.sessions.create!
       response.set_header "X-Session-Token", session.signed_id
 
-      render json: session, status: :created
+      render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
