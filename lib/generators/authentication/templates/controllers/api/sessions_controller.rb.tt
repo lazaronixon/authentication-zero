@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       @session = user.sessions.create!
-      response.set_header("X-Session-Token", @session.signed_id)
+      response.set_header "X-Session-Token", @session.signed_id
 
       render json: @session, status: :created
     else
