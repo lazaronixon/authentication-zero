@@ -9,17 +9,14 @@ class User < ApplicationRecord
   kredis_string :verification_code, expires_in: 2.days
   <%- end -%>
 
-  validates :email, presence: true, uniqueness: true
-  validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/
-
-  validates_length_of :password, minimum: 12, allow_nil: true
-  validates_format_of :password, with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, allow_nil: true, message: "might easily be guessed"
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, allow_nil: true, length: { minimum: 12 }, format: { with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/ }
   <%- if options.pwned? -%>
   validates :password, not_pwned: { message: "might easily be guessed" }
   <%- end -%>
 
   before_validation do
-    self.email = email.downcase.strip
+    self.email = email.try(:downcase).try(:strip)
   end
 
   before_validation if: :email_changed? do
