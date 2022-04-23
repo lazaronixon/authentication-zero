@@ -22,7 +22,7 @@ class Identity::EmailVerificationsController < ApplicationController
         render json: { error: "That email verification code is invalid" }, status: :bad_request
       end
     <%- else -%>
-      @user = User.where(email: params[:email]).find_signed!(params[:token], purpose: params[:email])
+      @user = User.where(email: params[:email]).find_signed!(params[:token], purpose: "verify_#{params[:email]}")
     rescue
       render json: { error: "That email verification link is invalid" }, status: :bad_request
     <%- end -%>

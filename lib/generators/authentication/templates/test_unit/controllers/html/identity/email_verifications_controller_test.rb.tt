@@ -3,8 +3,8 @@ require "test_helper"
 class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = sign_in_as(users(:lazaro_nixon))
-    @sid = @user.signed_id(purpose: @user.email, expires_in: 20.minutes)
-    @sid_exp = @user.signed_id(purpose: @user.email, expires_in: 0.minutes)
+    @sid = @user.signed_id(purpose: "verify_#{@user.email}", expires_in: 20.minutes)
+    @sid_exp = @user.signed_id(purpose: "verify_#{@user.email}", expires_in: 0.minutes)
 
     @user.update! verified: false
   end

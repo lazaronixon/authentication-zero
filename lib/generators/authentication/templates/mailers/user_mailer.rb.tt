@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     <%- if code_verifiable? -%>
     @user.verification_code.value = rand.to_s[2..7]
     <%- else -%>
-    @signed_id = @user.signed_id(purpose: @user.email, expires_in: 2.days)
+    @signed_id = @user.signed_id(purpose: "verify_#{@user.email}", expires_in: 2.days)
     <%- end -%>
 
     mail to: @user.email, subject: "Verify your email"
