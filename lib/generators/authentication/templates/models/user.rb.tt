@@ -28,7 +28,7 @@ class User < ApplicationRecord
   end
 
   after_save_commit if: :email_previously_changed? do
-    UserMailer.with(user: self).email_verify_confirmation.deliver_later
+    UserMailer.with(user: self).email_confirmation.deliver_later
   end
   <%- if options.trackable? %>
   after_save_commit if: :email_previously_changed? do

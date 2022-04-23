@@ -1,12 +1,12 @@
 class UserMailer < ApplicationMailer
-  def password_reset_provision
+  def password_reset
     @user = params[:user]
     @signed_id = @user.signed_id(purpose: :password_reset, expires_in: 20.minutes)
 
     mail to: @user.email, subject: "Reset your password"
   end
 
-  def email_verify_confirmation
+  def email_confirmation
     @user = params[:user]
     <%- if code_verifiable? -%>
     @user.verification_code.value = rand.to_s[2..7]

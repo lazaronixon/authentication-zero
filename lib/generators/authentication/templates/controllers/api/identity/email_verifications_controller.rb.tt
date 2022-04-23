@@ -8,7 +8,7 @@ class Identity::EmailVerificationsController < ApplicationController
   end
 
   def create
-    UserMailer.with(user: Current.user).email_verify_confirmation.deliver_later
+    UserMailer.with(user: Current.user).email_confirmation.deliver_later
   end
 
   private
