@@ -6,7 +6,7 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: "Reset your password"
   end
 
-  def email_confirmation
+  def email_verification
     @user = params[:user]
     <%- if code_verifiable? -%>
     @user.verification_code.value = rand.to_s[2..7]
