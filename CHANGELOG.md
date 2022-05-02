@@ -1,3 +1,8 @@
+## Authentication Zero 2.13.0 (May 2, 2022) ##
+
+* Migrate tokens to a table structure
+* Refactor lockable to a controller method
+
 ## Authentication Zero 2.12.0 (March 28, 2022) ##
 
 * Remove model option from generator
