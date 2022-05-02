@@ -15,7 +15,7 @@ class Identity::EmailVerificationsController < ApplicationController
 
   private
     def set_user
-      @user = User.where(email: params[:email]).find_signed!(params[:token], purpose: "email_verification/#{params[:email]}")
+      @token = EmailVerificationToken.find_signed!(params[:sid]); @user = @token.user
     rescue
       redirect_to edit_identity_email_path, alert: "That email verification link is invalid"
     end

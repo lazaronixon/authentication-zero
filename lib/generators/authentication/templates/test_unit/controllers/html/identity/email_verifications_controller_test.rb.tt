@@ -3,9 +3,6 @@ require "test_helper"
 class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = sign_in_as(users(:lazaro_nixon))
-    @sid = @user.signed_id(purpose: "email_verification/#{@user.email}", expires_in: 20.minutes)
-    @sid_exp = @user.signed_id(purpose: "email_verification/#{@user.email}", expires_in: 0.minutes)
-
     @user.update! verified: false
   end
 
@@ -18,21 +15,16 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   end
 
   test "should verify email" do
-    get edit_identity_email_verification_url(token: @sid, email: @user.email)
+    sid = @user.create_email_verification_token.signed_id(expires_in: 2.days)
+
+    get edit_identity_email_verification_url(sid: sid, email: @user.email)
     assert_redirected_to root_url
   end
 
   test "should not verify email with expired token" do
-    get edit_identity_email_verification_url(token: @sid_exp, email: @user.email)
+    sid_exp = @user.create_email_verification_token.signed_id(expires_in: 0.minutes)
 
-    assert_redirected_to edit_identity_email_url
-    assert_equal "That email verification link is invalid", flash[:alert]
-  end
-
-  test "should not verify email with previous token" do
-    @user.update! email: "other_email@hey.com"
-
-    get edit_identity_email_verification_url(token: @sid, email: @user.email_previously_was)
+    get edit_identity_email_verification_url(sid: sid_exp, email: @user.email)
 
     assert_redirected_to edit_identity_email_url
     assert_equal "That email verification link is invalid", flash[:alert]
