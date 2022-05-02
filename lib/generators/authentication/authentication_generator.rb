@@ -46,8 +46,8 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def add_environment_configurations
     ratelimit_code = <<~CODE
-      # Rate limit general requests by IP address in a rate of 1000 requests per hour
-      config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.hour], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
+      # Rate limit general requests by IP address in a rate of 1000 requests per minute
+      config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.minute], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
     CODE
 
     environment ratelimit_code, env: "production" if options.ratelimit?
