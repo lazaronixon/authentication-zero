@@ -63,7 +63,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/user.rb", "app/models/user.rb"
     template "models/session.rb", "app/models/session.rb"
     template "models/current.rb", "app/models/current.rb"
-    template "models/locking.rb", "app/models/locking.rb" if options.lockable?
     template "models/event.rb", "app/models/event.rb" if options.trackable?
   end
 
