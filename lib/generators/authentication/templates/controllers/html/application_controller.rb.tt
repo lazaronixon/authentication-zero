@@ -9,14 +9,12 @@ class ApplicationController < ActionController::Base
   end
   <%- end -%>
   <%- if options.lockable? %>
-  def self.lock_on(actions, wait: 1.minute, attempts: 1000, &block)
-    before_action(only: actions) do
-      counter = Kredis.counter("lock_on:#{request.remote_ip}:#{params[:controller]}:#{params[:action]}", expires_in: wait)
-      counter.increment
+  def require_lock(wait: 1.hour, attempts: 10)
+    counter = Kredis.counter("require_lock:#{request.remote_ip}:#{params[:controller]}:#{params[:action]}", expires_in: wait)
+    counter.increment
 
-      if counter.value > attempts
-        instance_exec(&block)
-      end
+    if counter.value > attempts
+      redirect_to new_identity_password_reset_path, alert: "You've exceeded the maximum number of attempts"
     end
   end
   <%- end -%>
