@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     counter.increment
 
     if counter.value > attempts
-      redirect_to new_identity_password_reset_path, alert: "You've exceeded the maximum number of attempts"
+      redirect_to root_path, alert: "You've exceeded the maximum number of attempts"
     end
   end
   <%- end -%>
