@@ -26,15 +26,19 @@ class User < ApplicationRecord
     self.verified = false
   end
 
+  after_create_commit do
+    UserMailer.with(user: self).email_verification.deliver_later
+  end
+
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).destroy_all
   end
 
-  after_save_commit if: :email_previously_changed? do
+  after_update if: :email_previously_changed? do
     UserMailer.with(user: self).email_verification.deliver_later
   end
   <%- if options.trackable? %>
-  after_save_commit if: :email_previously_changed? do
+  after_update if: :email_previously_changed? do
     events.create! action: "email_verification_requested"
   end
 
