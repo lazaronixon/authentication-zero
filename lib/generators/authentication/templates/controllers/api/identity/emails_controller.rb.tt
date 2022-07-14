@@ -6,7 +6,7 @@ class Identity::EmailsController < ApplicationController
 
   def update
     if @user.update(user_params)
-      render json: @user
+      render_show
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -19,5 +19,17 @@ class Identity::EmailsController < ApplicationController
 
     def user_params
       params.permit(:email)
+    end
+
+    def render_show
+      if @user.email_previously_changed?
+        resend_email_verification; render(json: @user)
+      else
+        render json: @user
+      end
+    end
+
+    def resend_email_verification
+      UserMailer.with(user: @user).email_verification.deliver_later
     end
 end
