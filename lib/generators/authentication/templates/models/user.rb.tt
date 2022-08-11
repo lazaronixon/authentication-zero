@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
-  has_one :email_verification_token, dependent: :destroy
-  has_one :password_reset_token, dependent: :destroy
+  has_one :email_verification_token
+  has_one :password_reset_token
 
   has_many :sessions, dependent: :destroy
   <%- if options.trackable? -%>
