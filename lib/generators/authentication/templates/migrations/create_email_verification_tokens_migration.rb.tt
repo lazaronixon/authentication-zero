@@ -1,7 +1,7 @@
 class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
   def change
     create_table :email_verification_tokens do |t|
-      t.references :user, null: false, foreign_key: false
+      t.references :user, null: false, foreign_key: true
     end
   end
 end
