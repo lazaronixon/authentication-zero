@@ -19,7 +19,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
 - Lock sending reset password email after many attempts (--lockable)
-- Rate limiting for your app, 1000 reqs/minute (--ratelimit)
 - Send e-mail confirmation when your email has been changed
 - Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
