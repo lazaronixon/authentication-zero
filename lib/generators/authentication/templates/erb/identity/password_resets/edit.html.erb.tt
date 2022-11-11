@@ -13,7 +13,7 @@
     </div>
   <%% end %>
 
-  <%%= form.hidden_field :token, value: params[:token] %>
+  <%%= form.hidden_field :sid, value: params[:sid] %>
 
   <div>
     <%%= form.label :password, "New password", style: "display: block" %>
