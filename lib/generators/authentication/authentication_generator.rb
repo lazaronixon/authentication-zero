@@ -43,7 +43,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_email_verification_tokens_migration.rb", "#{db_migrate_path}/create_email_verification_tokens.rb"
-    migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
   end
 
@@ -51,7 +50,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/user.rb", "app/models/user.rb"
     template "models/session.rb", "app/models/session.rb"
     template "models/email_verification_token.rb", "app/models/email_verification_token.rb"
-    template "models/password_reset_token.rb", "app/models/password_reset_token.rb"
     template "models/current.rb", "app/models/current.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
   end
