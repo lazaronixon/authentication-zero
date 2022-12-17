@@ -12,9 +12,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email])
+    user = User.authenticate_by(login_params)
 
-    if user && user.authenticate(params[:password])
+    if user.present?
       <%- if two_factor? -%>
       if user.otp_secret
         signed_id = user.signed_id(purpose: :authentication_challenge, expires_in: 20.minutes)
@@ -44,5 +44,9 @@ class SessionsController < ApplicationController
   private
     def set_session
       @session = Current.user.sessions.find(params[:id])
+    end
+
+    def login_params
+      params.permit(:email, :password).with_defaults(email: "", password: "")
     end
 end
