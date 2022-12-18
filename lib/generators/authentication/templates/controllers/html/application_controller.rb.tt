@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
+
+  helper_method :signed_in?
+
   <%- if options.sudoable? %>
   def require_sudo
     unless Current.session.sudo?
@@ -9,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
   <%- end -%>
   <%- if options.lockable? %>
+
   def require_lock(wait: 1.hour, attempts: 10)
     counter = Kredis.counter("require_lock:#{request.remote_ip}:#{params[:controller]}:#{params[:action]}", expires_in: wait)
     counter.increment
@@ -26,6 +30,10 @@ class ApplicationController < ActionController::Base
       else
         redirect_to sign_in_path
       end
+    end
+
+    def signed_in?
+      Current.user.present?
     end
 
     def set_current_request_details
