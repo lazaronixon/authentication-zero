@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  EMAIL_VERIFICATION_TOKEN_VALIDITY = 2.days
+
   has_secure_password
 
   PASSWORD_RESET_TOKEN_VALIDITY = 20.minutes
@@ -8,7 +10,9 @@ class User < ApplicationRecord
     BCrypt::Password.new(password_digest).salt[-10..]
   end
 
-  has_many :email_verification_tokens, dependent: :destroy
+  generates_token_for :email_verification, expires_in: EMAIL_VERIFICATION_TOKEN_VALIDITY do
+    email
+  end
 
   has_many :sessions, dependent: :destroy
   <%- if options.trackable? -%>
