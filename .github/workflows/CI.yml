@@ -1,0 +1,70 @@
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Generate sample app and run tests"
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+jobs:
+  test_html:
+    name: 🧪 Run HTML Tests
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install the latest Rails gem
+        run: gem install rails
+
+      - name: Create fresh Rails app then run generator and tests
+        env:
+          CI: true
+        run: |
+          rails new test-app
+          cd test-app
+          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bin/rails generate authentication
+          bundle install
+          bin/rails db:migrate
+          bin/rails test
+          bin/rails test:system
+  test_api:
+    name: 🧪 Run API Tests
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install the latest Rails gem
+        run: gem install rails
+
+      - name: Create fresh Rails app then run generator and tests
+        env:
+          CI: true
+        run: |
+          rails new test-app --api
+          cd test-app
+          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bin/rails generate authentication
+          bundle install
+          bin/rails db:migrate
+          bin/rails test

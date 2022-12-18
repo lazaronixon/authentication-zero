@@ -100,6 +100,8 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def add_routes
+    route "root 'identity/emails#edit'"
+
     if omniauthable?
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get  '/auth/:provider/callback', to: 'sessions/omniauth#create'"

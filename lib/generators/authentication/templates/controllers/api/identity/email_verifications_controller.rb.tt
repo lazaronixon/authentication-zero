@@ -24,7 +24,7 @@ class Identity::EmailVerificationsController < ApplicationController
     <%- else -%>
       @token = EmailVerificationToken.find_signed!(params[:sid]); @user = @token.user
     rescue
-      render json: { error: "That email verification link is invalid" }, status: :bad_request
+      render json: { error: "That email verification code is invalid" }, status: :bad_request
     <%- end -%>
   end
 end
