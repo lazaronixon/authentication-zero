@@ -61,7 +61,8 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def create_controllers
-    template  "controllers/#{format_folder}/application_controller.rb", "app/controllers/application_controller.rb", force: true
+    directory "controllers/concerns", "app/controllers/concerns"
+    template  "controllers/application_controller.rb", "app/controllers/application_controller.rb", force: true
 
     directory "controllers/#{format_folder}/identity", "app/controllers/identity"
     directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication" if two_factor?

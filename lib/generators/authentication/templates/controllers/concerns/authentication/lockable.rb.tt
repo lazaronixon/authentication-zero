@@ -1,0 +1,16 @@
+module Authentication::Lockable
+  extend ActiveSupport::Concern
+
+ def require_lock(wait: 1.hour, attempts: 10)
+    counter = Kredis.counter("require_lock:#{request.remote_ip}:#{params[:controller]}:#{params[:action]}", expires_in: wait)
+    counter.increment
+
+    if counter.value > attempts
+    <%- if options.api? -%>
+      render json: { error: "You've exceeded the maximum number of attempts" }, status: :too_many_requests
+    <%- else -%>
+      redirect_to root_path, alert: "You've exceeded the maximum number of attempts"
+    <%- end %>
+    end
+  end
+end

@@ -1,0 +1,13 @@
+module Authentication::Sudoable
+  extend ActiveSupport::Concern
+
+  def require_sudo
+    unless Current.session.sudo?
+    <%- if options.api? -%>
+      render json: { error: "Enter your password to continue" }, status: :forbidden
+    <%- else -%>
+      redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
+    <%- end -%>
+    end
+  end
+end

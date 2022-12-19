@@ -1,0 +1,9 @@
+class ApplicationController < ActionController::Base
+  include Authentication
+  <%- if options.sudoable? -%>
+  include Authentication::Sudoable
+  <%- end -%>
+  <%- if options.lockable? -%>
+  include Authentication::Lockable
+  <%- end -%>
+end
