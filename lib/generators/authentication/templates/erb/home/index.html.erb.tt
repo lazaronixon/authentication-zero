@@ -1,0 +1,35 @@
+<p style="color: green"><%%= notice %></p>
+
+<%% if Current.user.present? %>
+  <p>Signed as <%%= Current.user.email %></p>
+
+  <div>
+    <%%= link_to "Change email address", edit_identity_email_path %>
+  </div>
+
+  <div>
+    <%%= link_to "Change password", edit_password_path %>
+  </div>
+
+  <div>
+    <%%= link_to "Devices & Sessions", sessions_path %>
+  </div>
+
+  <%- if options.trackable? -%>
+  <div>
+    <%# link_to "Activity Log", authentications_events_path %>
+  </div>
+
+  <%- end -%>
+  <%- if two_factor? -%>
+  <div>
+    <%# link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
+  </div>
+
+  <%- end -%>
+  <br>
+
+  <%%= button_to "Log out", Current.session, method: :delete %>
+<%% else %>
+  Please <%%= link_to "sign in", sign_in_path %> or <%%= link_to "sign up", sign_up_path %>.
+<%% end %>
