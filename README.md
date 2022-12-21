@@ -42,25 +42,19 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 
 Add this lines to your application's Gemfile:
 
-```ruby
-gem "authentication-zero"
 ```
-
-Then run `bundle install`
-
-You'll also need to set up the default URL options for the mailer in each environment. Here is a possible configuration for `config/environments/development.rb`:
-
-```ruby
-config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+$ bundle add authentication-zero
 ```
 
 ## Usage
 
 ```
-rails generate authentication
+$ rails generate authentication
 ```
 
-Then run `bundle install` again!
+```
+$ bundle install
+```
 
 ## Development
 
