@@ -40,8 +40,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 
 ## Installation
 
-Add this lines to your application's Gemfile:
-
 ```
 $ bundle add authentication-zero
 ```
@@ -50,9 +48,6 @@ $ bundle add authentication-zero
 
 ```
 $ rails generate authentication
-```
-
-```
 $ bundle install
 ```
 
