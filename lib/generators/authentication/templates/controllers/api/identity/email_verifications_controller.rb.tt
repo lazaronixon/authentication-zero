@@ -4,8 +4,7 @@ class Identity::EmailVerificationsController < ApplicationController
   before_action :set_user, only: :edit
 
   def edit
-    @user.update! verified: true
-    head :no_content
+    @user.update!(verified: true); head(:no_content)
   end
 
   def create
