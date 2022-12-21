@@ -1,3 +1,8 @@
+## Authentication Zero 2.16.0 (May 2, 2022) ##
+
+* Generate home controller
+* Add default_url_options to environments
+
 ## Authentication Zero 2.13.0 (May 2, 2022) ##
 
 * Migrate tokens to a table structure
