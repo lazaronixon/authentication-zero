@@ -5,6 +5,7 @@ class Identity::EmailVerificationsController < ApplicationController
 
   def edit
     @user.update! verified: true
+    head :no_content
   end
 
   def create

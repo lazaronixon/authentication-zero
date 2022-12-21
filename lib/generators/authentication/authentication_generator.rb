@@ -68,6 +68,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
+    template  "controllers/#{format_folder}/home_controller.rb", "app/controllers/home_controller.rb" unless options.api?
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb" if options.sudoable?
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
@@ -80,6 +81,8 @@ class AuthenticationGenerator < Rails::Generators::Base
     else
       directory "erb/user_mailer", "app/views/user_mailer"
       directory "erb/session_mailer", "app/views/session_mailer"
+
+      directory "erb/home", "app/views/home"
 
       directory "erb/identity", "app/views/identity"
       directory "erb/passwords", "app/views/passwords"
@@ -100,6 +103,8 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def add_routes
+    route "root 'home#index'" unless options.api?
+
     if omniauthable?
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
       route "get  '/auth/:provider/callback', to: 'sessions/omniauth#create'"

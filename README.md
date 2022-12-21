@@ -48,49 +48,7 @@ gem "authentication-zero"
 
 Then run `bundle install`
 
-You'll need to set the root path in your routes.rb, for this example let's use the following:
-
-```ruby
-root "home#index"
-```
-
-```
-rails generate controller home index
-```
-
-Add these lines to your `app/views/home/index.html.erb`:
-
-```html+erb
-<p style="color: green"><%= notice %></p>
-
-<p>Signed as <%= Current.user.email %></p>
-
-<div>
-  <%= link_to "Change email address", edit_identity_email_path %>
-</div>
-
-<div>
-  <%= link_to "Change password", edit_password_path %>
-</div>
-
-<div>
-  <%= link_to "Devices & Sessions", sessions_path %>
-</div>
-
-<div>
-  <%# link_to "Activity Log", authentications_events_path %>
-</div>
-
-<div>
-  <%# link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
-</div>
-
-<br>
-
-<%= button_to "Log out", Current.session, method: :delete %>
-```
-
-And you'll need to set up the default URL options for the mailer in each environment. Here is a possible configuration for `config/environments/development.rb`:
+You'll also need to set up the default URL options for the mailer in each environment. Here is a possible configuration for `config/environments/development.rb`:
 
 ```ruby
 config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
