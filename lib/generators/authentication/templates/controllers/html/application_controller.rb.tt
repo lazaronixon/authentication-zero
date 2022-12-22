@@ -3,7 +3,11 @@ class ApplicationController < ActionController::Base
   before_action :authenticate
   <%- if options.sudoable? %>
   def require_sudo
+    <%- if omniauthable? -%>
+    unless Current.session.sudo? || Current.session.user.provider.present?
+    <%- else -%>
     unless Current.session.sudo?
+    <%- end -%>
       redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
     end
   end

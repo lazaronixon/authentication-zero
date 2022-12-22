@@ -5,11 +5,7 @@ class Sessions::SudosController < ApplicationController
   def create
     session = Current.session
 
-    <%- if omniauthable? -%>
-    if session.user.authenticate(params[:password]) || session.user.provider
-    <%- else -%>
     if session.user.authenticate(params[:password])
-    <%- end -%>
       session.sudo.mark; redirect_to(params[:proceed_to_url])
     else
       redirect_to new_sessions_sudo_path(proceed_to_url: params[:proceed_to_url]), alert: "The password you entered is incorrect"
