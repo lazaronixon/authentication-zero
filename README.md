@@ -48,7 +48,6 @@ $ bundle add authentication-zero
 
 ```
 $ rails generate authentication
-$ bundle install
 ```
 
 ## Development
