@@ -26,5 +26,5 @@ class Identity::EmailVerificationsController < ApplicationController
     rescue
       render json: { error: "That email verification link is invalid" }, status: :bad_request
     <%- end -%>
-  end
+    end
 end
