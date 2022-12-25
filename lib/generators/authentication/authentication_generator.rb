@@ -15,9 +15,12 @@ class AuthenticationGenerator < Rails::Generators::Base
   source_root File.expand_path("templates", __dir__)
 
   def add_gems
-    uncomment_lines "Gemfile", /"bcrypt"/
-    uncomment_lines "Gemfile", /"redis"/  if redis?
-    uncomment_lines "Gemfile", /"kredis"/ if redis?
+    gem "bcrypt", "~> 3.1.7", comment: "Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]"
+
+    if redis?
+      gem "redis", ">= 4.0.1", comment: "Use Redis adapter to run additional authentication features"
+      gem "kredis", comment: "Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]"
+    end
 
     if options.pwned?
       gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]"
