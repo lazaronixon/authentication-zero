@@ -14,19 +14,17 @@
   <div>
     <%%= link_to "Devices & Sessions", sessions_path %>
   </div>
-
-  <%- if options.trackable? -%>
+  <%- if options.trackable? %>
   <div>
-    <%# link_to "Activity Log", authentications_events_path %>
+    <%%= link_to "Activity Log", authentications_events_path %>
   </div>
-
   <%- end -%>
-  <%- if two_factor? -%>
+  <%- if two_factor? %>
   <div>
-    <%# link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
+    <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
   </div>
-
   <%- end -%>
+
   <br>
 
   <%%= button_to "Log out", Current.session, method: :delete %>
