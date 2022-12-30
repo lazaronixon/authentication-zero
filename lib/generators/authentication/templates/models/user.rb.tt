@@ -29,7 +29,6 @@ class User < ApplicationRecord
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).destroy_all
   end
-
   <%- if options.trackable? %>
   after_update if: :email_previously_changed? do
     events.create! action: "email_verification_requested"
