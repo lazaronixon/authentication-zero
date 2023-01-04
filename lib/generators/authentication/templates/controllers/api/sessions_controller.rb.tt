@@ -1,6 +1,9 @@
 class SessionsController < ApplicationController
   skip_before_action :authenticate, only: :create
 
+  <%- if options.lockable? -%>
+  before_action :require_lock, only: :create
+  <%- end -%>
   before_action :set_session, only: %i[ show destroy ]
 
   def index

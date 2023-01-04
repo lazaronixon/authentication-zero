@@ -18,7 +18,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
-- Lock sending reset password email after many attempts (--lockable)
+- Lock mechanism for resetting password and sign-in (--lockable)
 - Send e-mail confirmation when your email has been changed
 - Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
