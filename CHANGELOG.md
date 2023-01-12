@@ -1,3 +1,20 @@
+## Authentication Zero 2.16.3 (December 30, 2022) ##
+
+* Require lock for sign in when lockable
+
+## Authentication Zero 2.16.2 (December 21, 2022) ##
+
+* Remove api documentation and reference for api docs from README
+* Remove bundle install instruction
+* Dont require sudo for omniauth users
+* Add gems instead of uncomment gemfile lines
+* Fix home view
+
+## Authentication Zero 2.16.1 (December 20, 2022) ##
+
+* Safe navigation for email normalization
+* Fix omniauth not verifying user
+
 ## Authentication Zero 2.16.0 (May 2, 2022) ##
 
 * Generate home controller
