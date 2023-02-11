@@ -19,17 +19,4 @@ Gem::Specification.new do |spec|
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   end
-
-  spec.post_install_message = <<~EOS
-    \n\e[1m\e[31m== Authentication Zero ==\e[0m\e[22m
-
-    It is recommended you keep Authentication Zero as part of your Gemfile even after you have ran the template
-    generators so that you can be kept up-to-date regarding important upstream changes and security updates.
-
-    For a full list of changes, go to: \e[4mhttps://github.com/lazaronixon/authentication-zero/blob/master/CHANGELOG.md\e[24m
-
-    Here are the three most recent release notes:
-
-    #{File.read('CHANGELOG.md').scan(/^##.*?(?=^##|\z)/m).first(3).join}
-  EOS
 end

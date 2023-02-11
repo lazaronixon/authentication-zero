@@ -2,6 +2,22 @@
 
 The purpose of authentication zero is to generate a pre-built authentication system into a rails application (web or api-only) that follows both security and rails best practices. By generating code into the user's application instead of using a library, the user has complete freedom to modify the authentication system so it works best with their app.
 
+## Installation
+
+```
+$ bundle add authentication-zero
+```
+
+## Usage
+
+```
+$ rails generate authentication
+```
+
+## Developer responsibilities
+
+Since Authentication Zero generates this code into your application instead of building these modules into the gem itself, you now have complete freedom to modify the authentication system, so it works best with your use case. The one caveat with using a generated authentication system is it will not be updated after it's been generated. Therefore, as improvements are made to the output of `rails generate authentication`, it becomes your responsibility to determine if these changes need to be ported into your application. Security-related and other important improvements will be explicitly and clearly marked in the `CHANGELOG.md` file and upgrade notes.
+
 ## Features
 
 - **Simplest code ever (~200 lines of code)**
@@ -36,18 +52,6 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 - [Log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
 - [Functional Tests](https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers): In Rails, testing the various actions of a controller is a form of writing functional tests.
 - [System Testing](https://guides.rubyonrails.org/testing.html#system-testing): System tests allow you to test user interactions with your application, running tests in either a real or a headless browser.
-
-## Installation
-
-```
-$ bundle add authentication-zero
-```
-
-## Usage
-
-```
-$ rails generate authentication
-```
 
 ## Development
 
