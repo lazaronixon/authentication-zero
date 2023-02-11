@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.4 (February 11, 2023) ##
+
+* Increase attemps for lockable sign-in
+
 ## Authentication Zero 2.16.3 (December 30, 2022) ##
 
 * Require lock for sign in when lockable
