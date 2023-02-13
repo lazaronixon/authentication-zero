@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.5 ##
+
+* Revoke all password reset tokens (security enhancement)
+
 ## Authentication Zero 2.16.4 (February 11, 2023) ##
 
 * Increase attemps for lockable sign-in
