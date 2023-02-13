@@ -18,6 +18,14 @@
     <%%= form.submit "Sign in" %>
   </div>
 <%% end %>
+
+<br>
+
+<%- if options.passwordless? %>
+<div>
+  <%%= link_to "Sign in without password", new_sessions_passwordless_path %>
+</div>
+<%- end -%>
 <%- if omniauthable? %>
 <div>
   <%%= button_to "Sign in with OmniAuth", "/auth/developer", "data-turbo" => false %>

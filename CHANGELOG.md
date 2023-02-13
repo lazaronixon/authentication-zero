@@ -1,6 +1,7 @@
 ## Authentication Zero 2.16.5 ##
 
 * Revoke all password reset tokens (security enhancement)
+* Sign in without password (new feature)
 
 ## Authentication Zero 2.16.4 (February 11, 2023) ##
 

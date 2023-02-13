@@ -27,6 +27,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Checks if a password has been found in any data breach (--pwned)
 - Authentication by cookie
 - Authentication by token (--api)
+- Passwordless authentication (--passwordless)
 - Two factor authentication (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
 - Verify email using a link with token

@@ -1,0 +1,14 @@
+<p style="color: red"><%%= alert %></p>
+
+<h1>Sign in without password</h1>
+
+<%%= form_with(url: sessions_passwordless_path) do |form| %>
+  <div>
+    <%%= form.label :email, style: "display: block" %>
+    <%%= form.email_field :email, autofocus: true, required: true %>
+  </div>
+
+  <div>
+    <%%= form.submit "Sign in" %>
+  </div>
+<%% end %>

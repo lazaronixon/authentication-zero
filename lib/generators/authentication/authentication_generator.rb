@@ -8,6 +8,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :code_verifiable, type: :boolean, desc: "Add email verification using a code for api"
   class_option :sudoable,        type: :boolean, desc: "Add password request before sensitive data changes"
   class_option :lockable,        type: :boolean, desc: "Add password reset locking"
+  class_option :passwordless,    type: :boolean, desc: "Add passwordless sign"
   class_option :omniauthable,    type: :boolean, desc: "Add social login support"
   class_option :trackable,       type: :boolean, desc: "Add activity log support"
   class_option :two_factor,      type: :boolean, desc: "Add two factor authentication"
@@ -52,6 +53,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_email_verification_tokens_migration.rb", "#{db_migrate_path}/create_email_verification_tokens.rb"
     migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
+    migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if options.passwordless?
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
   end
 
@@ -60,6 +62,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/session.rb", "app/models/session.rb"
     template "models/email_verification_token.rb", "app/models/email_verification_token.rb"
     template "models/password_reset_token.rb", "app/models/password_reset_token.rb"
+    template "models/sign_in_token.rb", "app/models/sign_in_token.rb" if options.passwordless?
     template "models/current.rb", "app/models/current.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
   end
@@ -79,6 +82,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/home_controller.rb", "app/controllers/home_controller.rb" unless options.api?
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb" if options.sudoable?
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
+    template  "controllers/#{format_folder}/sessions/passwordlesses_controller.rb", "app/controllers/sessions/passwordlesses_controller.rb" if options.passwordless?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
   end
 
@@ -96,10 +100,11 @@ class AuthenticationGenerator < Rails::Generators::Base
       directory "erb/passwords", "app/views/passwords"
       directory "erb/registrations", "app/views/registrations"
 
-      template  "erb/sessions/index.html.erb", "app/views/sessions/index.html.erb"
-      template  "erb/sessions/new.html.erb", "app/views/sessions/new.html.erb"
+      template "erb/sessions/index.html.erb", "app/views/sessions/index.html.erb"
+      template "erb/sessions/new.html.erb", "app/views/sessions/new.html.erb"
 
       directory "erb/sessions/sudos", "app/views/sessions/sudos" if options.sudoable?
+      directory "erb/sessions/passwordlesses", "app/views/sessions/passwordlesses" if options.passwordless?
 
       directory "erb/two_factor_authentication", "app/views/two_factor_authentication" if two_factor?
       directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
@@ -112,6 +117,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def add_routes
     route "root 'home#index'" unless options.api?
+
+    if options.passwordless?
+      route "resource :passwordless, only: [:new, :edit, :create]", namespace: :sessions
+    end
 
     if omniauthable?
       route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"

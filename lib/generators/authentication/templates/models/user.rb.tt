@@ -3,6 +3,9 @@ class User < ApplicationRecord
 
   has_many :email_verification_tokens, dependent: :destroy
   has_many :password_reset_tokens, dependent: :destroy
+  <%- if options.passwordless? -%>
+  has_many :sign_in_tokens, dependent: :destroy
+  <%- end -%>
 
   has_many :sessions, dependent: :destroy
   <%- if options.trackable? -%>
