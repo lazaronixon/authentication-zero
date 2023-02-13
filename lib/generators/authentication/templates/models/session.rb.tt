@@ -8,15 +8,15 @@ class Session < ApplicationRecord
     self.user_agent = Current.user_agent
     self.ip_address = Current.ip_address
   end
-  <%- if options.sudoable? %>
-  after_create_commit do
-    self.sudo.mark
-  end
-  <%- end -%>
 
   after_create_commit do
     SessionMailer.with(session: self).signed_in_notification.deliver_later
   end
+  <%- if options.sudoable? %>
+  after_create do
+    sudo.mark
+  end
+  <%- end -%>
   <%- if options.trackable? %>
   after_create do
     user.events.create! action: "signed_in"
