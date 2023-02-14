@@ -53,7 +53,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_email_verification_tokens_migration.rb", "#{db_migrate_path}/create_email_verification_tokens.rb"
     migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
-    migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if options.passwordless?
+    migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if passwordless?
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
   end
 
@@ -62,7 +62,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/session.rb", "app/models/session.rb"
     template "models/email_verification_token.rb", "app/models/email_verification_token.rb"
     template "models/password_reset_token.rb", "app/models/password_reset_token.rb"
-    template "models/sign_in_token.rb", "app/models/sign_in_token.rb" if options.passwordless?
+    template "models/sign_in_token.rb", "app/models/sign_in_token.rb" if passwordless?
     template "models/current.rb", "app/models/current.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
   end
@@ -82,7 +82,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/home_controller.rb", "app/controllers/home_controller.rb" unless options.api?
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb" if options.sudoable?
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
-    template  "controllers/#{format_folder}/sessions/passwordlesses_controller.rb", "app/controllers/sessions/passwordlesses_controller.rb" if options.passwordless?
+    template  "controllers/#{format_folder}/sessions/passwordlesses_controller.rb", "app/controllers/sessions/passwordlesses_controller.rb" if passwordless?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
   end
 
@@ -104,7 +104,7 @@ class AuthenticationGenerator < Rails::Generators::Base
       template "erb/sessions/new.html.erb", "app/views/sessions/new.html.erb"
 
       directory "erb/sessions/sudos", "app/views/sessions/sudos" if options.sudoable?
-      directory "erb/sessions/passwordlesses", "app/views/sessions/passwordlesses" if options.passwordless?
+      directory "erb/sessions/passwordlesses", "app/views/sessions/passwordlesses" if passwordless?
 
       directory "erb/two_factor_authentication", "app/views/two_factor_authentication" if two_factor?
       directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
@@ -118,7 +118,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   def add_routes
     route "root 'home#index'" unless options.api?
 
-    if options.passwordless?
+    if passwordless?
       route "resource :passwordless, only: [:new, :edit, :create]", namespace: :sessions
     end
 
@@ -164,6 +164,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def omniauthable?
       options.omniauthable? && !options.api?
+    end
+
+    def passwordless?
+      options.passwordless? && !options.api?
     end
 
     def two_factor?

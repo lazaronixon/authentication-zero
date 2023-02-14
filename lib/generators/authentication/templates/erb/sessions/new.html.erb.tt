@@ -21,7 +21,7 @@
 
 <br>
 
-<%- if options.passwordless? %>
+<%- if passwordless? %>
 <div>
   <%%= link_to "Sign in without password", new_sessions_passwordless_path %>
 </div>

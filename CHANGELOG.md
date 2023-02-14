@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.6 ##
+
+* Remove passwordless from api template
+
 ## Authentication Zero 2.16.5 ##
 
 * Revoke all password reset tokens (security enhancement)
