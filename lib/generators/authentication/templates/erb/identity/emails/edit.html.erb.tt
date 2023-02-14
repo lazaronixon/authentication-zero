@@ -23,7 +23,7 @@
 
   <div>
     <%%= form.label :email, "New email", style: "display: block" %>
-    <%%= form.email_field :email, autofocus: true %>
+    <%%= form.email_field :email, required: true, autofocus: true %>
   </div>
 
   <div>

@@ -6,7 +6,7 @@
 <%%= form_with(url: sign_in_path) do |form| %>
   <div>
     <%%= form.label :email, style: "display: block" %>
-    <%%= form.email_field :email, value: params[:email_hint], autofocus: true, required: true, autocomplete: "email" %>
+    <%%= form.email_field :email, value: params[:email_hint], required: true, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div>
