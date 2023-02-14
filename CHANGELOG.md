@@ -1,6 +1,8 @@
 ## Authentication Zero 2.16.6 ##
 
 * Remove passwordless from api template
+* Remove sudoable, I want to make things simple for new users,
+  and it will became even simpler with the new rails 7.1 "password challenge api"
 
 ## Authentication Zero 2.16.5 ##
 

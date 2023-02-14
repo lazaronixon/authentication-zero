@@ -1,8 +1,5 @@
 class Session < ApplicationRecord
   belongs_to :user
-  <%- if options.sudoable? %>
-  kredis_flag :sudo, expires_in: 30.minutes
-  <%- end -%>
 
   before_create do
     self.user_agent = Current.user_agent
@@ -12,11 +9,6 @@ class Session < ApplicationRecord
   after_create_commit do
     SessionMailer.with(session: self).signed_in_notification.deliver_later
   end
-  <%- if options.sudoable? %>
-  after_create do
-    sudo.mark
-  end
-  <%- end -%>
   <%- if options.trackable? %>
   after_create do
     user.events.create! action: "signed_in"
