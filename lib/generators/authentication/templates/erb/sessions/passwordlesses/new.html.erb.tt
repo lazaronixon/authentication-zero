@@ -5,7 +5,7 @@
 <%%= form_with(url: sessions_passwordless_path) do |form| %>
   <div>
     <%%= form.label :email, style: "display: block" %>
-    <%%= form.email_field :email, required: true, autofocus: true%>
+    <%%= form.email_field :email, required: true, autofocus: true %>
   </div>
 
   <div>
