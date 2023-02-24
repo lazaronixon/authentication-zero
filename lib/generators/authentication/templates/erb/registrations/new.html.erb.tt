@@ -15,7 +15,7 @@
 
   <div>
     <%%= form.label :email, style: "display: block" %>
-    <%%= form.email_field :email, required: true, autofocus: true, autocomplete: "email" %>
+    <%%= form.email_field :email, value: @user.email, required: true, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div>
