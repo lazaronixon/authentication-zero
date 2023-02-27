@@ -7,9 +7,7 @@
 name: "Generate sample app and run tests"
 on:
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+    branches: ["*"]
 jobs:
   test_html:
     name: 🧪 Run HTML Tests
