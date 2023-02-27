@@ -34,7 +34,7 @@ jobs:
         run: |
           rails new test-app
           cd test-app
-          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bundle add authentication-zero --github ${{ github.event.repository.full_name }} --branch ${{ github.base_ref || github.ref_name }}
           bin/rails generate authentication
           bundle install
           bin/rails db:migrate
@@ -63,7 +63,7 @@ jobs:
         run: |
           rails new test-app --api
           cd test-app
-          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bundle add authentication-zero --github ${{ github.event.repository.full_name }} --branch ${{ github.base_ref || github.ref_name }}
           bin/rails generate authentication
           bundle install
           bin/rails db:migrate
