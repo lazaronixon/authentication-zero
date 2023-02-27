@@ -135,7 +135,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     route "resource :password_reset,     only: [:new, :edit, :create, :update]", namespace: :identity
-    route "resource :email_verification, only: [:edit, :create]", namespace: :identity
+    route "resource :email_verification, only: [:show, :create]", namespace: :identity
     route "resource :email,              only: [:edit, :update]", namespace: :identity
     route "resource  :password, only: [:edit, :update]"
     route "resources :sessions, only: [:index, :show, :destroy]"

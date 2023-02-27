@@ -7,7 +7,7 @@
 <%- if code_verifiable? -%>
 <strong><%%= @user.verification_code.value %></strong>
 <%- else -%>
-<%%= link_to "Yes, use this email for my account", edit_identity_email_verification_url(sid: @signed_id) %>
+<%%= link_to "Yes, use this email for my account", identity_email_verification_url(sid: @signed_id) %>
 <%- end -%>
 
 <hr>

@@ -21,14 +21,14 @@ class Identity::EmailVerificationsControllerTest < ActionDispatch::IntegrationTe
   test "should verify email" do
     sid = @user.email_verification_tokens.create.signed_id(expires_in: 2.days)
 
-    get edit_identity_email_verification_url, params: { sid: sid }, headers: default_headers
+    get identity_email_verification_url, params: { sid: sid }, headers: default_headers
     assert_response :no_content
   end
 
   test "should not verify email with expired token" do
     sid_exp = @user.email_verification_tokens.create.signed_id(expires_in: 0.minutes)
 
-    get edit_identity_email_verification_url, params: { sid: sid_exp }, headers: default_headers
+    get identity_email_verification_url, params: { sid: sid_exp }, headers: default_headers
     assert_response :bad_request
     assert_equal "That email verification link is invalid", response.parsed_body["error"]
   end
