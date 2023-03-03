@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
   before_action :authenticate
   <%- if options.lockable? %>
   def require_lock(wait: 1.hour, attempts: 10)
-    counter = Kredis.counter("require_lock:#{request.remote_ip}:#{params[:controller]}:#{params[:action]}", expires_in: wait)
+    counter = Kredis.counter("require_lock:#{request.remote_ip}:#{controller_path}:#{action_name}", expires_in: wait)
     counter.increment
 
     if counter.value > attempts
