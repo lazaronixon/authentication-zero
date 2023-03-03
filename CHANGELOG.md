@@ -1,3 +1,8 @@
+## Authentication Zero 2.16.8 ##
+
+* Verify email using identity/email_verification?sid=xxx instead of
+  identity/email_verification/edit?sid=xxx
+
 ## Authentication Zero 2.16.6 ##
 
 * Remove passwordless from api template
