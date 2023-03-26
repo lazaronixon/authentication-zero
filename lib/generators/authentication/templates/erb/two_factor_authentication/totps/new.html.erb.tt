@@ -28,6 +28,6 @@
   </div>
 
   <div>
-    <%%= form.submit "Verify and active" %>
+    <%%= form.submit "Verify and activate" %>
   </div>
 <%% end %>
