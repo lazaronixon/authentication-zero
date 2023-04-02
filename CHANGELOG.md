@@ -1,3 +1,9 @@
+## Authentication Zero 2.16.11 ##
+
+* Added sending invitation
+* Remove password challenge for 2FA
+* Remove lock from sign in
+
 ## Authentication Zero 2.16.8 ##
 
 * Verify email using identity/email_verification?sid=xxx instead of
