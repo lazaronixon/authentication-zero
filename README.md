@@ -35,7 +35,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Verify email using a six random digits code for api (--code-verifiable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
-- Lock mechanism for resetting password and sign-in (--lockable)
+- Lock mechanism for resetting password (--lockable)
 - Send e-mail confirmation when your email has been changed
 - Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
