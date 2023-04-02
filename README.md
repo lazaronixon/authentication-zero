@@ -30,6 +30,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Passwordless authentication (--passwordless)
 - Two factor authentication (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
+- Send invitations (--invitable)
 - Verify email using a link with token
 - Verify email using a six random digits code for api (--code-verifiable)
 - Reset the user password and send reset instructions

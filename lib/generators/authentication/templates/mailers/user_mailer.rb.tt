@@ -24,4 +24,12 @@ class UserMailer < ApplicationMailer
     mail to: @user.email, subject: "Your sign in link"
   end
   <%- end -%>
+  <%- if invitable? %>
+  def invitation_instructions
+    @user = params[:user]
+    @signed_id = @user.password_reset_tokens.create.signed_id(expires_in: 2.days)
+
+    mail to: @user.email, subject: "Invitation instructions"
+  end
+  <%- end -%>
 end

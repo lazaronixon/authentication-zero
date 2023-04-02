@@ -11,6 +11,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :omniauthable,    type: :boolean, desc: "Add social login support"
   class_option :trackable,       type: :boolean, desc: "Add activity log support"
   class_option :two_factor,      type: :boolean, desc: "Add two factor authentication"
+  class_option :invitable,       type: :boolean, desc: "Add sending invitations"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -77,6 +78,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication" if two_factor?
     template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
+    template  "controllers/#{format_folder}/invitations_controller.rb", "app/controllers/invitations_controller.rb" if invitable?
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
     template  "controllers/#{format_folder}/home_controller.rb", "app/controllers/home_controller.rb" unless options.api?
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
@@ -97,6 +99,8 @@ class AuthenticationGenerator < Rails::Generators::Base
       directory "erb/identity", "app/views/identity"
       directory "erb/passwords", "app/views/passwords"
       directory "erb/registrations", "app/views/registrations"
+
+      directory "erb/invitations", "app/views/invitations" if invitable?
 
       template "erb/sessions/index.html.erb", "app/views/sessions/index.html.erb"
       template "erb/sessions/new.html.erb", "app/views/sessions/new.html.erb"
@@ -137,8 +141,9 @@ class AuthenticationGenerator < Rails::Generators::Base
     route "resource :password_reset,     only: [:new, :edit, :create, :update]", namespace: :identity
     route "resource :email_verification, only: [:show, :create]", namespace: :identity
     route "resource :email,              only: [:edit, :update]", namespace: :identity
-    route "resource  :password, only: [:edit, :update]"
-    route "resources :sessions, only: [:index, :show, :destroy]"
+    route "resource  :invitation, only: [:new, :create]" if invitable?
+    route "resource  :password,   only: [:edit, :update]"
+    route "resources :sessions,   only: [:index, :show, :destroy]"
     route "post 'sign_up', to: 'registrations#create'"
     route "get  'sign_up', to: 'registrations#new'" unless options.api?
     route "post 'sign_in', to: 'sessions#create'"
@@ -168,6 +173,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def two_factor?
       options.two_factor? && !options.api?
+    end
+
+    def invitable?
+      options.invitable? && !options.api?
     end
 
     def code_verifiable?

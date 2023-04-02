@@ -19,6 +19,11 @@
     <%%= link_to "Activity Log", authentications_events_path %>
   </div>
   <%- end -%>
+  <%- if invitable? %>
+  <div>
+    <%%= link_to "Send invitation", new_invitation_path %>
+  </div>
+  <%- end -%>
   <%- if two_factor? %>
   <div>
     <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>

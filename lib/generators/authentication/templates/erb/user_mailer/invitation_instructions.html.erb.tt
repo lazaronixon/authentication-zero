@@ -1,0 +1,11 @@
+<p>Hey there,</p>
+
+<p>Someone has invited you to the application, you can accept it through the link below.</p>
+
+<p><%%= link_to "Accept invitation", edit_identity_password_reset_url(sid: @signed_id) %></p>
+
+<p>If you don't want to accept the invitation, please ignore this email. Your account won't be created until you access the link above and set your password.</p>
+
+<hr>
+
+<p>Have questions or need help? Just reply to this email and our support team will help you sort it out.</p>
