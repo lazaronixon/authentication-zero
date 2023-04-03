@@ -1,6 +1,5 @@
 class Session < ApplicationRecord
   belongs_to :user
-
   <%- if sudoable? %>
   kredis_flag :sudo, expires_in: 30.minutes
   <%- end -%>
