@@ -17,12 +17,7 @@ class Session < ApplicationRecord
   after_create { sudo.mark }
   <%- end -%>
   <%- if options.trackable? %>
-  after_create do
-    user.events.create! action: "signed_in"
-  end
-
-  after_destroy do
-    user.events.create! action: "signed_out"
-  end
+  after_create  { user.events.create! action: "signed_in" }
+  after_destroy { user.events.create! action: "signed_out" }
   <%- end -%>
 end
