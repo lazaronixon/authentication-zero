@@ -1,3 +1,9 @@
+## Authentication Zero 2.16.12 ##
+
+* Bring back --sudoable, just for html and you should set before_action yourself
+* Bring back --ratelimit
+* Removed signed in email notification
+
 ## Authentication Zero 2.16.11 ##
 
 * Added sending invitation
