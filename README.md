@@ -33,6 +33,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Send invitations (--invitable)
 - Verify email using a link with token
 - Verify email using a six random digits code for api (--code-verifiable)
+- Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
 - Lock mechanism for resetting password (--lockable)
@@ -53,6 +54,7 @@ Since Authentication Zero generates this code into your application instead of b
 - [log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
 - [functional tests](https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers): In Rails, testing the various actions of a controller is a form of writing functional tests.
 - [system testing](https://guides.rubyonrails.org/testing.html#system-testing): System tests allow you to test user interactions with your application, running tests in either a real or a headless browser.
+- **sudoable**: Use `before_action :require_sudo` on the controllers with sensitive information, it will ask for your password on the first access or after 30 minutes.
 
 ## Development
 

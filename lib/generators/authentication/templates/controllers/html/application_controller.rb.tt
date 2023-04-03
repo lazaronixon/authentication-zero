@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
+  <%- if sudoable? %>
+  def require_sudo
+    return if Current.session.sudo?
+    redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
+  end
+  <%- end -%>
   <%- if options.lockable? %>
   def require_lock(wait: 1.hour, attempts: 10)
     counter = Kredis.counter("require_lock:#{request.remote_ip}:#{controller_path}:#{action_name}", expires_in: wait)
