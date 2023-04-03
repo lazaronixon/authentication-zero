@@ -37,6 +37,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
 - Lock mechanism for resetting password (--lockable)
+- Rate limiting for your app, 1000 reqs/minute (--ratelimit)
 - Send e-mail confirmation when your email has been changed
 - Send e-mail notification when someone has logged into your account
 - Manage multiple sessions & devices
