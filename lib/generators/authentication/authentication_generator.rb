@@ -136,6 +136,10 @@ class AuthenticationGenerator < Rails::Generators::Base
       route "resource :sudo, only: [:new, :create]", namespace: :sessions
     end
 
+    if invitable?
+      route "resource :invitation, only: [:new, :create]"
+    end
+
     if passwordless?
       route "resource :passwordless, only: [:new, :edit, :create]", namespace: :sessions
     end
@@ -163,11 +167,12 @@ class AuthenticationGenerator < Rails::Generators::Base
     route "resource :email_verification, only: [:show, :create]", namespace: :identity
     route "resource :email,              only: [:edit, :update]", namespace: :identity
 
-    route "resource  :invitation, only: [:new, :create]" if invitable?
-    route "resource  :password,   only: [:edit, :update]"
-    route "resources :sessions,   only: [:index, :show, :destroy]"
+    route "resource  :password, only: [:edit, :update]"
+    route "resources :sessions, only: [:index, :show, :destroy]"
+
     route 'post "sign_up", to: "registrations#create"'
     route 'get  "sign_up", to: "registrations#new"' unless options.api?
+
     route 'post "sign_in", to: "sessions#create"'
     route 'get  "sign_in", to: "sessions#new"' unless options.api?
   end
