@@ -6,12 +6,11 @@
 # run tests and linters.
 name: "Generate sample app and run tests"
 on: [push]
+
 jobs:
   test_html:
     name: 🧪 Run HTML Tests
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,7 +21,7 @@ jobs:
           bundler-cache: true
 
       - name: Install the latest Rails gem
-        run: gem install rails
+        run: gem install rails -v "~> 7.0.0"
 
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
@@ -32,34 +31,29 @@ jobs:
           rails new test-app
           cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
-          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bundle add authentication-zero --path ..
           bin/rails generate authentication
           bundle install
           bin/rails db:migrate
 
       - name: Rubocop
-        run: |
-          cd test-app
-          rubocop
+        run: cd test-app && rubocop
 
-      - name: Install brakeman
+      - name: Install Brakeman
         run: gem install brakeman
 
       - name: Brakeman
-        run: |
-          cd test-app
-          brakeman
+        run: cd test-app && brakeman
 
       - name: Tests
         run: |
           cd test-app
           bin/rails test
           bin/rails test:system
+
   test_api:
     name: 🧪 Run API Tests
     runs-on: ubuntu-latest
-    env:
-      RAILS_ENV: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -70,7 +64,7 @@ jobs:
           bundler-cache: true
 
       - name: Install the latest Rails gem
-        run: gem install rails
+        run: gem install rails -v "~> 7.0.0"
 
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
@@ -80,26 +74,20 @@ jobs:
           rails new test-app
           cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
-          bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
+          bundle add authentication-zero --path ..
           bin/rails generate authentication --api
           bundle install
           bin/rails db:migrate
 
       - name: Rubocop
-        run: |
-          cd test-app
-          rubocop
+        run: cd test-app && rubocop
 
-      - name: Install brakeman
+      - name: Install Brakeman
         run: gem install brakeman
 
       - name: Brakeman
-        run: |
-          cd test-app
-          brakeman
+        run: cd test-app && brakeman
 
       - name: Tests
-        run: |
-          cd test-app
-          bin/rails test
+        run: cd test-app && bin/rails test
 
