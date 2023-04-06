@@ -1,3 +1,8 @@
+## Authentication Zero 2.16.13 ##
+
+* Enable resend invitation
+* Refactor first_or_initialize -> find_or_initialize_by
+
 ## Authentication Zero 2.16.12 ##
 
 * Bring back --sudoable, just for html and you should set before_action yourself

@@ -1,3 +1,3 @@
 module AuthenticationZero
-  VERSION = "2.16.12"
+  VERSION = "2.16.13"
 end
