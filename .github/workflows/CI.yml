@@ -43,6 +43,14 @@ jobs:
           cd test-app
           rubocop
 
+      - name: Install brakeman
+        run: gem install brakeman
+
+      - name: Brakeman
+        run: |
+          cd test-app
+          brakeman
+
       - name: Tests
         run: |
           cd test-app
