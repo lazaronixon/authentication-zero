@@ -31,6 +31,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Two factor authentication (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
 - Send invitations (--invitable)
+- Sign-in as button functionallity (--masqueradable)
 - Verify email using a link with token
 - Verify email using a six random digits code for api (--code-verifiable)
 - Ask password before sensitive data changes, aka: sudo (--sudoable)

@@ -14,6 +14,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :trackable,       type: :boolean, desc: "Add activity log support"
   class_option :two_factor,      type: :boolean, desc: "Add two factor authentication"
   class_option :invitable,       type: :boolean, desc: "Add sending invitations"
+  class_option :masqueradable,   type: :boolean, desc: "Add sign-in as button functionallity"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -86,6 +87,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/invitations_controller.rb", "app/controllers/invitations_controller.rb" if invitable?
+    template  "controllers/#{format_folder}/masquerades_controller.rb", "app/controllers/masquerades_controller.rb" if masqueradable?
     template  "controllers/#{format_folder}/registrations_controller.rb", "app/controllers/registrations_controller.rb"
     template  "controllers/#{format_folder}/home_controller.rb", "app/controllers/home_controller.rb" unless options.api?
     template  "controllers/#{format_folder}/sessions/sudos_controller.rb", "app/controllers/sessions/sudos_controller.rb" if sudoable?
@@ -133,6 +135,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     if passwordless?
       route "resource :passwordless, only: [:new, :edit, :create]", namespace: :sessions
+    end
+
+    if masqueradable?
+      route 'post "users/:user_id/masquerade", to: "masquerades#create", as: :user_masquerade'
     end
 
     if omniauthable?
@@ -197,6 +203,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def invitable?
       options.invitable? && !options.api?
+    end
+
+    def masqueradable?
+      options.masqueradable? && !options.api?
     end
 
     def sudoable?

@@ -24,6 +24,11 @@
     <%%= link_to "Send invitation", new_invitation_path %>
   </div>
   <%- end -%>
+  <%- if masqueradable? %>
+  <div>
+    <%%= button_to "Signin as last user", user_masquerade_path(User.last) %>
+  </div>
+  <%- end -%>
   <%- if two_factor? %>
   <div>
     <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
