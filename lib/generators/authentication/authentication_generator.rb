@@ -98,9 +98,13 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def create_views
     if options.api?
-      directory "erb/user_mailer", "app/views/user_mailer"
+      template "erb/user_mailer/email_verification.html.erb", "app/views/user_mailer/email_verification.html.erb"
+      template "erb/user_mailer/password_reset.html.erb", "app/views/user_mailer/password_reset.html.erb"
     else
-      directory "erb/user_mailer", "app/views/user_mailer"
+      template "erb/user_mailer/email_verification.html.erb", "app/views/user_mailer/email_verification.html.erb"
+      template "erb/user_mailer/password_reset.html.erb", "app/views/user_mailer/password_reset.html.erb"
+      template "erb/user_mailer/invitation_instructions.html.erb", "app/views/user_mailer/invitation_instructions.html.erb" if invitable?
+      template "erb/user_mailer/passwordless.html.erb", "app/views/user_mailer/passwordless.html.erb" if passwordless?
 
       directory "erb/home", "app/views/home"
 
