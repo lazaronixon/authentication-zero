@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.15 ##
+
+* Add sign-in as button functionallity (--masqueradable)
+
 ## Authentication Zero 2.16.14 ##
 
 * Remove password requirements
