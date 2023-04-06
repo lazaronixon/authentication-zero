@@ -3,7 +3,7 @@ class Sessions::OmniauthController < ApplicationController
   skip_before_action :authenticate
 
   def create
-    @user = User.where(omniauth_params).first_or_initialize(user_params)
+    @user = User.create_with(user_params).find_or_initialize_by(omniauth_params)
 
     if @user.save
       session = @user.sessions.create!
@@ -20,12 +20,12 @@ class Sessions::OmniauthController < ApplicationController
   end
 
   private
-    def omniauth_params
-      { provider: omniauth.provider, uid: omniauth.uid }
-    end
-
     def user_params
       { email: omniauth.info.email, password: SecureRandom::base58, verified: true }
+    end
+
+    def omniauth_params
+      { provider: omniauth.provider, uid: omniauth.uid }
     end
 
     def omniauth
