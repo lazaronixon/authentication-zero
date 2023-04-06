@@ -5,9 +5,7 @@
 # This workflow will install a prebuilt Ruby version, install dependencies, and
 # run tests and linters.
 name: "Generate sample app and run tests"
-on:
-  push:
-    branches: ["*"]
+on: [push]
 jobs:
   test_html:
     name: 🧪 Run HTML Tests
@@ -26,16 +24,28 @@ jobs:
       - name: Install the latest Rails gem
         run: gem install rails
 
-      - name: Create fresh Rails app then run generator and tests
-        env:
-          CI: true
+      - name: Create fresh Rails app and run generator
         run: |
           rails new test-app
           cd test-app
+          wget https://raw.githubusercontent.com/lazaronixon/authentication-zero/master/.rubocop.yml
           bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
           bin/rails generate authentication
           bundle install
           bin/rails db:migrate
+
+
+      - name: Install Rubocop
+        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
+
+      - name: Rubocop
+        run: |
+          cd test-app
+          rubocop
+
+      - name: Tests
+        run: |
+          cd test-app
           bin/rails test
           bin/rails test:system
   test_api:
@@ -55,14 +65,26 @@ jobs:
       - name: Install the latest Rails gem
         run: gem install rails
 
-      - name: Create fresh Rails app then run generator and tests
-        env:
-          CI: true
+      - name: Create fresh Rails app and run generator
         run: |
-          rails new test-app --api
+          rails new test-app
           cd test-app
+          wget https://raw.githubusercontent.com/lazaronixon/authentication-zero/master/.rubocop.yml
           bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
-          bin/rails generate authentication
+          bin/rails generate authentication --api
           bundle install
           bin/rails db:migrate
+
+      - name: Install Rubocop
+        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
+
+      - name: Rubocop
+        run: |
+          cd test-app
+          rubocop
+
+      - name: Tests
+        run: |
+          cd test-app
           bin/rails test
+
