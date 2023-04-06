@@ -27,7 +27,7 @@ class User < ApplicationRecord
   end
 
   after_update if: :password_digest_previously_changed? do
-    sessions.where.not(id: Current.session).destroy_all
+    sessions.where.not(id: Current.session).delete_all
   end
   <%- if options.trackable? %>
   after_update if: :email_previously_changed? do
