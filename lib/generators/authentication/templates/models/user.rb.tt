@@ -16,7 +16,7 @@ class User < ApplicationRecord
   <%- end -%>
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, allow_nil: true, length: { minimum: 12 }, format: { with: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/ }
+  validates :password, allow_nil: true, length: { minimum: 12 }
   <%- if options.pwned? -%>
   validates :password, not_pwned: { message: "might easily be guessed" }
   <%- end -%>
