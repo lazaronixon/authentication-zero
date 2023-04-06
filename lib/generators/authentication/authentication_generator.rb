@@ -125,7 +125,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def add_routes
-    route "root 'home#index'" unless options.api?
+    route 'root "home#index"' unless options.api?
 
     if sudoable?
       route "resource :sudo, only: [:new, :create]", namespace: :sessions
@@ -136,9 +136,9 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     if omniauthable?
-      route "post '/auth/:provider/callback', to: 'sessions/omniauth#create'"
-      route "get  '/auth/:provider/callback', to: 'sessions/omniauth#create'"
-      route "get  '/auth/failure',            to: 'sessions/omniauth#failure'"
+      route 'post "/auth/:provider/callback", to: "sessions/omniauth#create"'
+      route 'get  "/auth/:provider/callback", to: "sessions/omniauth#create"'
+      route 'get  "/auth/failure",            to: "sessions/omniauth#failure"'
     end
 
     if two_factor?
@@ -153,13 +153,14 @@ class AuthenticationGenerator < Rails::Generators::Base
     route "resource :password_reset,     only: [:new, :edit, :create, :update]", namespace: :identity
     route "resource :email_verification, only: [:show, :create]", namespace: :identity
     route "resource :email,              only: [:edit, :update]", namespace: :identity
+
     route "resource  :invitation, only: [:new, :create]" if invitable?
     route "resource  :password,   only: [:edit, :update]"
     route "resources :sessions,   only: [:index, :show, :destroy]"
-    route "post 'sign_up', to: 'registrations#create'"
-    route "get  'sign_up', to: 'registrations#new'" unless options.api?
-    route "post 'sign_in', to: 'sessions#create'"
-    route "get  'sign_in', to: 'sessions#new'" unless options.api?
+    route 'post "sign_up", to: "registrations#create"'
+    route 'get  "sign_up", to: "registrations#new"' unless options.api?
+    route 'post "sign_in", to: "sessions#create"'
+    route 'get  "sign_in", to: "sessions#new"' unless options.api?
   end
 
   def create_test_files

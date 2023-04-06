@@ -2,7 +2,7 @@ class Identity::EmailsController < ApplicationController
   before_action :set_user
 
   def update
-   if !@user.authenticate(params[:current_password])
+    if !@user.authenticate(params[:current_password])
       render json: { error: "The password you entered is incorrect" }, status: :bad_request
     elsif @user.update(user_params)
       render_show

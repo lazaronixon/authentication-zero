@@ -1,15 +1,4 @@
-inherit_from: https://raw.githubusercontent.com/rails/rails/master/.rubocop.yml
-
-Performance:
-  Exclude:
-    - 'test/**/*'
+inherit_from: https://raw.githubusercontent.com/rails/rails/v7.0.4/.rubocop.yml
 
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
-  Include:
-    - 'app/**/*'
-    - 'test/**/*'

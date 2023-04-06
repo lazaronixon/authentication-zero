@@ -5,7 +5,7 @@ class Identity::EmailsController < ApplicationController
   end
 
   def update
-   if !@user.authenticate(params[:current_password])
+    if !@user.authenticate(params[:current_password])
       redirect_to edit_identity_email_path, alert: "The password you entered is incorrect"
     elsif @user.update(user_params)
       redirect_to_root
