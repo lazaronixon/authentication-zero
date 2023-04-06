@@ -33,7 +33,6 @@ Since Authentication Zero generates this code into your application instead of b
 - Send invitations (--invitable)
 - Sign-in as button functionallity (--masqueradable)
 - Verify email using a link with token
-- Verify email using a six random digits code for api (--code-verifiable)
 - Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails

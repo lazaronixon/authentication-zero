@@ -8,11 +8,7 @@ class UserMailer < ApplicationMailer
 
   def email_verification
     @user = params[:user]
-    <%- if code_verifiable? -%>
-    @user.verification_code.value = rand.to_s[2..7]
-    <%- else -%>
     @signed_id = @user.email_verification_tokens.create.signed_id(expires_in: 2.days)
-    <%- end -%>
 
     mail to: @user.email, subject: "Verify your email"
   end

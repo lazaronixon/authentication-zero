@@ -3,18 +3,17 @@ require "rails/generators/active_record"
 class AuthenticationGenerator < Rails::Generators::Base
   include ActiveRecord::Generators::Migration
 
-  class_option :api,             type: :boolean, desc: "Generates API authentication"
-  class_option :pwned,           type: :boolean, desc: "Add pwned password validation"
-  class_option :code_verifiable, type: :boolean, desc: "Add email verification using a code for api"
-  class_option :sudoable,        type: :boolean, desc: "Add password request before sensitive data changes"
-  class_option :lockable,        type: :boolean, desc: "Add password reset locking"
-  class_option :ratelimit,       type: :boolean, desc: "Add request rate limiting"
-  class_option :passwordless,    type: :boolean, desc: "Add passwordless sign"
-  class_option :omniauthable,    type: :boolean, desc: "Add social login support"
-  class_option :trackable,       type: :boolean, desc: "Add activity log support"
-  class_option :two_factor,      type: :boolean, desc: "Add two factor authentication"
-  class_option :invitable,       type: :boolean, desc: "Add sending invitations"
-  class_option :masqueradable,   type: :boolean, desc: "Add sign-in as button functionallity"
+  class_option :api,           type: :boolean, desc: "Generates API authentication"
+  class_option :pwned,         type: :boolean, desc: "Add pwned password validation"
+  class_option :sudoable,      type: :boolean, desc: "Add password request before sensitive data changes"
+  class_option :lockable,      type: :boolean, desc: "Add password reset locking"
+  class_option :ratelimit,     type: :boolean, desc: "Add request rate limiting"
+  class_option :passwordless,  type: :boolean, desc: "Add passwordless sign"
+  class_option :omniauthable,  type: :boolean, desc: "Add social login support"
+  class_option :trackable,     type: :boolean, desc: "Add activity log support"
+  class_option :two_factor,    type: :boolean, desc: "Add two factor authentication"
+  class_option :invitable,     type: :boolean, desc: "Add sending invitations"
+  class_option :masqueradable, type: :boolean, desc: "Add sign-in as button functionallity"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -217,11 +216,7 @@ class AuthenticationGenerator < Rails::Generators::Base
       options.sudoable? && !options.api?
     end
 
-    def code_verifiable?
-      options.code_verifiable? && options.api?
-    end
-
     def redis?
-      options.lockable? || options.ratelimit? || sudoable? || code_verifiable?
+      options.lockable? || options.ratelimit? || sudoable?
     end
 end

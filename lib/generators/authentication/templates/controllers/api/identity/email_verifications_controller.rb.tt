@@ -13,18 +13,8 @@ class Identity::EmailVerificationsController < ApplicationController
 
   private
     def set_user
-    <%- if code_verifiable? -%>
-      verified_user = User.find_by(email: params[:email])
-
-      if verified_user && verified_user.verification_code.value == params[:token]
-        @user = verified_user
-      else
-        render json: { error: "That email verification code is invalid" }, status: :bad_request
-      end
-    <%- else -%>
       @token = EmailVerificationToken.find_signed!(params[:sid]); @user = @token.user
     rescue
       render json: { error: "That email verification link is invalid" }, status: :bad_request
-    <%- end -%>
     end
 end
