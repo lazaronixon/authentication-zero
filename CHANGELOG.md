@@ -1,3 +1,9 @@
+## Authentication Zero 2.16.14 ##
+
+* Remove password requirements
+* Rubocop compliant
+* Brakeman compliant
+
 ## Authentication Zero 2.16.13 ##
 
 * Enable resend invitation
