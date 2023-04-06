@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
 
     if user && user.authenticate(params[:password])
       <%- if two_factor? -%>
-      if user.otp_secret
+      if user.otp_secret.present?
         signed_id = user.signed_id(purpose: :authentication_challenge, expires_in: 20.minutes)
         redirect_to new_two_factor_authentication_challenge_path(token: signed_id)
       else
