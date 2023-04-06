@@ -24,19 +24,18 @@ jobs:
       - name: Install the latest Rails gem
         run: gem install rails
 
+      - name: Install Rubocop
+        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
+
       - name: Create fresh Rails app and run generator
         run: |
           rails new test-app
+          cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
-          wget https://raw.githubusercontent.com/lazaronixon/authentication-zero/master/.rubocop.yml
           bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
           bin/rails generate authentication
           bundle install
           bin/rails db:migrate
-
-
-      - name: Install Rubocop
-        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
 
       - name: Rubocop
         run: |
@@ -73,18 +72,18 @@ jobs:
       - name: Install the latest Rails gem
         run: gem install rails
 
+      - name: Install Rubocop
+        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
+
       - name: Create fresh Rails app and run generator
         run: |
           rails new test-app
+          cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
-          wget https://raw.githubusercontent.com/lazaronixon/authentication-zero/master/.rubocop.yml
           bundle add authentication-zero --github ${{ github.repository }} --branch ${{ github.ref_name }}
           bin/rails generate authentication --api
           bundle install
           bin/rails db:migrate
-
-      - name: Install Rubocop
-        run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
 
       - name: Rubocop
         run: |
