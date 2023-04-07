@@ -10,8 +10,8 @@
 <p>Next, open the authenticator app, tap "Scan QR code" or "+", and, when it asks, point your phone's camera at this QR code picture below.</p>
 
 <figure>
-    <%%= image_tag @qr_code.as_png(resize_exactly_to: 200).to_data_url%>
-    <figcaption>Point your camera here</figcaption>
+  <%%= image_tag @qr_code.as_png(resize_exactly_to: 200).to_data_url%>
+  <figcaption>Point your camera here</figcaption>
 </figure>
 
 <%%= form_with(url: two_factor_authentication_totp_path) do |form| %>
