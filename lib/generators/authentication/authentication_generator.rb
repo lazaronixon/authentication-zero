@@ -62,6 +62,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
     migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if passwordless?
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
+    migration_template "migrations/create_recovery_codes_migration.rb", "#{db_migrate_path}/create_recovery_codes.rb" if two_factor?
   end
 
   def create_models
@@ -72,6 +73,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/sign_in_token.rb", "app/models/sign_in_token.rb" if passwordless?
     template "models/current.rb", "app/models/current.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
+    template "models/recovery_code.rb", "app/models/recovery_code.rb" if two_factor?
   end
 
   def create_fixture_file
