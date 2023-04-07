@@ -26,6 +26,6 @@ class TwoFactorAuthentication::RecoveryCodesController < ApplicationController
     end
 
     def new_recovery_code
-      SecureRandom.alphanumeric(10).insert(5, "-").downcase
+      SecureRandom.alphanumeric(10).downcase
     end
 end
