@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.16 ##
+
+* Add recovery codes to two factor auth
+
 ## Authentication Zero 2.16.15 ##
 
 * Add sign-in as button functionallity (--masqueradable)
