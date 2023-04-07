@@ -16,7 +16,7 @@ class TwoFactorAuthentication::ChallengesController < ApplicationController
 
   private
     def set_user
-      @user = User.find_signed!(params[:token], purpose: :authentication_challenge)
+      @user = User.find_signed!(session[:challenge_token], purpose: :authentication_challenge)
     rescue StandardError
       redirect_to sign_in_path, alert: "That's taking too long. Please re-enter your password and try again"
     end
@@ -47,6 +47,6 @@ class TwoFactorAuthentication::ChallengesController < ApplicationController
     end
 
     def redirect_to_authentication_challenge
-      redirect_to new_two_factor_authentication_challenge_path(token: params[:token], scheme_type: params[:scheme_type]), alert: "That code didn't work. Please try again"
+      redirect_to new_two_factor_authentication_challenge_path(scheme_type: params[:scheme_type]), alert: "That code didn't work. Please try again"
     end
 end

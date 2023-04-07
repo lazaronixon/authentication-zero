@@ -1,5 +1,4 @@
 <%%= form_with(url: two_factor_authentication_challenge_path) do |form| %>
-  <%%= form.hidden_field :token, value: params[:token] %>
   <%%= form.hidden_field :scheme_type, value: "recovery_codes" %>
 
   <div>

@@ -1,5 +1,4 @@
 <%%= form_with(url: two_factor_authentication_challenge_path) do |form| %>
-  <%%= form.hidden_field :token, value: params[:token] %>
   <%%= form.hidden_field :scheme_type, value: "totp" %>
 
   <div>
@@ -16,5 +15,5 @@
 
 <div>
   <p><strong>Don't have your phone?</strong></p>
-  <%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_path(token: params[:token], scheme_type: "recovery_codes") %>
+  <%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_path(scheme_type: "recovery_codes") %>
 </div>
