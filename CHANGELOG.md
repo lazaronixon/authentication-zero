@@ -1,6 +1,8 @@
 ## Authentication Zero 2.16.16 ##
 
 * Add recovery codes to two factor auth
+* Removed code-verifiable strategy
+* Respond password reset edit api with no_content
 
 ## Authentication Zero 2.16.15 ##
 
