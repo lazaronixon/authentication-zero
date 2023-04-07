@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.18 ##
+
+* Use session to store the token for the 2fa challenge
+
 ## Authentication Zero 2.16.16 ##
 
 * Add recovery codes to two factor auth
