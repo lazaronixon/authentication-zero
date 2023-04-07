@@ -1,0 +1,19 @@
+<%%= form_with(url: two_factor_authentication_challenge_path) do |form| %>
+  <%%= form.hidden_field :token, value: params[:token] %>
+  <%%= form.hidden_field :scheme_type, value: "recovery_codes" %>
+
+  <div>
+    <%%= form.label :code do %>
+      <h1>OK, enter one of your recovery codes below:</h1>
+    <%% end %>
+    <%%= form.text_field :code, autofocus: true, required: true, autocomplete: :off %>
+  </div>
+
+  <div>
+    <%%= form.submit "Continue" %>
+  </div>
+<%% end %>
+
+<div>
+  <p>To access your account, enter one of the recovery codes (e.g., XXXXX-XXXXX) you saved when you set up your two-factor authentication device.</p>
+</div>

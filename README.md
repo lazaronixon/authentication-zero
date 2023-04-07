@@ -28,7 +28,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Authentication by cookie
 - Authentication by token (--api)
 - Passwordless authentication (--passwordless)
-- Two factor authentication (--two-factor)
+- Two factor authentication + recovery codes (--two-factor)
 - Social Login with OmniAuth (--omniauthable)
 - Send invitations (--invitable)
 - Sign-in as button functionallity (--masqueradable)

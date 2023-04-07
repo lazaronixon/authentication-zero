@@ -3,6 +3,9 @@ class User < ApplicationRecord
 
   has_many :email_verification_tokens, dependent: :destroy
   has_many :password_reset_tokens, dependent: :destroy
+  <%- if two_factor? -%>
+  has_many :recovery_codes, dependent: :destroy
+  <%- end -%>
   <%- if passwordless? -%>
   has_many :sign_in_tokens, dependent: :destroy
   <%- end -%>
