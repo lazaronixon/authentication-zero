@@ -13,7 +13,7 @@ class Identity::EmailVerificationsController < ApplicationController
 
   private
     def set_user
-      @token = EmailVerificationToken.find_signed!(params[:sid]); @user = @token.user
+      token = EmailVerificationToken.find_signed!(params[:sid]); @user = token.user
     rescue StandardError
       render json: { error: "That email verification link is invalid" }, status: :bad_request
     end
