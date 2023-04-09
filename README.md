@@ -36,7 +36,7 @@ Since Authentication Zero generates this code into your application instead of b
 - Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
 - Reset the user password only from verified emails
-- Lock mechanism to prevent spamming (--lockable)
+- Lock mechanism to prevent email bombing (--lockable)
 - Rate limiting for your app, 1000 reqs/minute (--ratelimit)
 - Send e-mail confirmation when your email has been changed
 - Manage multiple sessions & devices
