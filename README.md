@@ -20,7 +20,7 @@ Since Authentication Zero generates this code into your application instead of b
 
 ## Features
 
-- **Simplest code ever (~200 lines of code)**
+- **Simple code**
 - **Inspired by hey.com**
 - Sign up
 - Email and password validations
