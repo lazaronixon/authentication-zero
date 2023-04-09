@@ -1,22 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
-  <%- if sudoable? %>
-  def require_sudo
-    return if Current.session.sudo?
-    redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
-  end
-  <%- end -%>
-  <%- if options.lockable? %>
-  def require_lock(wait: 1.hour, attempts: 10)
-    counter = Kredis.counter("require_lock:#{request.remote_ip}:#{controller_path}:#{action_name}", expires_in: wait)
-    counter.increment
-
-    if counter.value > attempts
-      redirect_to root_path, alert: "You've exceeded the maximum number of attempts"
-    end
-  end
-  <%- end -%>
 
   private
     def authenticate
@@ -31,4 +15,21 @@ class ApplicationController < ActionController::Base
       Current.user_agent = request.user_agent
       Current.ip_address = request.ip
     end
+    <%- if options.lockable? %>
+    def require_lock(wait: 1.hour, attempts: 10)
+      counter = Kredis.counter("require_lock:#{request.remote_ip}:#{controller_path}:#{action_name}", expires_in: wait)
+      counter.increment
+
+      if counter.value > attempts
+        redirect_to root_path, alert: "You've exceeded the maximum number of attempts"
+      end
+    end
+    <%- end -%>
+    <%- if sudoable? %>
+    def require_sudo
+      unless Current.session.sudo?
+        redirect_to new_sessions_sudo_path(proceed_to_url: request.url)
+      end
+    end
+    <%- end -%>
 end
