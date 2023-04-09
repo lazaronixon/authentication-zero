@@ -1,47 +1,49 @@
 <p style="color: green"><%%= notice %></p>
 
-<%% if Current.user.present? %>
-  <p>Signed as <%%= Current.user.email %></p>
+<p>Signed as <%%= Current.user.email %></p>
 
-  <div>
-    <%%= link_to "Change email address", edit_identity_email_path %>
-  </div>
+<h2>Login and verification</h2>
 
-  <div>
-    <%%= link_to "Change password", edit_password_path %>
-  </div>
+<div>
+  <%%= link_to "Change password", edit_password_path %>
+</div>
 
-  <div>
-    <%%= link_to "Devices & Sessions", sessions_path %>
-  </div>
-  <%- if options.trackable? %>
-  <div>
-    <%%= link_to "Activity Log", authentications_events_path %>
-  </div>
-  <%- end -%>
-  <%- if invitable? %>
-  <div>
-    <%%= link_to "Send invitation", new_invitation_path %>
-  </div>
-  <%- end -%>
-  <%- if masqueradable? %>
-  <div>
-    <%%= button_to "Signin as last user", user_masquerade_path(User.last) %>
-  </div>
-  <%- end -%>
-  <%- if two_factor? %>
-  <div>
-    <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
-  </div>
+<div>
+  <%%= link_to "Change email address", edit_identity_email_path %>
+</div>
+<%- if two_factor? %>
+<div>
+  <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
+</div>
 
-  <%% if Current.user.otp_secret.present? %>
-    <div><%%= link_to "Recovery Codes", two_factor_authentication_recovery_codes_path %></div>
-  <%% end %>
-  <%- end -%>
-
-  <br>
-
-  <%%= button_to "Log out", Current.session, method: :delete %>
-<%% else %>
-  Please <%%= link_to "sign in", sign_in_path %> or <%%= link_to "sign up", sign_up_path %>.
+<%% if Current.user.otp_secret.present? %>
+  <div><%%= link_to "Recovery Codes", two_factor_authentication_recovery_codes_path %></div>
 <%% end %>
+<%- end -%>
+<%- if invitable? %>
+<div>
+  <%%= link_to "Send invitation", new_invitation_path %>
+</div>
+<%- end -%>
+<%- if masqueradable? %>
+<div>
+  <%%= button_to "Signin as last user", user_masquerade_path(User.last) %>
+</div>
+<%- end -%>
+
+<h2>Access history</h2>
+
+<div>
+  <%%= link_to "Devices & Sessions", sessions_path %>
+</div>
+<%- if options.trackable? %>
+<div>
+  <%%= link_to "Activity Log", authentications_events_path %>
+</div>
+<%- end -%>
+
+<br>
+
+<div>
+  <%%= button_to "Log out", Current.session, method: :delete %>
+</div>
