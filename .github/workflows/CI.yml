@@ -26,6 +26,9 @@ jobs:
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
 
+      - name: Install Brakeman
+        run: gem install brakeman
+
       - name: Create fresh Rails app and run generator
         run: |
           rails new test-app
@@ -38,9 +41,6 @@ jobs:
 
       - name: Rubocop
         run: cd test-app && rubocop
-
-      - name: Install Brakeman
-        run: gem install brakeman
 
       - name: Brakeman
         run: cd test-app && brakeman
@@ -69,6 +69,9 @@ jobs:
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
 
+      - name: Install Brakeman
+        run: gem install brakeman
+
       - name: Create fresh Rails app and run generator
         run: |
           rails new test-app
@@ -81,9 +84,6 @@ jobs:
 
       - name: Rubocop
         run: cd test-app && rubocop
-
-      - name: Install Brakeman
-        run: gem install brakeman
 
       - name: Brakeman
         run: cd test-app && brakeman
