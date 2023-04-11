@@ -1,4 +1,4 @@
-class TwoFactorAuthentication::RecoveryCodesController < ApplicationController
+class TwoFactorAuthentication::Profile::RecoveryCodesController < ApplicationController
   before_action :set_user
 
   def index
@@ -13,7 +13,7 @@ class TwoFactorAuthentication::RecoveryCodesController < ApplicationController
     @user.recovery_codes.delete_all
     @user.recovery_codes.create!(new_recovery_codes)
 
-    redirect_to two_factor_authentication_recovery_codes_path, notice: "Your new recovery codes have been generated"
+    redirect_to two_factor_authentication_profile_recovery_codes_path, notice: "Your new recovery codes have been generated"
   end
 
   private

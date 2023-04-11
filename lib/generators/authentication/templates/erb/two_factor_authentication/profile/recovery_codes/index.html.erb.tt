@@ -13,4 +13,4 @@
 
 <p>If you think your codes have fallen into the wrong hands, you can get a new set. Be sure to save the new ones because the old codes will stop working.</p>
 
-<%%= button_to "Generate new recovery codes", two_factor_authentication_recovery_codes_path %>
+<%%= button_to "Generate new recovery codes", two_factor_authentication_profile_recovery_codes_path %>

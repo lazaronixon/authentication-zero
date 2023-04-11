@@ -1,7 +1,0 @@
-<p style="color: red"><%%= alert %></p>
-
-<%% if params[:scheme_type] == "recovery_codes" %>
-  <%%= render "recovery_code_form" %>
-<%% else %>
-  <%%= render "totp_form" %>
-<%% end %>

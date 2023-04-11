@@ -157,9 +157,11 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     if two_factor?
-      route "resources :recovery_codes, only: [:index, :create]", namespace: :two_factor_authentication
-      route "resource  :totp,           only: [:new, :create]", namespace: :two_factor_authentication
-      route "resource  :challenge,      only: [:new, :create]", namespace: :two_factor_authentication
+      route "resources :recovery_codes, only: [:index, :create]", namespace: [:two_factor_authentication, :profile]
+      route "resource  :totp,           only: [:new, :create]", namespace: [:two_factor_authentication, :profile]
+
+      route "resource :recovery_codes, only: [:new, :create]", namespace: [:two_factor_authentication, :challenge]
+      route "resource :totp,           only: [:new, :create]", namespace: [:two_factor_authentication, :challenge]
     end
 
     if options.trackable?

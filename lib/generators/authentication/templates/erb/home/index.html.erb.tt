@@ -13,11 +13,11 @@
 </div>
 <%- if two_factor? %>
 <div>
-  <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_totp_path %>
+  <%%= link_to "Two-Factor Authentication", new_two_factor_authentication_profile_totp_path %>
 </div>
 
 <%% if Current.user.otp_secret.present? %>
-  <div><%%= link_to "Recovery Codes", two_factor_authentication_recovery_codes_path %></div>
+  <div><%%= link_to "Recovery Codes", two_factor_authentication_profile_recovery_codes_path %></div>
 <%% end %>
 <%- end -%>
 <%- if invitable? %>

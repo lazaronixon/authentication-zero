@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       <%- if two_factor? -%>
       if user.otp_secret.present?
         session[:challenge_token] = user.signed_id(purpose: :authentication_challenge, expires_in: 20.minutes)
-        redirect_to new_two_factor_authentication_challenge_path
+        redirect_to new_two_factor_authentication_challenge_totp_path
       else
         @session = user.sessions.create!
         cookies.signed.permanent[:session_token] = { value: @session.id, httponly: true }

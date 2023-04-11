@@ -1,6 +1,6 @@
-<%%= form_with(url: two_factor_authentication_challenge_path) do |form| %>
-  <%%= form.hidden_field :scheme_type, value: "totp" %>
+<p style="color: red"><%%= alert %></p>
 
+<%%= form_with(url: two_factor_authentication_challenge_totp_path) do |form| %>
   <div>
     <%%= form.label :code do %>
       <h1>Next, open the 2FA authenticator app on your phone and type the six digit code below:</h1>
@@ -15,5 +15,5 @@
 
 <div>
   <p><strong>Don't have your phone?</strong></p>
-  <%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_path(scheme_type: "recovery_codes") %>
+  <%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_recovery_codes_path %>
 </div>
