@@ -31,7 +31,7 @@ class User < ApplicationRecord
     self.verified = false
   end
   <%- if webauthn? %>
-  before_validation if: :otp_secret_changed?, on: :update do
+  before_validation on: :create do
     self.webauthn_id = WebAuthn.generate_user_id
   end
   <%- end -%>
