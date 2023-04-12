@@ -12,6 +12,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :omniauthable,  type: :boolean, desc: "Add social login support"
   class_option :trackable,     type: :boolean, desc: "Add activity log support"
   class_option :two_factor,    type: :boolean, desc: "Add two factor authentication"
+  class_option :webauthn,      type: :boolean, desc: "Add two factor authentication using a hardware security key"
   class_option :invitable,     type: :boolean, desc: "Add sending invitations"
   class_option :masqueradable, type: :boolean, desc: "Add sign-in as button functionallity"
 
@@ -42,6 +43,10 @@ class AuthenticationGenerator < Rails::Generators::Base
       gem "rotp", comment: "Use rotp for generating and validating one time passwords [https://github.com/mdp/rotp]"
       gem "rqrcode", comment: "Use rqrcode for creating and rendering QR codes into various formats [https://github.com/whomwah/rqrcode]"
     end
+
+    if webauthn?
+      gem "webauthn", comment: "Use webauthn for making rails become a conformant web authn relying party [https://github.com/cedarcode/webauthn-ruby]"
+    end
   end
 
   def add_environment_configurations
@@ -53,6 +58,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   def create_configuration_files
     copy_file "config/redis/shared.yml", "config/redis/shared.yml" if redis?
     copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
+    copy_file "config/initializers/webauthn.rb", "config/initializers/webauthn.rb" if webauthn?
   end
 
   def create_migrations
@@ -63,6 +69,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if passwordless?
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
     migration_template "migrations/create_recovery_codes_migration.rb", "#{db_migrate_path}/create_recovery_codes.rb" if two_factor?
+    migration_template "migrations/create_security_keys_migration.rb", "#{db_migrate_path}/create_security_keys.rb" if webauthn?
   end
 
   def create_models
@@ -74,6 +81,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/current.rb", "app/models/current.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
     template "models/recovery_code.rb", "app/models/recovery_code.rb" if two_factor?
+    template "models/security_key.rb", "app/models/security_key.rb" if webauthn?
   end
 
   def create_fixture_file
@@ -84,7 +92,17 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/application_controller.rb", "app/controllers/application_controller.rb", force: true
 
     directory "controllers/#{format_folder}/identity", "app/controllers/identity"
-    directory "controllers/#{format_folder}/two_factor_authentication", "app/controllers/two_factor_authentication" if two_factor?
+
+    if two_factor?
+      template "controllers/html/two_factor_authentication/profile/totps_controller.rb", "app/controllers/two_factor_authentication/profile/totps_controller.rb"
+      template "controllers/html/two_factor_authentication/profile/recovery_codes_controller.rb", "app/controllers/two_factor_authentication/profile/recovery_codes_controller.rb"
+      template "controllers/html/two_factor_authentication/profile/security_keys_controller.rb", "app/controllers/two_factor_authentication/profile/security_keys_controller.rb" if webauthn?
+
+      template "controllers/html/two_factor_authentication/challenge/totps_controller.rb", "app/controllers/two_factor_authentication/challenge/totps_controller.rb"
+      template "controllers/html/two_factor_authentication/challenge/recovery_codes_controller.rb", "app/controllers/two_factor_authentication/challenge/recovery_codes_controller.rb"
+      template "controllers/html/two_factor_authentication/challenge/security_keys_controller.rb", "app/controllers/two_factor_authentication/challenge/security_keys_controller.rb" if webauthn?
+    end
+
     template  "controllers/#{format_folder}/sessions_controller.rb", "app/controllers/sessions_controller.rb"
     template  "controllers/#{format_folder}/passwords_controller.rb", "app/controllers/passwords_controller.rb"
     template  "controllers/#{format_folder}/invitations_controller.rb", "app/controllers/invitations_controller.rb" if invitable?
@@ -95,6 +113,16 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/sessions/omniauth_controller.rb", "app/controllers/sessions/omniauth_controller.rb" if omniauthable?
     template  "controllers/#{format_folder}/sessions/passwordlesses_controller.rb", "app/controllers/sessions/passwordlesses_controller.rb" if passwordless?
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
+  end
+
+  def install_javascript_dependencies
+    return if options.api?
+    template "javascript/controllers/application.js", "app/javascript/controllers/application.js"
+
+    if webauthn?
+      run "bin/importmap pin stimulus-web-authn" if importmaps?
+      run "yarn add stimulus-web-authn" if node?
+    end
   end
 
   def create_views
@@ -122,8 +150,17 @@ class AuthenticationGenerator < Rails::Generators::Base
 
       directory "erb/sessions/passwordlesses", "app/views/sessions/passwordlesses" if passwordless?
 
-      directory "erb/two_factor_authentication", "app/views/two_factor_authentication" if two_factor?
       directory "erb/authentications/events", "app/views/authentications/events" if options.trackable?
+
+      if two_factor?
+        directory "erb/two_factor_authentication/profile/totps", "app/views/two_factor_authentication/profile/totps"
+        directory "erb/two_factor_authentication/profile/recovery_codes", "app/views/two_factor_authentication/profile/recovery_codes"
+        directory "erb/two_factor_authentication/profile/security_keys", "app/views/two_factor_authentication/profile/security_keys" if webauthn?
+
+        directory "erb/two_factor_authentication/challenge/totps", "app/views/two_factor_authentication/challenge/totps"
+        directory "erb/two_factor_authentication/challenge/recovery_codes", "app/views/two_factor_authentication/challenge/recovery_codes"
+        directory "erb/two_factor_authentication/challenge/security_keys", "app/views/two_factor_authentication/challenge/security_keys" if webauthn?
+      end
     end
   end
 
@@ -159,9 +196,11 @@ class AuthenticationGenerator < Rails::Generators::Base
     if two_factor?
       route "resources :recovery_codes, only: [:index, :create]", namespace: [:two_factor_authentication, :profile]
       route "resource  :totp,           only: [:new, :create]", namespace: [:two_factor_authentication, :profile]
+      route "resources :security_keys", namespace: [:two_factor_authentication, :profile] if webauthn?
 
       route "resource :recovery_codes, only: [:new, :create]", namespace: [:two_factor_authentication, :challenge]
       route "resource :totp,           only: [:new, :create]", namespace: [:two_factor_authentication, :challenge]
+      route "resource :security_keys,  only: [:new, :create]", namespace: [:two_factor_authentication, :challenge] if webauthn?
     end
 
     if options.trackable?
@@ -214,6 +253,10 @@ class AuthenticationGenerator < Rails::Generators::Base
       options.two_factor? && !options.api?
     end
 
+    def webauthn?
+      options.webauthn? && two_factor?
+    end
+
     def invitable?
       options.invitable? && !options.api?
     end
@@ -228,5 +271,13 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def redis?
       options.lockable? || options.ratelimit? || sudoable?
+    end
+
+    def importmaps?
+      Rails.root.join("config/importmap.rb").exist?
+    end
+
+    def node?
+      Rails.root.join("package.json").exist?
     end
 end

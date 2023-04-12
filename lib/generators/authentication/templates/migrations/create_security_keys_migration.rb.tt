@@ -1,0 +1,13 @@
+class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Migration.current_version %>]
+  def change
+    create_table :security_keys do |t|
+      t.references :user, null: false, foreign_key: true
+      t.string :name, null: false
+      t.string :external_id, null: false
+
+      t.timestamps
+    end
+
+    add_index :security_keys, :external_id, unique: true
+  end
+end

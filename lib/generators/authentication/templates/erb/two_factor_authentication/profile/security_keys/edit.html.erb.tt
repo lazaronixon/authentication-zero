@@ -1,0 +1,3 @@
+<h1>Edit security key</h1>
+
+<%%= render params[:confirmation] ? "form_confirm" : "form_edit" %>

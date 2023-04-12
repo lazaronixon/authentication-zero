@@ -1,0 +1,15 @@
+import { Application } from "@hotwired/stimulus"
+<%- if webauthn? -%>
+import WebAuthnController from "stimulus-web-authn"
+<%- end -%>
+
+const application = Application.start()
+<%- if webauthn? -%>
+application.register("web-authn", WebAuthnController)
+<%- end -%>
+
+// Configure Stimulus development experience
+application.debug = false
+window.Stimulus   = application
+
+export { application }

@@ -1,0 +1,10 @@
+<p style="color: green"><%%= notice %></p>
+
+<h1>Security keys</h1>
+<p>A security key is a hardware device used to verify your identity. For example, a built-in fingerprint reader, a plug-in USB key, or a login system like Windows Hello.</p>
+
+<ul><%%= render @security_keys %></ul>
+
+<br>
+
+<%%= link_to "Add security key", new_two_factor_authentication_profile_security_key_path %>

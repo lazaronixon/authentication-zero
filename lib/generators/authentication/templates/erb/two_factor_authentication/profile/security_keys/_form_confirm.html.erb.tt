@@ -1,0 +1,13 @@
+<%%= form_with(url: two_factor_authentication_profile_security_key_path, method: :patch) do |form| %>
+  <p>One more step. Please give this security key a nickname to help you remember it.</p>
+
+  <div>
+    <%%= form.label :name, style: "display: block" %>
+    <%%= form.text_field :name, autofocus: true, required: true %>
+    <div>e.g., Macbook Touch ID</div>
+  </div>
+
+  <div>
+    <%%= form.submit "Save" %>
+  </div>
+<%% end %>

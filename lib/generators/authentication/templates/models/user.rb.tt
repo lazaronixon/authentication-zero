@@ -7,6 +7,9 @@ class User < ApplicationRecord
   <%- if two_factor? -%>
   has_many :recovery_codes, dependent: :destroy
   <%- end -%>
+  <%- if webauthn? -%>
+  has_many :security_keys, dependent: :destroy
+  <%- end -%>
   <%- if passwordless? -%>
   has_many :sign_in_tokens, dependent: :destroy
   <%- end -%>
@@ -27,6 +30,11 @@ class User < ApplicationRecord
   before_validation if: :email_changed?, on: :update do
     self.verified = false
   end
+  <%- if webauthn? %>
+  before_validation on: :create do
+    self.webauthn_id = WebAuthn.generate_user_id
+  end
+  <%- end -%>
 
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).delete_all

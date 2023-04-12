@@ -12,6 +12,9 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.string :provider
       t.string :uid
       <%- end -%>
+      <%- if webauthn? %>
+      t.string :webauthn_id
+      <%- end -%>
 
       t.timestamps
     end

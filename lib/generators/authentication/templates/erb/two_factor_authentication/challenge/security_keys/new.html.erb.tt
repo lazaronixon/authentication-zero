@@ -1,0 +1,12 @@
+<div data-controller="web-authn"
+     data-web-authn-loading-class="web-authn-loading"
+     data-web-authn-fallback-url-value="<%%= new_two_factor_authentication_challenge_totp_path %>"
+     data-web-authn-challenge-url-value="<%%= new_two_factor_authentication_challenge_security_keys_url %>"
+     data-web-authn-verification-url-value="<%%= two_factor_authentication_challenge_security_keys_url %>">
+
+  <p data-web-authn-target="error" style="color: red" hidden></p>
+
+  <h1>Verify with your security key.</h1>
+  <%%= button_tag "Use security key", type: :button, data: { web_authn_target: "button", action: "web-authn#getCredential" } %>
+  <p>Have your security key ready. If it's the USB kind insert it now and then, if it has one, press the activation button when asked.</p>
+<div>
