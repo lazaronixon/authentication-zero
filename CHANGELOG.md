@@ -1,3 +1,8 @@
+## Authentication Zero 2.16.21 ##
+
+* Add two factor authentication using a hardware security key (--webauthn)
+* Move two factor authentication to new namespaces
+
 ## Authentication Zero 2.16.18 ##
 
 * Use session to store the token for the 2fa challenge
