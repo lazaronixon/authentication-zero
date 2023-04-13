@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.25 ##
+
+* Add new option to refresh otp secret
+
 ## Authentication Zero 2.16.24 ##
 
 * Remove otp secret from client
