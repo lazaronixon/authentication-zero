@@ -117,7 +117,8 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def install_javascript_dependencies
     return if options.api?
-    template "javascript/controllers/application.js", "app/javascript/controllers/application.js"
+
+    template "javascript/controllers/application.js", "app/javascript/controllers/application.js", force: true
 
     if webauthn?
       run "bin/importmap pin stimulus-web-authn" if importmaps?
