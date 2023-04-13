@@ -1,5 +1,17 @@
 <p style="color: red"><%%= alert %></p>
 
+<%% if Current.user.otp_required_for_sign_in? %>
+  <h1>Want to replace your existing 2FA setup?</h1>
+
+  <p>Your account is already protected with two-factor authentication. You can replace that setup if you want to switch to a new phone or authenticator app.</p>
+
+  <p><strong>Do you want to continue? Your existing 2FA setup will no longer work.</strong></p>
+
+  <%%= button_to "Yes, replace my 2FA setup", two_factor_authentication_profile_totp_path, method: :patch %>
+
+  <hr>
+<%% end %>
+
 <h1>Upgrade your security with 2FA</h1>
 
 <h2>Step 1: Get an Authenticator App</h2>

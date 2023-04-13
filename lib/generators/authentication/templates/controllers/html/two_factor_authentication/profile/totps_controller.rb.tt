@@ -1,6 +1,6 @@
 class TwoFactorAuthentication::Profile::TotpsController < ApplicationController
   before_action :set_user
-  before_action :set_totp
+  before_action :set_totp, only: %i[ new create ]
 
   def new
     @qr_code = RQRCode::QRCode.new(provisioning_uri)
@@ -13,6 +13,11 @@ class TwoFactorAuthentication::Profile::TotpsController < ApplicationController
     else
       redirect_to new_two_factor_authentication_profile_totp_path, alert: "That code didn't work. Please try again"
     end
+  end
+
+  def update
+    @user.update! otp_secret: ROTP::Base32.random
+    redirect_to new_two_factor_authentication_profile_totp_path
   end
 
   private

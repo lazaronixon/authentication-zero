@@ -195,7 +195,7 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     if two_factor?
       route "resources :recovery_codes, only: [:index, :create]", namespace: [:two_factor_authentication, :profile]
-      route "resource  :totp,           only: [:new, :create]", namespace: [:two_factor_authentication, :profile]
+      route "resource  :totp,           only: [:new, :create, :update]", namespace: [:two_factor_authentication, :profile]
       route "resources :security_keys", namespace: [:two_factor_authentication, :profile] if webauthn?
 
       route "resource :recovery_codes, only: [:new, :create]", namespace: [:two_factor_authentication, :challenge]
