@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.24 ##
+
+* Remove otp secret from client
+
 ## Authentication Zero 2.16.21 ##
 
 * Add two factor authentication using a hardware security key (--webauthn)
