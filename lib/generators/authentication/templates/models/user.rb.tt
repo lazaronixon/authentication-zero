@@ -30,8 +30,13 @@ class User < ApplicationRecord
   before_validation if: :email_changed?, on: :update do
     self.verified = false
   end
+  <%- if two_factor? %>
+  before_create do
+    self.otp_secret = ROTP::Base32.random
+  end
+  <%- end -%>
   <%- if webauthn? %>
-  before_validation on: :create do
+  before_create do
     self.webauthn_id = WebAuthn.generate_user_id
   end
   <%- end -%>

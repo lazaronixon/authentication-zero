@@ -15,8 +15,6 @@
 </figure>
 
 <%%= form_with(url: two_factor_authentication_profile_totp_path) do |form| %>
-  <%%= form.hidden_field :secret, value: @totp.secret %>
-
   <div>
     <%%= form.label :code, "After scanning with your camera, the app will generate a six-digit code. Enter it here:", style: "display: block" %>
     <%%= form.text_field :code, required: true, autofocus: true, autocomplete: :off %>

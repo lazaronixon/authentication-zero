@@ -6,10 +6,11 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
 
       t.boolean :verified, null: false, default: false
       <%- if two_factor? %>
-      t.string :otp_secret
+      t.boolean :otp_required_for_sign_in, null: false, default: false
+      t.string  :otp_secret, null: false
       <%- end -%>
       <%- if webauthn? %>
-      t.string :webauthn_id
+      t.string :webauthn_id, null: false
       <%- end -%>
       <%- if omniauthable? %>
       t.string :provider
