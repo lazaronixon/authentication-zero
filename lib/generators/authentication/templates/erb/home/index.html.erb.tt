@@ -29,9 +29,7 @@
 </div>
 <%- end -%>
 <%- if masqueradable? %>
-<div>
-  <%%= button_to "Signin as last user", user_masquerade_path(User.last) %>
-</div>
+<%%= button_to "Signin as last user", user_masquerade_path(User.last) %>
 <%- end -%>
 
 <h2>Access history</h2>
@@ -47,6 +45,4 @@
 
 <br>
 
-<div>
-  <%%= button_to "Log out", Current.session, method: :delete %>
-</div>
+<%%= button_to "Log out", Current.session, method: :delete %>

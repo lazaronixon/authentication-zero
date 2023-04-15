@@ -7,4 +7,12 @@
 
 <br>
 
-<%%= link_to "Add security key", new_two_factor_authentication_profile_security_key_path %>
+<div>
+  <%%= link_to "Add security key", new_two_factor_authentication_profile_security_key_path %>
+</div>
+
+<br>
+
+<div>
+  <%%= link_to "Back", root_path %>
+</div>

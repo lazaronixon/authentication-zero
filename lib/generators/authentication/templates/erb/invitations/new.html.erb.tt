@@ -24,3 +24,9 @@
     <%%= form.submit "Send an invitation" %>
   </div>
 <%% end %>
+
+<br>
+
+<div>
+  <%%= link_to "Back", root_path %>
+</div>

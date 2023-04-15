@@ -36,3 +36,9 @@
     <%%= form.submit "Verify and activate" %>
   </div>
 <%% end %>
+
+<br>
+
+<div>
+  <%%= link_to "Back", root_path %>
+</div>

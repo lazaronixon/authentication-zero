@@ -5,7 +5,7 @@
 
 <ul><%%= render @recovery_codes %></ul>
 
-<%%= link_to "OK, I'm done", root_path %>
+<div><%%= link_to "OK, I'm done", root_path %></div>
 
 <hr>
 

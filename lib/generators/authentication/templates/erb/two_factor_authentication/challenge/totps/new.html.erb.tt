@@ -15,9 +15,7 @@
 
 <div>
   <p><strong>Don't have your phone?</strong></p>
-  <div>
-    <%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_recovery_codes_path %>
-  </div>
+  <div><%%= link_to "Use a recovery code to access your account.", new_two_factor_authentication_challenge_recovery_codes_path %></div>
   <%- if webauthn? %>
   <%% if @user.security_keys.exists? %>
     <div><%%= link_to "Use a security key to access your account.", new_two_factor_authentication_challenge_security_keys_path %></div>
