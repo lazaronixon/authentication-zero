@@ -115,15 +115,11 @@ class AuthenticationGenerator < Rails::Generators::Base
     template  "controllers/#{format_folder}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
   end
 
-  def install_javascript_dependencies
-    return if options.api?
-
-    template "javascript/controllers/application.js", "app/javascript/controllers/application.js", force: true
-
-    if webauthn?
-      run "bin/importmap pin stimulus-web-authn" if importmaps?
-      run "yarn add stimulus-web-authn" if node?
-    end
+  def install_javascript
+    return unless webauthn?
+    copy_file "javascript/controllers/application.js", "app/javascript/controllers/application.js", force: true
+    run "bin/importmap pin stimulus-web-authn" if importmaps?
+    run "yarn add stimulus-web-authn" if node?
   end
 
   def create_views
@@ -235,13 +231,6 @@ class AuthenticationGenerator < Rails::Generators::Base
       options.api? ? "api" : "html"
     end
 
-    def ratelimit_block
-      <<~CODE
-        # Rate limit general requests by IP address in a rate of 1000 requests per minute
-        config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.minute], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
-      CODE
-    end
-
     def omniauthable?
       options.omniauthable? && !options.api?
     end
@@ -280,5 +269,12 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def node?
       Rails.root.join("package.json").exist?
+    end
+
+    def ratelimit_block
+      <<~CODE
+        # Rate limit general requests by IP address in a rate of 1000 requests per minute
+        config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.minute], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
+      CODE
     end
 end
