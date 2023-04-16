@@ -20,19 +20,15 @@ Since Authentication Zero generates this code into your application instead of b
 
 ## Features
 
-- **Simple code**
-- **Inspired by hey.com**
+### Essential
+
 - Sign up
 - Email and password validations
 - Checks if a password has been found in any data breach (--pwned)
 - Authentication by cookie
 - Authentication by token (--api)
-- Passwordless authentication (--passwordless)
 - Two factor authentication + recovery codes (--two-factor)
 - Two factor authentication using a hardware security key (--webauthn)
-- Social Login with OmniAuth (--omniauthable)
-- Send invitations (--invitable)
-- Sign-in as button functionallity (--masqueradable)
 - Verify email using a link with token
 - Ask password before sensitive data changes, aka: sudo (--sudoable)
 - Reset the user password and send reset instructions
@@ -43,6 +39,14 @@ Since Authentication Zero generates this code into your application instead of b
 - Manage multiple sessions & devices
 - Activity log (--trackable)
 - Log out
+
+### More
+
+- Social login with omni auth (--omniauthable)
+- Passwordless authentication (--passwordless)
+- Send invitations (--invitable)
+- "Sign-in as" button functionallity (--masqueradable)
+
 
 ## Generated code
 
