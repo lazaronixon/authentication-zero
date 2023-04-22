@@ -62,14 +62,14 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def create_migrations
+    migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
+    migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
+    migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
     migration_template "migrations/create_email_verification_tokens_migration.rb", "#{db_migrate_path}/create_email_verification_tokens.rb"
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
-    migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
     migration_template "migrations/create_recovery_codes_migration.rb", "#{db_migrate_path}/create_recovery_codes.rb" if two_factor?
     migration_template "migrations/create_security_keys_migration.rb", "#{db_migrate_path}/create_security_keys.rb" if webauthn?
-    migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_sign_in_tokens_migration.rb", "#{db_migrate_path}/create_sign_in_tokens_migration.rb" if passwordless?
-    migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
   end
 
   def create_models
