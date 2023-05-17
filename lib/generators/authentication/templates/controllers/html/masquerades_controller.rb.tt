@@ -3,8 +3,8 @@ class MasqueradesController < ApplicationController
   before_action :set_user
 
   def create
-    session = @user.sessions.create!
-    cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
+    session_record = @user.sessions.create!
+    cookies.signed.permanent[:session_token] = { value: session_record.id, httponly: true }
 
     redirect_to root_path, notice: "Signed in successfully"
   end

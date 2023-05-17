@@ -6,8 +6,8 @@ class Sessions::OmniauthController < ApplicationController
     @user = User.create_with(user_params).find_or_initialize_by(omniauth_params)
 
     if @user.save
-      session = @user.sessions.create!
-      cookies.signed.permanent[:session_token] = { value: session.id, httponly: true }
+      session_record = @user.sessions.create!
+      cookies.signed.permanent[:session_token] = { value: session_record.id, httponly: true }
 
       redirect_to root_path, notice: "Signed in successfully"
     else
