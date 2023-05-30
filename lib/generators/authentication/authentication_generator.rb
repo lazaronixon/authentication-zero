@@ -56,9 +56,9 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def create_configuration_files
-    copy_file "config/redis/shared.yml", "config/redis/shared.yml" if redis?
-    copy_file "config/initializers/omniauth.rb", "config/initializers/omniauth.rb" if omniauthable?
-    copy_file "config/initializers/webauthn.rb", "config/initializers/webauthn.rb" if webauthn?
+    copy_file "config/redis/shared.yml" if redis?
+    copy_file "config/initializers/omniauth.rb" if omniauthable?
+    copy_file "config/initializers/webauthn.rb" if webauthn?
   end
 
   def create_migrations
