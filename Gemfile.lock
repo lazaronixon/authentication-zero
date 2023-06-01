@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    authentication-zero (2.16.30)
+    authentication-zero (2.16.31)
 
 GEM
   remote: https://rubygems.org/
