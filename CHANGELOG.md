@@ -1,3 +1,7 @@
+## Authentication Zero 2.16.30 ##
+
+* Add multi-tenant artifacts that you can use. (--tenantable)
+
 ## Authentication Zero 2.16.29 ##
 
 * Replaced session with session_record, it has a conflict on rails 7.1 (bug-fix)
