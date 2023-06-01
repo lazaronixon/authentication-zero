@@ -2,10 +2,7 @@ module AccountScoped
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :account
-
-    default_scope do
-      where(account: Current.account || raise("You must set an account"))
-    end
+    belongs_to :account    
+    default_scope { where account: Current.account }
   end
 end
