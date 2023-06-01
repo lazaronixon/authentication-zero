@@ -1,6 +1,9 @@
 class Current < ActiveSupport::CurrentAttributes
   attribute :session, :user
   attribute :user_agent, :ip_address
+  <%- if options.tenantable? %>
+  attribute :account
+  <%- end -%>
 
   def session=(session)
     super; self.user = session.user

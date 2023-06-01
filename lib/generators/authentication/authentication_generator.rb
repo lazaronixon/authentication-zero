@@ -15,6 +15,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :webauthn,      type: :boolean, desc: "Add two factor authentication using a hardware security key"
   class_option :invitable,     type: :boolean, desc: "Add sending invitations"
   class_option :masqueradable, type: :boolean, desc: "Add sign-in as button functionallity"
+  class_option :tenantable,    type: :boolean, desc: "Add artifacts to implement a row-level tenant app"
 
   source_root File.expand_path("templates", __dir__)
 
@@ -53,6 +54,11 @@ class AuthenticationGenerator < Rails::Generators::Base
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "development"
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "test"
     environment ratelimit_block, env: "production" if options.ratelimit?
+
+    if options.tenantable?
+      prepend_to_file "config/application.rb", "require_relative \"../lib/account_middleware\"\n"
+      application "config.middleware.use AccountMiddleware"
+    end
   end
 
   def create_configuration_files
@@ -61,7 +67,12 @@ class AuthenticationGenerator < Rails::Generators::Base
     copy_file "config/initializers/webauthn.rb" if webauthn?
   end
 
+  def create_lib_files
+    copy_file "lib/account_middleware.rb" if options.tenantable?
+  end
+
   def create_migrations
+    migration_template "migrations/create_accounts_migration.rb", "#{db_migrate_path}/create_accounts_migration.rb" if options.tenantable?
     migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
     migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
@@ -73,6 +84,9 @@ class AuthenticationGenerator < Rails::Generators::Base
   end
 
   def create_models
+    copy_file "models/concerns/account_scoped.rb", "app/models/concerns/account_scoped.rb" if options.tenantable?
+
+    template "models/account.rb", "app/models/account.rb" if options.tenantable?
     template "models/current.rb", "app/models/current.rb"
     template "models/email_verification_token.rb", "app/models/email_verification_token.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
@@ -218,8 +232,8 @@ class AuthenticationGenerator < Rails::Generators::Base
     directory "test_unit/controllers/#{format}", "test/controllers"
     directory "test_unit/mailers/", "test/mailers"
     directory "test_unit/system", "test/system" unless options.api?
-    template "test_unit/test_helper.rb", "test/test_helper.rb", force: true
-    template "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
+    template  "test_unit/test_helper.rb", "test/test_helper.rb", force: true
+    template  "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
   end
 
   private
