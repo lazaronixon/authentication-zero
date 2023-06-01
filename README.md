@@ -68,15 +68,15 @@ Use `before_action :require_sudo` in controllers with sensitive information, it 
 
 Some artifacts are generated in the application, which makes it possible to implement row-level multitenancy applications. You should follow some steps to make it work.
 
-- Add `account_id` to each scoped table using `rails g migration add_account_to_projects account:references`
-- Add `include AccountScoped` to scoped models. It set up the relationship with the account and default scope using the current account
-- The `Current.account` is set according to the url ex: `http://mywebsite.com/1234/projects`
+- Add `account_id` to each scoped table using `rails g migration add_account_to_projects account:references`.
+- Add `include AccountScoped` to scoped models. It set up the account relationship and default scope using the current account.
+- The `Current.account` is set according to the url. `http://mywebsite.com/1234/projects`.
 - You should customize the authentication flow yourself, it means:
-  - Add `account_id` to your users table using `rails g migration add_account_to_users account:references`
-  - Add `include AccountScoped` to your user model  
-  - Use `Session.joins(:user).find_by_id` on `ApplicationController#authenticate`
+  - Add `account_id` to your users table using `rails g migration add_account_to_users account:references`.
+  - Add `include AccountScoped` to your user model.
+  - Use `joins(:user).find_by_id...` in the `authenticate` method.
   - Use `redirect_to "/#{user.account_id}"` after sign-in.
-  - Override `Current#user=` to also set the account using `super; self.account = user.account`
+  - Override `Current#user=` to also set the account, `super; self.account = user.account`.
   - etc...
 
 ## Development
