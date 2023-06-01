@@ -45,8 +45,8 @@ Since Authentication Zero generates this code into your application instead of b
 - Social login with omni auth (--omniauthable)
 - Passwordless authentication (--passwordless)
 - Send invitations (--invitable)
-- "Sign-in as" button functionallity (--masqueradable)
-
+- "Sign-in as" button (--masqueradable)
+- Multi-tentant application (--tenantable)
 
 ## Generated code
 
@@ -59,7 +59,22 @@ Since Authentication Zero generates this code into your application instead of b
 - [log filtering](https://guides.rubyonrails.org/action_controller_overview.html#log-filtering): Parameters 'token' and 'password' are marked [FILTERED] in the log.
 - [functional tests](https://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers): In Rails, testing the various actions of a controller is a form of writing functional tests.
 - [system testing](https://guides.rubyonrails.org/testing.html#system-testing): System tests allow you to test user interactions with your application, running tests in either a real or a headless browser.
-- **sudoable**: Use `before_action :require_sudo` in controllers with sensitive information, it will ask for your password on the first access or after 30 minutes.
+
+### Sudoable
+
+Use `before_action :require_sudo` in controllers with sensitive information, it will ask for your password on the first access or after 30 minutes.
+
+### Tenantable
+
+Some artifacts are generated in the application, which makes it possible to implement row-level multitenancy applications. You should follow some steps to make it work.
+
+- Add `account_id` to each scoped table, ex. `rails g migration projects account:references`.
+- Add `include AccountScoped` to scoped models. It set up the relationship with the account and default scope using the current account.
+- The `Current.account` is set according to the url ex: `http://mywebsite.com/1234/projects`.
+- You should customize the sign-in flow yourself, it means:
+  - Add the `account_id` column and scope your user model.
+  - Assign the account when the user is created.
+  - After sign-in redirect to the correct url, including the `account_id`.
 
 ## Development
 
