@@ -72,7 +72,7 @@ Some artifacts are generated in the application, which makes it possible to impl
 - Add `include AccountScoped` to scoped models. It set up the account relationship and default scope using the current account.
 - The `Current.account` is set according to the url. `http://mywebsite.com/1234/projects`.
 - You should customize the authentication flow yourself, it means:
-  - Add `account_id` to your users table using `rails g migration add_account_to_users account:references`.
+  - Add `account_id` to your users table.
   - Add `include AccountScoped` to your user model.
   - Use `joins(:user).find_by_id...` in the `authenticate` method.
   - Use `redirect_to "/#{user.account_id}"` after sign-in.
