@@ -66,15 +66,18 @@ Use `before_action :require_sudo` in controllers with sensitive information, it 
 
 ### Tenantable
 
-Some artifacts are generated in the application, which makes it possible to implement row-level multitenancy applications. You should follow some steps to make it work.
+Some artifacts are generated in the application, which makes it possible to implement row-level multitenancy applications. The `Current.account` is set using the current user account.
 
-- Add `account_id` to each scoped table using `rails g migration add_account_to_projects account:references`.
+You should follow some steps to make it work:
+
+- Add `account_id` to each scoped table. ex: `rails g migration add_account_to_projects account:references`.
 - Add `include AccountScoped` to scoped models. It set up the account relationship and default scope using the current account.
 
-#### Set Current.account through the URL. `http://myapp.com/:account_id`
+Set `Current.account` through the URL. `http://myapp.com/:account_id`. (optional)
 
 - Add `require_relative "../lib/account_middleware"` to `config/application.rb`.
 - Add `config.middleware.use AccountMiddleware` to your application class.
+- More customization is required...
 
 ## Development
 
