@@ -70,14 +70,11 @@ Some artifacts are generated in the application, which makes it possible to impl
 
 - Add `account_id` to each scoped table using `rails g migration add_account_to_projects account:references`.
 - Add `include AccountScoped` to scoped models. It set up the account relationship and default scope using the current account.
-- The `Current.account` is set according to the url. `http://mywebsite.com/1234/projects`.
-- You should customize the authentication flow yourself, it means:
-  - Add `account_id` to your users table.
-  - Add `include AccountScoped` to your user model.
-  - Use `joins(:user).find_by_id...` in the `authenticate` method.
-  - Use `redirect_to "/#{user.account_id}"` after sign-in.
-  - Override `Current#user=` to also set the account, `super; self.account = user.account`.
-  - etc...
+
+#### Set Current.account through the URL. `http://myapp.com/:account_id`
+
+- Add `require_relative "../lib/account_middleware"` to `config/application.rb`.
+- Add `config.middleware.use AccountMiddleware` to your application class.
 
 ## Development
 

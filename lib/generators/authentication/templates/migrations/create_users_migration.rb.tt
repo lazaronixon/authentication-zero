@@ -16,6 +16,9 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.string :provider
       t.string :uid
       <%- end -%>
+      <%- if options.tenantable? %>
+      t.references :account, null: false, foreign_key: true
+      <%- end -%>
 
       t.timestamps
     end

@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
+  <%- if options.tenantable? %>
+  belongs_to :account
+  <%- end -%>
 
   has_many :email_verification_tokens, dependent: :destroy
   has_many :password_reset_tokens, dependent: :destroy
@@ -31,13 +34,18 @@ class User < ApplicationRecord
     self.verified = false
   end
   <%- if two_factor? %>
-  before_create do
+  before_validation on: :create do
     self.otp_secret = ROTP::Base32.random
   end
   <%- end -%>
   <%- if webauthn? %>
-  before_create do
+  before_validation on: :create do
     self.webauthn_id = WebAuthn.generate_user_id
+  end
+  <%- end -%>
+  <%- if options.tenantable? %>
+  before_validation on: :create do
+    self.account = Account.new
   end
   <%- end -%>
 

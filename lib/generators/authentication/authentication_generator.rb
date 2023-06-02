@@ -54,11 +54,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "development"
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "test"
     environment ratelimit_block, env: "production" if options.ratelimit?
-
-    if options.tenantable?
-      prepend_to_file "config/application.rb", "require_relative \"../lib/account_middleware\"\n"
-      application "config.middleware.use AccountMiddleware"
-    end
   end
 
   def create_configuration_files

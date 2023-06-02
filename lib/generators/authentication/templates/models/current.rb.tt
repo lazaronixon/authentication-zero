@@ -8,4 +8,9 @@ class Current < ActiveSupport::CurrentAttributes
   def session=(session)
     super; self.user = session.user
   end
+  <%- if options.tenantable? %>
+  def user=(user)
+    super; self.account = user.account
+  end
+  <%- end -%>
 end
