@@ -8,7 +8,7 @@ class AccountMiddleware
 
     _, account_id, request_path = request.path.split("/", 3)
 
-    if identifier?(account_id)
+    if account_id !~ /\D/
       set_current_account(account_id)
 
       request.script_name = "/#{account_id}"
@@ -20,11 +20,7 @@ class AccountMiddleware
   end
 
   private
-    def identifier?(value)
-      Integer(value, exception: false) != nil
-    end
-
     def set_current_account(account_id)
-      Current.account = Account.find_by_id(account_id)
+      Current.account = Account.find(account_id)
     end
 end
