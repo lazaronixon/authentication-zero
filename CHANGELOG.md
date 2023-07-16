@@ -1,3 +1,23 @@
+## Authentication Zero 2.16.35 ##
+
+* Adjust relationship so that account has many users
+
+## Authentication Zero 2.16.34 ##
+
+* Adjust relationship so that account has one user
+
+## Authentication Zero 2.16.33 ##
+
+* Add account to user by default when tenantable
+
+## Authentication Zero 2.16.32 ##
+
+* Refactor account middleware for account scoping
+
+## Authentication Zero 2.16.31 ##
+
+* Remove raising exception when Current.account is nil in AccountScoped
+
 ## Authentication Zero 2.16.30 ##
 
 * Add multi-tenant artifacts that you can use. (--tenantable)
