@@ -70,8 +70,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     migration_template "migrations/create_accounts_migration.rb", "#{db_migrate_path}/create_accounts_migration.rb" if options.tenantable?
     migration_template "migrations/create_users_migration.rb", "#{db_migrate_path}/create_users.rb"
     migration_template "migrations/create_sessions_migration.rb", "#{db_migrate_path}/create_sessions.rb"
-    migration_template "migrations/create_password_reset_tokens_migration.rb", "#{db_migrate_path}/create_password_reset_tokens.rb"
-    migration_template "migrations/create_email_verification_tokens_migration.rb", "#{db_migrate_path}/create_email_verification_tokens.rb"
     migration_template "migrations/create_events_migration.rb", "#{db_migrate_path}/create_events.rb" if options.trackable?
     migration_template "migrations/create_recovery_codes_migration.rb", "#{db_migrate_path}/create_recovery_codes.rb" if two_factor?
     migration_template "migrations/create_security_keys_migration.rb", "#{db_migrate_path}/create_security_keys.rb" if webauthn?
@@ -83,9 +81,7 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     template "models/account.rb", "app/models/account.rb" if options.tenantable?
     template "models/current.rb", "app/models/current.rb"
-    template "models/email_verification_token.rb", "app/models/email_verification_token.rb"
     template "models/event.rb", "app/models/event.rb" if options.trackable?
-    template "models/password_reset_token.rb", "app/models/password_reset_token.rb"
     template "models/recovery_code.rb", "app/models/recovery_code.rb" if two_factor?
     template "models/security_key.rb", "app/models/security_key.rb" if webauthn?
     template "models/session.rb", "app/models/session.rb"
