@@ -5,7 +5,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 ## Installation
 
 ```
-$ bundle add authentication-zero
+$ bundle add authentication-zero --version=3.0.0.alpha1
 ```
 
 ## Usage

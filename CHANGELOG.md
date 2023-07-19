@@ -1,3 +1,10 @@
+## Authentication Zero 3.0.0 ##
+
+* Use the new normalizes API
+* Use the new password_challenge API
+* Use the new authenticate_by API
+* Use the new generates_token_for API
+
 ## Authentication Zero 2.16.35 ##
 
 * Adjust relationship so that account has many users
