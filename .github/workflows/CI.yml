@@ -31,7 +31,7 @@ jobs:
 
       - name: Create fresh Rails app and run generator
         run: |
-          rails new test-app
+          rails new test-app --main
           cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
           bundle add authentication-zero --path ..
@@ -74,7 +74,7 @@ jobs:
 
       - name: Create fresh Rails app and run generator
         run: |
-          rails new test-app
+          rails new test-app --main
           cp .rubocop.yml test-app/.rubocop.yml
           cd test-app
           bundle add authentication-zero --path ..
@@ -90,4 +90,3 @@ jobs:
 
       - name: Tests
         run: cd test-app && bin/rails test
-
