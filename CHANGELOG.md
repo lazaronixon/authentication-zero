@@ -1,3 +1,7 @@
+## Authentication Zero 3.0.0 ##
+
+* Implement the new normalize api
+
 ## Authentication Zero 2.16.35 ##
 
 * Adjust relationship so that account has many users

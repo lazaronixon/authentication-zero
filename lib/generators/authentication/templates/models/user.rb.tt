@@ -26,9 +26,7 @@ class User < ApplicationRecord
   validates :password, not_pwned: { message: "might easily be guessed" }
   <%- end -%>
 
-  before_validation if: -> { email.present? } do
-    self.email = email.downcase.strip
-  end
+  normalizes :email, with: -> email { email.strip.downcase }
 
   before_validation if: :email_changed?, on: :update do
     self.verified = false
