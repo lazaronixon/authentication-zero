@@ -27,8 +27,8 @@
   </div>
 
   <div>
-    <%%= form.label :current_password, style: "display: block" %>
-    <%%= form.password_field :current_password, required: true, autocomplete: "current-password" %>
+    <%%= form.label :password_challenge, style: "display: block" %>
+    <%%= form.password_field :password_challenge, required: true, autocomplete: "current-password" %>
   </div>
 
   <div>

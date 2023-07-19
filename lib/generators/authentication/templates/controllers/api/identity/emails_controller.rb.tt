@@ -2,9 +2,7 @@ class Identity::EmailsController < ApplicationController
   before_action :set_user
 
   def update
-    if !@user.authenticate(params[:current_password])
-      render json: { error: "The password you entered is incorrect" }, status: :bad_request
-    elsif @user.update(email: params[:email])
+    if @user.update(user_params)
       render_show
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -14,6 +12,10 @@ class Identity::EmailsController < ApplicationController
   private
     def set_user
       @user = Current.user
+    end
+
+    def user_params
+      params.permit(:email, :password_challenge).with_defaults(password_challenge: "")
     end
 
     def render_show
