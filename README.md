@@ -5,7 +5,13 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 ## Installation
 
 ```
-$ bundle add authentication-zero --version "3.0.0.alpha1"
+$ bundle add authentication-zero
+```
+
+If you are using Rails < 7.1, you must use version 2.
+
+```
+$ bundle add authentication-zero --version "~> 2"
 ```
 
 ## Usage
