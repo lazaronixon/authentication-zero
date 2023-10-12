@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Registrations", type: :request do
+RSpec.describe RegistrationsController, type: :request do
   describe "GET #new" do
     it "returns HTTP success" do
       get sign_up_url

@@ -32,4 +32,5 @@ RSpec.configure do |config|
   config.include Helpers::Authentication::System, type: :system
 
   config.include Capybara::RSpecMatchers, type: :request
+  config.include ActiveSupport::Testing::TimeHelpers
 end

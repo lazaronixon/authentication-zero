@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Sessions", type: :request do
+RSpec.describe SessionsController, type: :request do
   fixtures :users
   let(:user) { users(:lazaro_nixon) }
 
