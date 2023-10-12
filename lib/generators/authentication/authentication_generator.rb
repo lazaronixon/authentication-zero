@@ -233,11 +233,12 @@ class AuthenticationGenerator < Rails::Generators::Base
       template  "test_unit/test_helper.rb", "test/test_helper.rb", force: true
       template  "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
     when :rspec
-      directory "rspec/controllers/#{format}", "spec/controllers"
+      directory "rspec/requests/#{format}", "spec/requests"
       directory "rspec/mailers/", "spec/mailers"
       directory "rspec/system", "spec/system" unless options.api?
-      template  "rspec/rails_helper.rb", "spec/rails_helper.rb", force: true
-      template  "rspec/application_system_test_case.rb", "spec/application_system_test_case.rb", force: true unless options.api?
+
+      uncomment_lines("spec/rails_helper.rb", /'spec', 'support'/)
+      template "rspec/authentication.rb", "spec/support/authentication.rb", force: true
     end
   end
 

@@ -1,0 +1,35 @@
+module Helpers
+  module Authentication
+    module Request
+      <%- if options.api? -%>
+      def sign_in_as(user)
+        post(sign_in_url, params: { email: user.email, password: "Secret1*3*5*" })
+        response.headers["X-Session-Token"]
+      end
+      <%- else -%>
+      def sign_in_as(user)
+        post(sign_in_url, params: { email: user.email, password: "Secret1*3*5*" })
+      end
+      <%- end -%>
+    end
+
+    module System
+      def sign_in_as(user)
+        visit sign_in_url
+        fill_in :email, with: user.email
+        fill_in :password, with: "Secret1*3*5*"
+        click_on "Sign in"
+
+        expect(current_path).to eq(root_url)
+        user
+      end
+    end
+  end
+end
+
+RSpec.configure do |config|
+  config.include Helpers::Authentication::Request, type: :request
+  config.include Helpers::Authentication::System, type: :system
+
+  config.include Capybara::RSpecMatchers, type: :request
+end
