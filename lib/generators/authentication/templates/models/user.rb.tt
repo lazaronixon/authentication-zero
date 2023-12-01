@@ -1,8 +1,14 @@
 class User < ApplicationRecord
   has_secure_password
 
-  generates_token_for :email_verification, expires_in: 2.days { email }
-  generates_token_for :password_reset, expires_in: 20.minutes { password_salt.last(10) }
+  generates_token_for :email_verification, expires_in: 2.days do
+    email
+  end
+
+  generates_token_for :password_reset, expires_in: 20.minutes do
+    password_salt.last(10)
+  end
+
   <%- if options.tenantable? %>
   belongs_to :account
   <%- end -%>

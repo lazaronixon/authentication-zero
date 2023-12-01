@@ -1,3 +1,7 @@
+## Authentication Zero 3.0.2 ##
+
+* Fix bug where token is not expired/invalid
+
 ## Authentication Zero 3.0.0 ##
 
 * Use the new normalizes API

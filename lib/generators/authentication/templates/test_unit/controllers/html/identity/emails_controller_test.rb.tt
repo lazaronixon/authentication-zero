@@ -16,8 +16,8 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "should not update password with wrong password challenge" do
-    patch password_url, params: { password_challenge: "SecretWrong1*3", password: "Secret6*4*2*", password_confirmation: "Secret6*4*2*" }
+  test "should not update email with wrong password challenge" do
+    patch identity_email_url, params: { email: "new_email@hey.com", password_challenge: "SecretWrong1*3" }
 
     assert_response :unprocessable_entity
     assert_select "li", /Password challenge is invalid/
