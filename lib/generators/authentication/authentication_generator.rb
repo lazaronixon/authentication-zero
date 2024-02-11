@@ -27,7 +27,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     if redis?
-      gem "redis", "~> 4.0", comment: "Use Redis adapter to run additional authentication features"
       gem "kredis", comment: "Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]"
     end
 
