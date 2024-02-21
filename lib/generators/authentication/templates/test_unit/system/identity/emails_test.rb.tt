@@ -15,6 +15,16 @@ class Identity::EmailsTest < ApplicationSystemTestCase
     assert_text "Your email has been changed"
   end
 
+  test "updating the email with wrong password" do
+    click_on "Change email address"
+
+    fill_in "New email", with: "new_email@hey.com"
+    fill_in "Password challenge", with: "Wrong1*3*5*"
+    click_on "Save changes"
+
+    assert_text "Password challenge is invalid"
+  end
+
   test "sending a verification email" do
     @user.update! verified: false
 
