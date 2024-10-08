@@ -1,5 +1,7 @@
 ## New version
 
+## Authentication Zero 4.0.1 ##
+
 * Remove rate limit from api generator
 
 ## Authentication Zero 4.0.0 ##
