@@ -123,9 +123,9 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def install_javascript
     return unless webauthn?
-    copy_file "javascript/controllers/application.js", "app/javascript/controllers/application.js", force: true
-    run "bin/importmap pin stimulus-web-authn" if importmaps?
-    run "yarn add stimulus-web-authn" if node?
+    copy_file "javascript/controllers/web_authn_controller.js", "app/javascript/controllers/web_authn_controller.js"
+    run "bin/importmap pin @rails/request.js" if importmaps?
+    run "yarn add @rails/request.js" if node?
   end
 
   def create_views
@@ -222,9 +222,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   def create_test_files
     directory "test_unit/controllers/#{format}", "test/controllers"
     directory "test_unit/mailers/", "test/mailers"
-    directory "test_unit/system", "test/system" unless options.api?
     template  "test_unit/test_helper.rb", "test/test_helper.rb", force: true
-    template  "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
   end
 
   private
@@ -261,7 +259,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     def redis?
-      options.lockable? || options.ratelimit? || sudoable?
+      options.ratelimit? || sudoable?
     end
 
     def importmaps?
