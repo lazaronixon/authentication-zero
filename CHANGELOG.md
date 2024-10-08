@@ -1,3 +1,7 @@
+## Authentication Zero 4.0.1 ##
+
+* Add --lockable to the default generator.
+
 ## Authentication Zero 4.0.0 ##
 
 * Remove system tests
