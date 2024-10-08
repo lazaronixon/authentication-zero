@@ -1,5 +1,7 @@
 ## New version
 
+* Remove rate limit from api generator
+
 ## Authentication Zero 4.0.0 ##
 
 * Remove system tests
