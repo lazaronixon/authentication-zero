@@ -2,6 +2,7 @@
 
 * Remove system tests
 * Use native rate_limit for lockable
+* Copy web_authn_controller.js instead of depend on stimulus-web-authn
 
 ## Authentication Zero 3.0.2 ##
 

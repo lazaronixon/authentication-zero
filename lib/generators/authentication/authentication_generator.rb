@@ -123,9 +123,9 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def install_javascript
     return unless webauthn?
-    copy_file "javascript/controllers/application.js", "app/javascript/controllers/application.js", force: true
-    run "bin/importmap pin stimulus-web-authn" if importmaps?
-    run "yarn add stimulus-web-authn" if node?
+    copy_file "javascript/controllers/web_authn_controller.js", "app/javascript/controllers/web_authn_controller.js"
+    run "bin/importmap pin @rails/request.js" if importmaps?
+    run "yarn add @rails/request.js" if node?
   end
 
   def create_views
