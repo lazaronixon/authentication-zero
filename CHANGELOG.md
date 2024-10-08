@@ -1,6 +1,7 @@
 ## Authentication Zero 4.0.0 ##
 
 * Remove system tests
+* Use native rate_limit for lockable
 
 ## Authentication Zero 3.0.2 ##
 

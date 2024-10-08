@@ -259,7 +259,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
 
     def redis?
-      options.lockable? || options.ratelimit? || sudoable?
+      options.ratelimit? || sudoable?
     end
 
     def importmaps?
