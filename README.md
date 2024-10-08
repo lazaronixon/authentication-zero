@@ -8,7 +8,7 @@ The purpose of authentication zero is to generate a pre-built authentication sys
 $ bundle add authentication-zero
 ```
 
-If you are using Rails < 8, you must use version 3.
+If you are using Rails < 7.2, you must use version 3.
 
 ```
 $ bundle add authentication-zero --version "~> 3"
