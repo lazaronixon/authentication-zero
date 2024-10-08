@@ -222,9 +222,7 @@ class AuthenticationGenerator < Rails::Generators::Base
   def create_test_files
     directory "test_unit/controllers/#{format}", "test/controllers"
     directory "test_unit/mailers/", "test/mailers"
-    directory "test_unit/system", "test/system" unless options.api?
     template  "test_unit/test_helper.rb", "test/test_helper.rb", force: true
-    template  "test_unit/application_system_test_case.rb", "test/application_system_test_case.rb", force: true unless options.api?
   end
 
   private

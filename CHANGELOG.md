@@ -1,5 +1,7 @@
 ## Authentication Zero 4.0.0 ##
 
+* Remove system tests
+
 ## Authentication Zero 3.0.2 ##
 
 * Fix bug where token is not expired/invalid
