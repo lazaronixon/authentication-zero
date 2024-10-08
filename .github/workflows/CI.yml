@@ -22,7 +22,7 @@ jobs:
           bundler-cache: true
 
       - name: Install the latest Rails gem
-        run: gem install rails -v "7.1.0"
+        run: gem install rails -v "7.2.1"
 
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
@@ -65,7 +65,7 @@ jobs:
           bundler-cache: true
 
       - name: Install the latest Rails gem
-        run: gem install rails -v "7.1.0"
+        run: gem install rails -v "7.2.1"
 
       - name: Install Rubocop
         run: gem install rubocop rubocop-performance rubocop-minitest rubocop-packaging rubocop-minitest rubocop-rails
