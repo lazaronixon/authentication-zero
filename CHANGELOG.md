@@ -1,5 +1,7 @@
 ## New version
 
+* Remove dependency on redis / kredis for sudoable
+
 ## Authentication Zero 4.0.1 ##
 
 * Remove rate limit from api generator

@@ -1,18 +1,21 @@
 class Session < ApplicationRecord
   belongs_to :user
-  <%- if sudoable? %>
-  kredis_flag :sudo, expires_in: 30.minutes
-  <%- end -%>
 
   before_create do
     self.user_agent = Current.user_agent
     self.ip_address = Current.ip_address
+    <%- if sudoable? %>
+    self.sudo_at = Time.current
+    <%- end -%>
   end
-  <%- if sudoable? %>
-  after_create { sudo.mark }
-  <%- end -%>
   <%- if options.trackable? %>
   after_create  { user.events.create! action: "signed_in" }
   after_destroy { user.events.create! action: "signed_out" }
+  <%- end -%>
+  <%- if sudoable? %>
+
+  def sudo?
+    sudo_at > 30.minutes.ago
+  end
   <%- end -%>
 end

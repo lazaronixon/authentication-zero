@@ -4,6 +4,9 @@ class <%= migration_class_name %> < ActiveRecord::Migration[<%= ActiveRecord::Mi
       t.references :user, null: false, foreign_key: true
       t.string :user_agent
       t.string :ip_address
+      <%- if sudoable? %>
+      t.datetime :sudo_at, null: false
+      <%- end -%>
 
       t.timestamps
     end
