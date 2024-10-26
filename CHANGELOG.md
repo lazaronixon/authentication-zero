@@ -1,8 +1,8 @@
 ## New version
 
 * Remove dependency on redis / kredis for sudoable
-* Fix webauthn option. Install @github/webauthn-json.
-* Update application_controller to rails 8.
+* Fix --webauthn option. (add @github/webauthn-json)
+* Update application_controller to rails 8
 * Remove --ratelimit option
 
 ## Authentication Zero 4.0.1 ##
