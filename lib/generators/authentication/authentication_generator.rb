@@ -19,7 +19,11 @@ class AuthenticationGenerator < Rails::Generators::Base
   source_root File.expand_path("templates", __dir__)
 
   def add_gems
-    gem "bcrypt", "~> 3.1.7", comment: "Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]"
+    if bcrypt_present?
+      uncomment_lines "Gemfile", /gem "bcrypt"/
+    else
+      gem "bcrypt", "~> 3.1.7", comment: "Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]"
+    end
 
     if options.pwned?
       gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]"
@@ -239,6 +243,10 @@ class AuthenticationGenerator < Rails::Generators::Base
 
     def sudoable?
       options.sudoable? && !options.api?
+    end
+
+    def bcrypt_present?
+      File.read("Gemfile").include?('gem "bcrypt"')
     end
 
     def importmaps?
