@@ -1,5 +1,7 @@
 ## New version
 
+* We don't need to add `config.action_mailer.default_url_options` anymore
+
 ## Authentication Zero 4.0.2 ##
 
 * Remove dependency on redis / kredis for sudoable

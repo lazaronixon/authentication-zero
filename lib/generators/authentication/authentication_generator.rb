@@ -40,11 +40,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     end
   end
 
-  def add_environment_configurations
-    application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "development"
-    application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "test"
-  end
-
   def create_configuration_files
     copy_file "config/initializers/omniauth.rb" if omniauthable?
     copy_file "config/initializers/webauthn.rb" if webauthn?
