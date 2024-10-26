@@ -1,5 +1,7 @@
 ## New version
 
+## Authentication Zero 4.0.3 ##
+
 * We don't need to add `config.action_mailer.default_url_options` anymore
 * Make gem add bcrypt more resilient
 
