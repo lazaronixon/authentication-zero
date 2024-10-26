@@ -7,7 +7,6 @@ class AuthenticationGenerator < Rails::Generators::Base
   class_option :pwned,         type: :boolean, desc: "Add pwned password validation"
   class_option :sudoable,      type: :boolean, desc: "Add password request before sensitive data changes"
   class_option :lockable,      type: :boolean, desc: "Add password reset locking"
-  class_option :ratelimit,     type: :boolean, desc: "Add request rate limiting"
   class_option :passwordless,  type: :boolean, desc: "Add passwordless sign in"
   class_option :omniauthable,  type: :boolean, desc: "Add social login support"
   class_option :trackable,     type: :boolean, desc: "Add activity log support"
@@ -21,14 +20,6 @@ class AuthenticationGenerator < Rails::Generators::Base
 
   def add_gems
     gem "bcrypt", "~> 3.1.7", comment: "Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]"
-
-    if options.ratelimit?
-      gem "rack-ratelimit", group: :production, comment: "Use Rack::Ratelimit to rate limit requests [https://github.com/jeremy/rack-ratelimit]"
-    end
-
-    if redis?
-      gem "redis", "~> 4.0", comment: "Use Redis adapter to run additional authentication features"
-    end
 
     if options.pwned?
       gem "pwned", comment: "Use Pwned to check if a password has been found in any of the huge data breaches [https://github.com/philnash/pwned]"
@@ -52,11 +43,9 @@ class AuthenticationGenerator < Rails::Generators::Base
   def add_environment_configurations
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "development"
     application "config.action_mailer.default_url_options = { host: \"localhost\", port: 3000 }", env: "test"
-    environment ratelimit_block, env: "production" if options.ratelimit?
   end
 
   def create_configuration_files
-    copy_file "config/redis/shared.yml" if redis?
     copy_file "config/initializers/omniauth.rb" if omniauthable?
     copy_file "config/initializers/webauthn.rb" if webauthn?
   end
@@ -257,22 +246,11 @@ class AuthenticationGenerator < Rails::Generators::Base
       options.sudoable? && !options.api?
     end
 
-    def redis?
-      options.ratelimit?
-    end
-
     def importmaps?
       Rails.root.join("config/importmap.rb").exist?
     end
 
     def node?
       Rails.root.join("package.json").exist?
-    end
-
-    def ratelimit_block
-      <<~CODE
-        # Rate limit general requests by IP address in a rate of 1000 requests per minute
-        config.middleware.use(Rack::Ratelimit, name: "General", rate: [1000, 1.minute], redis: Redis.new, logger: Rails.logger) { |env| ActionDispatch::Request.new(env).ip }
-      CODE
     end
 end
