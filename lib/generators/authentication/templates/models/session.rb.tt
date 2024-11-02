@@ -13,7 +13,6 @@ class Session < ApplicationRecord
   after_destroy { user.events.create! action: "signed_out" }
   <%- end -%>
   <%- if sudoable? %>
-
   def sudo?
     sudo_at > 30.minutes.ago
   end
