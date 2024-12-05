@@ -9,4 +9,4 @@
   <h1>Verify with your security key.</h1>
   <%%= button_tag "Use security key", type: :button, data: { web_authn_target: "button", action: "web-authn#getCredential" } %>
   <p>Have your security key ready. If it's the USB kind insert it now and then, if it has one, press the activation button when asked.</p>
-<div>
+</div>
