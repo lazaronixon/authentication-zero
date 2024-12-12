@@ -76,10 +76,6 @@ class AuthenticationGenerator < Rails::Generators::Base
     template "models/user.rb", "app/models/user.rb"
   end
 
-  def create_fixture_file
-    copy_file "test_unit/users.yml", "test/fixtures/users.yml"
-  end
-
   def create_controllers
     template "controllers/#{format}/authentications/events_controller.rb", "app/controllers/authentications/events_controller.rb" if options.trackable?
 
@@ -206,11 +202,7 @@ class AuthenticationGenerator < Rails::Generators::Base
     route 'get  "sign_in", to: "sessions#new"' unless options.api?
   end
 
-  def create_test_files
-    directory "test_unit/controllers/#{format}", "test/controllers"
-    directory "test_unit/mailers/", "test/mailers"
-    template  "test_unit/test_helper.rb", "test/test_helper.rb", force: true
-  end
+  hook_for :test_framework
 
   private
     def format
